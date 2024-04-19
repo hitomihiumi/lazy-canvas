@@ -39,7 +39,7 @@ Class documentation can be found below by clicking on the appropriate class name
 - [EllipseLayer](./docs/ellipselayer.md)
 - [SquareLayer](./docs/squarelayer.md)
 - [RectangleLayer](./docs/rectanglelayer.md)
-- [LineLayer](./docs/Linelayer.md)
+- [LineLayer](./docs/linelayer.md)
 - [ImageLayer](./docs/imagelayer.md)
 - [EllipseImageLayer](./docs/ellipseimagelayer.md)
 - [TextLayer](./docs/textlayer.md)

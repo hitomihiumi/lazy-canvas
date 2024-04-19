@@ -8,6 +8,7 @@ exports.LineLayer = require('./src/structures/LineLayer.js');
 exports.RectangleLayer = require('./src/structures/RectangleLayer.js');
 exports.SquareLayer = require('./src/structures/SquareLayer.js');
 exports.TextLayer = require('./src/structures/TextLayer.js');
+exports.BaseLayer = require('./src/structures/BaseLayer.js');
 
 exports.LazyCanvas = require('./src/LazyCanvas.js');
 

@@ -123,74 +123,74 @@ class LazyCanvas {
      * 
      * y2 - The y2 position of the line (only for line)
      */
-    modifyLayer(data, param, newData) {
-        if (!data || !param || !newData) throw new Error("No data or param or newData provided");
+    modifyLayer(index, param, newData) {
+        if (!index || !param || !newData) throw new Error("No index or param or newData provided");
         switch (param) {
             case "x":
-                data.x = newData;
+                this.data.layers[index].x = newData;
                 break;
             case "y":
-                data.y = newData;
+                this.data.layers[index].y = newData;
                 break;
             case "width":
-                if (!data.width) throw new Error("This layer does not have a width property");
-                data.width = newData;
+                if (!this.data.layers[index].width) throw new Error("This layer does not have a width property");
+                this.data.layers[index].width = newData;
                 break;
             case "height":
-                if (!data.height) throw new Error("This layer does not have a height property");
-                data.height = newData;
+                if (!this.data.layers[index].height) throw new Error("This layer does not have a height property");
+                this.data.layers[index].height = newData;
                 break;
             case "radius":
-                if (!data.radius) throw new Error("This layer does not have a radius property");
-                data.radius = newData;
+                if (!this.data.layers[index].radius) throw new Error("This layer does not have a radius property");
+                this.data.layers[index].radius = newData;
                 break;
             case "stroke":
-                if (!data.stroke) throw new Error("This layer does not have a stroke property");
-                data.stroke = newData;
+                if (!this.data.layers[index].stroke) throw new Error("This layer does not have a stroke property");
+                this.data.layers[index].stroke = newData;
                 break;
             case "color":
-                if (!data.color) throw new Error("This layer does not have a color property");
-                data.color = newData;
+                if (!this.data.layers[index].color) throw new Error("This layer does not have a color property");
+                this.data.layers[index].color = newData;
                 break;
             case "text":
-                if (!data.text) throw new Error("This layer does not have a text property");
-                data.text = newData;
+                if (!this.data.layers[index].text) throw new Error("This layer does not have a text property");
+                this.data.layers[index].text = newData;
                 break;
             case "size":
-                if (!data.size) throw new Error("This layer does not have a size property");
-                data.size = newData;
+                if (!this.data.layers[index].size) throw new Error("This layer does not have a size property");
+                this.data.layers[index].size = newData;
                 break;
             case "font":
-                if (!data.font) throw new Error("This layer does not have a font property");
-                data.font = newData;
+                if (!this.data.layers[index].font) throw new Error("This layer does not have a font property");
+                this.data.layers[index].font = newData;
                 break;
             case "align":
-                if (!data.align) throw new Error("This layer does not have a align property");
-                data.align = newData;
+                if (!this.data.layers[index].align) throw new Error("This layer does not have a align property");
+                this.data.layers[index].align = newData;
                 break;
             case "style":
-                if (!data.style) throw new Error("This layer does not have a style property");
-                data.style = newData;
+                if (!this.data.layers[index].style) throw new Error("This layer does not have a style property");
+                this.data.layers[index].style = newData;
                 break;
             case "multiline":
-                if (!data.multiline) throw new Error("This layer does not have a multiline property");
-                data.multiline = newData;
+                if (!this.data.layers[index].multiline) throw new Error("This layer does not have a multiline property");
+                this.data.layers[index].multiline = newData;
                 break;
             case "image":
-                if (!data.image) throw new Error("This layer does not have a image property");
-                data.image = newData;
+                if (!this.data.layers[index].image) throw new Error("This layer does not have a image property");
+                this.data.layers[index].image = newData;
                 break;
             case "filled":
-                if (!data.filled) throw new Error("This layer does not have a filled property");S
-                data.filled = newData;
+                if (!this.data.layers[index].filled) throw new Error("This layer does not have a filled property");S
+                this.data.layers[index].filled = newData;
                 break;
             case "x2":
-                if (!data.x2) throw new Error("This layer does not have a x2 property");
-                data.x2 = newData;
+                if (!this.data.layers[index].x2) throw new Error("This layer does not have a x2 property");
+                this.data.layers[index].x2 = newData;
                 break;
             case "y2":
-                if (!data.y2) throw new Error("This layer does not have a y2 property");
-                data.y2 = newData;
+                if (!this.data.layers[index].y2) throw new Error("This layer does not have a y2 property");
+                this.data.layers[index].y2 = newData;
                 break;
         }
     }
@@ -203,6 +203,16 @@ class LazyCanvas {
     getLayer(index) {
         if (!index) throw new Error("No index provided");
         return this.data.layers[index];
+    }
+
+    /**
+     * @param data - The data of the layer
+     * Get's the index of a layer
+     * @returns {number} - The index of the layer
+     */
+    getIndexOfLayer(data) {
+        if (!data) throw new Error("No data provided");
+        return this.data.layers.indexOf(data);
     }
 
     /**
