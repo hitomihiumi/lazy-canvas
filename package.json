@@ -1,6 +1,6 @@
 {
-  "name": "lazy-canvas",
-  "version": "0.5.0",
+  "name": "@hitomihiumi/lazy-canvas",
+  "version": "0.5.1",
   "description": "Simple module for using canvas in lazy method",
   "main": "index.js",
   "scripts": {
