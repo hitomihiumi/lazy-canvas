@@ -1,0 +1,22 @@
+<table>
+    <tr>
+        <th>Method</th>
+        <th>Description</th>
+        <th>required</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>

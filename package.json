@@ -6,6 +6,10 @@
   "scripts": {
     "test": "node ./test/test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitomihiumi/lazy-canvas.git"
+  },
   "keywords": [
     "canvas",
     "lazycanvas"
@@ -17,5 +21,9 @@
     "canvas-multiline-text": "^1.0.3",
     "jimp": "^0.22.12",
     "path": "^0.12.7"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/hitomihiumi/lazy-canvas/issues"
+  },
+  "homepage": "https://github.com/hitomihiumi/lazy-canvas#readme"
 }
