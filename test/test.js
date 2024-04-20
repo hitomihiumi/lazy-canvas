@@ -1,8 +1,11 @@
-const { LazyCanvas, CircleLayer } = require('../index.js')
+const { LazyCanvas, CircleLayer } = require('../src/index')
 const fs = require('fs')
 
 const circle = new CircleLayer()
-.setX(100)
+
+console.log(circle)
+
+circle.setX(100)
 .setY(100)
 .setDiameter(100)
 .setFilled(true)
