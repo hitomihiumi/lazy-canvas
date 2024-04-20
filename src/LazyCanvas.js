@@ -122,6 +122,14 @@ class LazyCanvas {
      * x2 - The x2 position of the line (only for line)
      * 
      * y2 - The y2 position of the line (only for line)
+     * 
+     * shadowBlur - The shadow blur of the layer
+     * 
+     * shadowColor - The shadow color of the layer
+     * 
+     * shadowOffsetX - The shadow offset x of the layer
+     * 
+     * shadowOffsetY - The shadow offset y of the layer
      */
     modifyLayer(index, param, newData) {
         if (!index || !param || !newData) throw new Error("No index or param or newData provided");
@@ -191,6 +199,22 @@ class LazyCanvas {
             case "y2":
                 if (!this.data.layers[index].y2) throw new Error("This layer does not have a y2 property");
                 this.data.layers[index].y2 = newData;
+                break;
+            case "shadowBlur":
+                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                this.data.layers[index].shadow.shadowBlur = newData;
+                break;
+            case "shadowColor":
+                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                this.data.layers[index].shadow.shadowColor = newData;
+                break;
+            case "shadowOffsetX":
+                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                this.data.layers[index].shadow.shadowOffsetX = newData;
+                break;
+            case "shadowOffsetY":
+                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                this.data.layers[index].shadow.shadowOffsetY = newData;
                 break;
         }
     }
@@ -338,65 +362,85 @@ class LazyCanvas {
       }
 
     circle(ctx, data, filled = true) {
+        ctx.beginPath();
+        if (data.shadow && data.shadow.shadowColor) {
+            ctx.shadowColor = data.shadow.shadowColor;
+            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+        }
         if (filled) {
-            ctx.beginPath();
             ctx.fillStyle = data.color;
             this.fillRoundedRect(ctx, data.x, data.y, data.width, data.width, data.width / 2);
-            ctx.closePath();
         } else {
-            ctx.beginPath();
             ctx.strokeStyle = data.color;
             this.outerlineRounded(ctx, data.x, data.y, data.width, data.width, data.width / 2, data.stroke);
-            ctx.closePath();
         }
+        ctx.closePath();
     }
 
     ellipse(ctx, data, filled = true) {
+        ctx.beginPath();
+        if (data.shadow && data.shadow.shadowColor) {
+            ctx.shadowColor = data.shadow.shadowColor;
+            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+        }
         if (filled) {
-            ctx.beginPath();
             ctx.fillStyle = data.color;
             ctx.fillRoundedRect(data.x, data.y, data.width, data.height, data.radius);
-            ctx.fill();
-            ctx.closePath();
         } else {
-            ctx.beginPath();
             ctx.strokeStyle = data.color;
             ctx.outerlineRounded(data.x, data.y, data.width, data.height, data.radius, data.stroke);
-            ctx.stroke();
-            ctx.closePath();
         }
+        ctx.closePath();
     }
 
     square(ctx, data, filled = true) {
+        ctx.beginPath();
+        if (data.shadow && data.shadow.shadowColor) {
+            ctx.shadowColor = data.shadow.shadowColor;
+            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+        }
         if (filled) {
-            ctx.beginPath();
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.width);
-            ctx.closePath();
         } else {
-            ctx.beginPath();
             ctx.strokeStyle = data.color;
             ctx.strokeRect(data.x, data.y, data.width, data.width);
-            ctx.closePath();
         }
+        ctx.closePath();
     }
 
     rectangle(ctx, data, filled = true) {
+        ctx.beginPath();
+        if (data.shadow && data.shadow.shadowColor) {
+            ctx.shadowColor = data.shadow.shadowColor;
+            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+        }
         if (filled) {
-            ctx.beginPath();
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.height);
-            ctx.closePath();
         } else {
-            ctx.beginPath();
             ctx.strokeStyle = data.color;
             ctx.strokeRect(data.x, data.y, data.width, data.height);
-            ctx.closePath();
         }
+        ctx.closePath();
     }
 
     line(ctx, data) {
         ctx.beginPath();
+        if (data.shadow && data.shadow.shadowColor) {
+            ctx.shadowColor = data.shadow.shadowColor;
+            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+        }
         ctx.strokeStyle = data.color;
         ctx.lineWidth = data.stroke;
         ctx.moveTo(data.x, data.y);
@@ -407,6 +451,12 @@ class LazyCanvas {
 
     textRender(ctx, data) {
         ctx.beginPath();
+        if (data.shadow && data.shadow.shadowColor) {
+            ctx.shadowColor = data.shadow.shadowColor;
+            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+        }
         if (data.multiline) {
             drawMultilineText(ctx, data.text, {
                 rect: {
@@ -428,6 +478,7 @@ class LazyCanvas {
             ctx.textAlign = data.align;
             ctx.fillText(data.text, data.x, data.y);
         }
+        ctx.closePath();
     }
 
     async renderImage() {
@@ -459,29 +510,47 @@ class LazyCanvas {
                         // data = { x: 10, y: 10, x2: 100, y2: 100, stroke: 1, color: "red" }
                         break;
                     case "ellipseimage":
+                        ctx.beginPath();
                         try {
                             image = await jimp.read(data.image);
                         } catch (e) {
                             image = await jimp.read(this.errorImage);
+                        }
+
+                        if (data.shadow && data.shadow.shadowColor) {
+                            ctx.shadowColor = data.shadow.shadowColor;
+                            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+                            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+                            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
                         }
 
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
                         this.clipper(ctx, image, data.x, data.y, data.width, data.height, data.radius);
+                        ctx.closePath();
                         // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, image: "url" }
                         break;
                     case "image":
+                        ctx.beginPath();
                         try {
                             image = await jimp.read(data.image);
                         } catch (e) {
                             image = await jimp.read(this.errorImage);
                         }
 
+                        if (data.shadow && data.shadow.shadowColor) {
+                            ctx.shadowColor = data.shadow.shadowColor;
+                            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+                            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+                            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+                        }
+
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
                         ctx.drawImage(image, data.x, data.y, data.w, data.h);
+                        ctx.closePath();
                         // data = { x: 10, y: 10, w: 100, h: 50, image: "url" }
                         break;
                     case "text":
