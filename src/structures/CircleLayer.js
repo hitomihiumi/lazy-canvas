@@ -16,7 +16,7 @@ class CircleLayer extends BaseLayer {
             setDiameter(diameter) {
                 if (!diameter) throw new Error('Diameter must be provided');
                 if (isNaN(diameter)) throw new Error('Diameter must be a number');
-                this.data.diameter = diameter;
+                this.data.width = diameter;
                 return this;
             }
 

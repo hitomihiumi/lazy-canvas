@@ -369,7 +369,7 @@ class LazyCanvas {
             if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
             if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
         }
-        if (filled) {
+        if (filled == true) {
             ctx.fillStyle = data.color;
             this.fillRoundedRect(ctx, data.x, data.y, data.width, data.width, data.width / 2);
         } else {
