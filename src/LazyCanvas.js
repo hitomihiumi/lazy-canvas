@@ -29,8 +29,8 @@ class LazyCanvas {
     createNewCanvas(width, height) {
         if (!width || !height) throw new Error("No width or height provided");
         this.data = {
-            w: width,
-            h: height,
+            width: width,
+            height: height,
             layers: []
         }
         return this;
