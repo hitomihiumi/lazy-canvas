@@ -12,4 +12,4 @@ exports.BaseLayer = require('./src/structures/BaseLayer.js');
 
 exports.LazyCanvas = require('./src/LazyCanvas.js');
 
-exports.Font = require('./src/Font.js');
+exports.Font = require('./src/structures/Font.js');

@@ -9,7 +9,7 @@ This is a simple module designed to simplify the interaction with canvas, for pe
 ## Example
 
 ```js
-const { LazyCanvas, CircleLayer } = require('lazy-canvas')
+const { LazyCanvas, CircleLayer } = require('@hitomihiumi/lazy-canvas')
 const fs = require('fs')
 
 const circle = new CircleLayer()
