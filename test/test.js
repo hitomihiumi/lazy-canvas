@@ -1,21 +1,25 @@
-const { LazyCanvas, CircleLayer } = require('../src/index')
+const { LazyCanvas, CircleLayer, RectangleLayer } = require('../src/index')
 const fs = require('fs')
 
 const circle = new CircleLayer()
-
-console.log(circle)
-
-circle.setX(100)
+.setX(100)
 .setY(100)
-.setDiameter(100)
+.setRadius(100)
 .setFilled(true)
-.setColor('red')
+.setColor("#FF8A8A")
+.setAlpha(0.5)
 
-console.log(circle)
+const rectangle = new RectangleLayer()
+.setX(300)
+.setY(300)
+.setWidth(100)
+.setHeight(120)
+.setFilled(true)
+.setColor('blue')
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
-.addLayer(circle)
+.addLayers(circle, rectangle)
 
 console.log(lazy.data)
 

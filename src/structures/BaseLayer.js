@@ -70,6 +70,17 @@ class BaseLayer {
         return this;
     }
 
+    /**
+     * @param {number} alpha - The alpha value of the layer 
+     */
+    setAlpha(alpha) {
+        if (!alpha) throw new Error('Alpha must be provided');
+        if (isNaN(alpha)) throw new Error('Alpha must be a number');
+        if (alpha < 0 || alpha > 1) throw new Error('Alpha must be between 0 and 1');
+        this.data.alpha = alpha;
+        return this;
+    }
+
     toJSON() {
         return { ...this.data };
     }

@@ -25,8 +25,8 @@
         <td>-</td>
     </tr>
     <tr>
-        <td>addLayer()</td>
-        <td>Adds a layer to the canvas</td>
+        <td>addLayers()</td>
+        <td>Adds a layers to the canvas</td>
         <td>layer</td>
         <td>-</td>
         <td>-</td>

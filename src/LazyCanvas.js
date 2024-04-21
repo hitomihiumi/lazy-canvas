@@ -4,6 +4,8 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 const jimp = require('jimp');
 const { resolve } = require('path');
 const drawMultilineText = require('canvas-multiline-text')
+const { isValidColor, isImageUrlValid } = require('./utils.js');
+
 
 class LazyCanvas {
     constructor({ data } = {}) {
@@ -55,9 +57,11 @@ class LazyCanvas {
      * .addLayer(circle) 
      * ```
      */
-    addLayer(layer) {
-        if (!layer) throw new Error("No data provided");
-        this.data.layers.push(layer.toJSON());
+    addLayers(...layers) {
+        if (!layers) throw new Error("No layers data provided");
+        for (const l of layers) {
+            this.data.layers.push(l.toJSON());
+        }
         return this;
     }
 
@@ -130,91 +134,100 @@ class LazyCanvas {
      * shadowOffsetX - The shadow offset x of the layer
      * 
      * shadowOffsetY - The shadow offset y of the layer
+     * 
+     * alpha - The alpha of the layer
+     * 
+     * @examples modifyLayer(0, "x", 100)
      */
     modifyLayer(index, param, newData) {
         if (!index || !param || !newData) throw new Error("No index or param or newData provided");
         switch (param) {
             case "x":
                 this.data.layers[index].x = newData;
+                if (isNaN(newData)) throw new Error("X must be a number");
                 break;
             case "y":
                 this.data.layers[index].y = newData;
+                if (isNaN(newData)) throw new Error("Y must be a number");
                 break;
             case "width":
-                if (!this.data.layers[index].width) throw new Error("This layer does not have a width property");
+                if (isNaN(newData)) throw new Error("Width must be a number");
                 this.data.layers[index].width = newData;
                 break;
             case "height":
-                if (!this.data.layers[index].height) throw new Error("This layer does not have a height property");
+                if (isNaN(newData)) throw new Error("Height must be a number");
                 this.data.layers[index].height = newData;
                 break;
             case "radius":
-                if (!this.data.layers[index].radius) throw new Error("This layer does not have a radius property");
+                if (isNaN(newData)) throw new Error("Radius must be a number");
                 this.data.layers[index].radius = newData;
                 break;
             case "stroke":
-                if (!this.data.layers[index].stroke) throw new Error("This layer does not have a stroke property");
+                if (isNaN(newData)) throw new Error("Stroke must be a number");
                 this.data.layers[index].stroke = newData;
                 break;
             case "color":
-                if (!this.data.layers[index].color) throw new Error("This layer does not have a color property");
+                if (!isValidColor(newData)) throw new Error("Color must be a valid color");
                 this.data.layers[index].color = newData;
                 break;
             case "text":
-                if (!this.data.layers[index].text) throw new Error("This layer does not have a text property");
                 this.data.layers[index].text = newData;
                 break;
             case "size":
-                if (!this.data.layers[index].size) throw new Error("This layer does not have a size property");
+                if (isNaN(newData)) throw new Error("Size must be a number");
                 this.data.layers[index].size = newData;
                 break;
             case "font":
-                if (!this.data.layers[index].font) throw new Error("This layer does not have a font property");
                 this.data.layers[index].font = newData;
                 break;
             case "align":
-                if (!this.data.layers[index].align) throw new Error("This layer does not have a align property");
+                if (['start', 'end', 'left', 'right', 'center'].includes(newData) == false) throw new Error("Align must be start, end, left, right or center");
                 this.data.layers[index].align = newData;
                 break;
             case "style":
-                if (!this.data.layers[index].style) throw new Error("This layer does not have a style property");
+                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(style) == false) throw new Error("Style must be bold, italic or regular");
                 this.data.layers[index].style = newData;
                 break;
             case "multiline":
-                if (!this.data.layers[index].multiline) throw new Error("This layer does not have a multiline property");
+                if (typeof newData !== "boolean") throw new Error("Multiline must be a boolean");
                 this.data.layers[index].multiline = newData;
                 break;
             case "image":
-                if (!this.data.layers[index].image) throw new Error("This layer does not have a image property");
+                if (!isImageUrlValid(newData)) throw new Error("Image must be a valid URL");
                 this.data.layers[index].image = newData;
                 break;
             case "filled":
-                if (!this.data.layers[index].filled) throw new Error("This layer does not have a filled property");S
+                if (typeof newData !== "boolean") throw new Error("Filled must be a boolean");
                 this.data.layers[index].filled = newData;
                 break;
             case "x2":
-                if (!this.data.layers[index].x2) throw new Error("This layer does not have a x2 property");
+                if (isNaN(newData)) throw new Error("X2 must be a number");
                 this.data.layers[index].x2 = newData;
                 break;
             case "y2":
-                if (!this.data.layers[index].y2) throw new Error("This layer does not have a y2 property");
+                if (isNaN(newData)) throw new Error("Y2 must be a number");
                 this.data.layers[index].y2 = newData;
                 break;
             case "shadowBlur":
-                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                if (isNaN(newData)) throw new Error("ShadowBlur must be a number");
                 this.data.layers[index].shadow.shadowBlur = newData;
                 break;
             case "shadowColor":
-                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                if (!isValidColor(newData)) throw new Error("ShadowColor must be a valid color");``
                 this.data.layers[index].shadow.shadowColor = newData;
                 break;
             case "shadowOffsetX":
-                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                if (isNaN(newData)) throw new Error("ShadowOffsetX must be a number");
                 this.data.layers[index].shadow.shadowOffsetX = newData;
                 break;
             case "shadowOffsetY":
-                if (!this.data.layers[index].shadow) throw new Error("This layer does not have a shadow property");
+                if (isNaN(newData)) throw new Error("ShadowOffsetY must be a number");
                 this.data.layers[index].shadow.shadowOffsetY = newData;
+                break;
+            case "alpha":
+                if (isNaN(newData)) throw new Error("Alpha must be a number");
+                if (newData > 1 || newData < 0) throw new Error("Alpha must be between 0 and 1");
+                this.data.layers[index].alpha = newData;
                 break;
         }
     }
@@ -363,30 +376,18 @@ class LazyCanvas {
 
     circle(ctx, data, filled = true) {
         ctx.beginPath();
-        if (data.shadow && data.shadow.shadowColor) {
-            ctx.shadowColor = data.shadow.shadowColor;
-            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-        }
         if (filled == true) {
             ctx.fillStyle = data.color;
-            this.fillRoundedRect(ctx, data.x, data.y, data.width, data.width, data.width / 2);
+            this.fillRoundedRect(ctx, data.x, data.y, data.width * 2, data.width * 2, data.width);
         } else {
             ctx.strokeStyle = data.color;
-            this.outerlineRounded(ctx, data.x, data.y, data.width, data.width, data.width / 2, data.stroke);
+            this.outerlineRounded(ctx, data.x, data.y, data.width * 2, data.width * 2, data.width, data.stroke);
         }
         ctx.closePath();
     }
 
     ellipse(ctx, data, filled = true) {
         ctx.beginPath();
-        if (data.shadow && data.shadow.shadowColor) {
-            ctx.shadowColor = data.shadow.shadowColor;
-            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-        }
         if (filled) {
             ctx.fillStyle = data.color;
             ctx.fillRoundedRect(data.x, data.y, data.width, data.height, data.radius);
@@ -399,12 +400,6 @@ class LazyCanvas {
 
     square(ctx, data, filled = true) {
         ctx.beginPath();
-        if (data.shadow && data.shadow.shadowColor) {
-            ctx.shadowColor = data.shadow.shadowColor;
-            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-        }
         if (filled) {
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.width);
@@ -417,12 +412,6 @@ class LazyCanvas {
 
     rectangle(ctx, data, filled = true) {
         ctx.beginPath();
-        if (data.shadow && data.shadow.shadowColor) {
-            ctx.shadowColor = data.shadow.shadowColor;
-            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-        }
         if (filled) {
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.height);
@@ -435,12 +424,6 @@ class LazyCanvas {
 
     line(ctx, data) {
         ctx.beginPath();
-        if (data.shadow && data.shadow.shadowColor) {
-            ctx.shadowColor = data.shadow.shadowColor;
-            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-        }
         ctx.strokeStyle = data.color;
         ctx.lineWidth = data.stroke;
         ctx.moveTo(data.x, data.y);
@@ -451,12 +434,6 @@ class LazyCanvas {
 
     textRender(ctx, data) {
         ctx.beginPath();
-        if (data.shadow && data.shadow.shadowColor) {
-            ctx.shadowColor = data.shadow.shadowColor;
-            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-        }
         if (data.multiline) {
             drawMultilineText(ctx, data.text, {
                 rect: {
@@ -487,6 +464,21 @@ class LazyCanvas {
             let ctx = canvas.getContext("2d");
 
             for (const data of this.data.layers) {
+                ctx.beginPath();
+
+                if (data.alpha) { 
+                    ctx.globalAlpha = data.alpha;
+                } else { 
+                    ctx.globalAlpha = 1; 
+                }
+
+                if (data.shadow && data.shadow.shadowColor) {
+                    ctx.shadowColor = data.shadow.shadowColor;
+                    if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+                    if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+                    if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+                }
+
                 let image;
                 switch (data.type) {
                     case "circle":
@@ -517,13 +509,6 @@ class LazyCanvas {
                             image = await jimp.read(this.errorImage);
                         }
 
-                        if (data.shadow && data.shadow.shadowColor) {
-                            ctx.shadowColor = data.shadow.shadowColor;
-                            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-                            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-                            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-                        }
-
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
@@ -539,13 +524,6 @@ class LazyCanvas {
                             image = await jimp.read(this.errorImage);
                         }
 
-                        if (data.shadow && data.shadow.shadowColor) {
-                            ctx.shadowColor = data.shadow.shadowColor;
-                            if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-                            if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-                            if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-                        }
-
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
@@ -558,6 +536,7 @@ class LazyCanvas {
                         // data = { x: 10, y: 10, text: "Hello World", size: 20, color: "red", font: "Arial", align: "center", style: "bold", multiline: false, width: 100, height: 50 }
                         break;
                 }
+                ctx.closePath();
             }
 
             return resolve(canvas.toBuffer());

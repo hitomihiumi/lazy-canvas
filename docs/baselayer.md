@@ -54,6 +54,13 @@ Layer base class.
         <td>false</td>
         <td>-</td>
     </tr>
+    <tr>
+        <td>setAlpha()</td>
+        <td>Sets the degree of transparency of the layer</td>
+        <td>number</td>
+        <td>false</td>
+        <td>Values can only be from 1 to 0 (fractions are allowed)</td>
+    </tr>
 </table>
 
 <br>

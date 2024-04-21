@@ -11,12 +11,12 @@ class CircleLayer extends BaseLayer {
             }
 
             /**
-             * @param {number} diameter - The diameter of the figure
+             * @param {number} radius - The diameter of the figure
              */
-            setDiameter(diameter) {
-                if (!diameter) throw new Error('Diameter must be provided');
-                if (isNaN(diameter)) throw new Error('Diameter must be a number');
-                this.data.width = diameter;
+            setRadius(radius) {
+                if (!radius) throw new Error('Radius must be provided');
+                if (isNaN(radius)) throw new Error('Radius must be a number');
+                this.data.width = radius;
                 return this;
             }
 

@@ -15,8 +15,8 @@ Extends [BaseLayer](./baselayer.md)
         <th>Notes<th>
     </tr>
     <tr>
-        <td>setDiameter()</td>
-        <td>Sets the diameter of the circle</td>
+        <td>setRadius()</td>
+        <td>Sets the radius of the circle</td>
         <td>number</td>
         <td>true</td>
         <td>-</td>
