@@ -115,7 +115,7 @@ class LazyCanvas {
      * 
      * align - The alignment of the text (only for text)
      * 
-     * style - The style of the text (only for text)
+     * weight - The weight of the text (only for text)
      * 
      * multiline - If the text is multiline (only for text)
      * 
@@ -184,9 +184,9 @@ class LazyCanvas {
                 if (['start', 'end', 'left', 'right', 'center'].includes(newData) == false) throw new Error("Align must be start, end, left, right or center");
                 this.data.layers[index].align = newData;
                 break;
-            case "style":
-                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(style) == false) throw new Error("Style must be bold, italic or regular");
-                this.data.layers[index].style = newData;
+            case "weight":
+                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(newData) == false) throw new Error("Weight must be bold, italic or regular");
+                this.data.layers[index].weight = newData;
                 break;
             case "multiline":
                 if (typeof newData !== "boolean") throw new Error("Multiline must be a boolean");
@@ -238,7 +238,7 @@ class LazyCanvas {
      * @returns {object} - The layer
      */
     getLayer(index) {
-        if (!index) throw new Error("No index provided");
+        if (!index && index !== 0) throw new Error("No index provided");
         return this.data.layers[index];
     }
 
@@ -388,19 +388,19 @@ class LazyCanvas {
 
     ellipse(ctx, data, filled = true) {
         ctx.beginPath();
-        if (filled) {
+        if (filled == true) {
             ctx.fillStyle = data.color;
-            ctx.fillRoundedRect(data.x, data.y, data.width, data.height, data.radius);
+            this.fillRoundedRect(ctx, data.x, data.y, data.width, data.height, data.radius);
         } else {
             ctx.strokeStyle = data.color;
-            ctx.outerlineRounded(data.x, data.y, data.width, data.height, data.radius, data.stroke);
+            this.outerlineRounded(ctx, data.x, data.y, data.width, data.height, data.radius, data.stroke);
         }
         ctx.closePath();
     }
 
     square(ctx, data, filled = true) {
         ctx.beginPath();
-        if (filled) {
+        if (filled == true) {
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.width);
         } else {
@@ -412,7 +412,7 @@ class LazyCanvas {
 
     rectangle(ctx, data, filled = true) {
         ctx.beginPath();
-        if (filled) {
+        if (filled == true) {
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.height);
         } else {
@@ -435,6 +435,8 @@ class LazyCanvas {
     textRender(ctx, data) {
         ctx.beginPath();
         if (data.multiline) {
+            ctx.textAlign = data.align;
+            ctx.fillStyle = data.color;
             drawMultilineText(ctx, data.text, {
                 rect: {
                     x: data.x,
@@ -443,14 +445,14 @@ class LazyCanvas {
                     height: data.height
                 },
                 font: data.font,
-                style: data.style,
+                style: data.weight,
                 verbose: false,
                 lineHeight: 1,
                 minFontSize: 25,
                 maxFontSize: data.size
             })
         } else {
-            ctx.font = `${data.style} ${data.size}px ${data.font}`;
+            ctx.font = `${data.weight} ${data.size}px ${data.font}`;
             ctx.fillStyle = data.color;
             ctx.textAlign = data.align;
             ctx.fillText(data.text, data.x, data.y);
@@ -482,19 +484,19 @@ class LazyCanvas {
                 let image;
                 switch (data.type) {
                     case "circle":
-                        this.circle(ctx, data, data.filled);
+                        this.circle(ctx, data, data.fill);
                         // data = { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
                         break;
                     case "ellipse":
-                        this.ellipse(ctx, data, data.filled);
+                        this.ellipse(ctx, data, data.fill);
                         // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, stroke: null, color: "red", filled: true }
                         break;
                     case "square":
-                        this.square(ctx, data, data.filled);
+                        this.square(ctx, data, data.fill);
                         // data = { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
                         break;
                     case "rectangle":
-                        this.rectangle(ctx, data, data.filled);
+                        this.rectangle(ctx, data, data.fill);
                         // data = { x: 10, y: 10, width: 100, height: 50, stroke: null, color: "red", filled: true }
                         break;
                     case "line":

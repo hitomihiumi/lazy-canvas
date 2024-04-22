@@ -87,7 +87,7 @@ export class TextLayer extends BaseLayer {
     setText(text: string): this;
     setFont(font: string): this;
     setFontSize(size: number): this;
-    setStyle(style: string): this;
+    setWeight(weight: string): this;
     setColor(color: string): this;
     setAlign(align: string): this;
     setMultiline(multiline: boolean): this;

@@ -41,14 +41,14 @@ class TextLayer extends BaseLayer {
             }
 
             /**
-             * @param {string} style - The style of the text
-             * Style types: normal, bold, italic, bold italic, regular
+             * @param {string} weight - The weight of the text
+             * Weight types: normal, bold, italic, bold italic, regular
              */
-            setStyle(style) {
-                if (!style) throw new Error('Style must be provided');
-                if (typeof style !== 'string') throw new Error('Style must be a string');
-                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(style) == false) throw new Error('Style must be normal, bold, italic, or bold italic');
-                this.data.style = style;
+            setWeight(weight) {
+                if (!weight) throw new Error('Weight must be provided');
+                if (typeof weight !== 'string') throw new Error('Weight must be a string');
+                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(weight) == false) throw new Error('Weight must be normal, bold, italic, or bold italic');
+                this.data.weight = weight;
                 return this;
             }
 
@@ -78,7 +78,6 @@ class TextLayer extends BaseLayer {
              * @param {boolean} multiline - Whether the text should be multiline or not
              */
             setMultiline(multiline) {
-                if (!multiline) throw new Error('Multiline must be provided');
                 if (typeof multiline !== 'boolean') throw new Error('Multiline must be a true or false value');
                 this.data.multiline = multiline;
                 return this;

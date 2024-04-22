@@ -36,7 +36,7 @@ Extends [BaseLayer](./baselayer.md)
         <td>-</td>
     </tr>
     <tr>
-        <td>setStyle()</td>
+        <td>setWeight()</td>
         <td>Sets the font weight</td>
         <td>string</td>
         <td>true</td>

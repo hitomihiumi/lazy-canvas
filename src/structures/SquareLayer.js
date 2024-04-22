@@ -24,7 +24,6 @@ class SquareLayer extends BaseLayer {
              * @param {boolean} fill - Whether the figure should be filled or not
              */
             setFilled(fill) {
-                if (!fill) throw new Error('Fill must be provided');
                 if (typeof fill !== 'boolean') throw new Error('Fill must be a true or false value');
                 this.data.fill = fill;
                 return this;

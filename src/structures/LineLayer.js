@@ -14,7 +14,7 @@ class LineLayer extends BaseLayer {
              * @param {number} x2 - The x2 of the figure 
              */
             setX2(x2) {
-                if (!x2) throw new Error('X2 must be provided');
+                if (!x2 && x2 !== 0) throw new Error('X2 must be provided');
                 if (isNaN(x2)) throw new Error('X2 must be a number');
                 this.data.x2 = x2;
                 return this;
@@ -24,7 +24,7 @@ class LineLayer extends BaseLayer {
              * @param {number} y2 - The y2 of the figure
              */
             setY2(y2) {
-                if (!y2) throw new Error('X2 must be provided');
+                if (!y2 && y2 !== 0) throw new Error('X2 must be provided');
                 if (isNaN(y2)) throw new Error('X2 must be a number');
                 this.data.y2 = y2;
                 return this;
