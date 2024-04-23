@@ -12,7 +12,7 @@ This is a simple module designed to simplify the interaction with canvas, for pe
 ## Example
 
 ```js
-const { LazyCanvas, EllipseImageLayer, EllipseLayer, TextLayer, Font, CircleLayer } = require('../src/index')
+const { LazyCanvas, EllipseImageLayer, EllipseLayer, TextLayer, Font, CircleLayer } = require('@hitomihiumi/lazy-canvas')
 const fs = require('fs')
 
 let font = new Font()
