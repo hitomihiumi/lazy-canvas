@@ -52,3 +52,29 @@ Extends [BaseLayer](./baselayer.md)
 </table>
 
 <br>
+
+## Example
+
+```js
+const { LazyCanvas, RectangleLayer } = require('@hitomihiumi/lazy-canvas')
+const fs = require('fs')
+
+let rectangle = new RectangleLayer()
+.setX(10)
+.setY(10)
+.setWidth(200)
+.setHeight(100)
+.setColor('#FF0000')
+.setFilled(true)
+
+const lazy = new LazyCanvas()
+.createNewCanvas(500, 500)
+.addLayers(rectangle)
+
+async function main() {
+    const pngData = await lazy.renderImage()
+    fs.writeFileSync('output.png', pngData)
+}
+
+main()
+```

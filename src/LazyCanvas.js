@@ -506,9 +506,12 @@ class LazyCanvas {
                     case "ellipseimage":
                         ctx.beginPath();
                         try {
-                            image = await jimp.read(data.image);
+                            image = await jimp.read(String(data.image));
                         } catch (e) {
-                            image = await jimp.read(this.errorImage);
+                            console.log(e + `\n[LazyCanvas] Try to load the error image`)
+                            if (!this.errorImage) {
+                                image = await jimp.read(String(this.errorImage));
+                            }
                         }
 
                         image = await image.getBufferAsync('image/png');
@@ -521,15 +524,18 @@ class LazyCanvas {
                     case "image":
                         ctx.beginPath();
                         try {
-                            image = await jimp.read(data.image);
+                            image = await jimp.read(String(data.image));
                         } catch (e) {
-                            image = await jimp.read(this.errorImage);
+                            console.log(e + `\n[LazyCanvas] Try to load the error image`)
+                            if (!this.errorImage) {
+                                image = await jimp.read(String(this.errorImage));
+                            }
                         }
 
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
-                        ctx.drawImage(image, data.x, data.y, data.w, data.h);
+                        ctx.drawImage(image, data.x, data.y, data.width, data.height);
                         ctx.closePath();
                         // data = { x: 10, y: 10, w: 100, h: 50, image: "url" }
                         break;

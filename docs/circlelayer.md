@@ -45,3 +45,28 @@ Extends [BaseLayer](./baselayer.md)
 </table>
 
 <br>
+
+## Example
+
+```js
+const { LazyCanvas, CircleLayer } = require('@hitomihiumi/lazy-canvas')
+const fs = require('fs')
+
+let circle = new CircleLayer()
+.setX(100)
+.setY(100)
+.setRadius(100)
+.setFilled(true)
+.setColor('red')
+
+const lazy = new LazyCanvas()
+.createNewCanvas(500, 500)
+.addLayers(circle)
+
+async function main() {
+    const pngData = await lazy.renderImage()
+    fs.writeFileSync('output.png', pngData)
+}
+
+main()
+```

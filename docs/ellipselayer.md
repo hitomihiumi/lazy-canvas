@@ -33,7 +33,7 @@ Extends [BaseLayer](./baselayer.md)
         <td>Sets the rounding radius</td>
         <td>number</td>
         <td>true</td>
-        <td>-</td>
+        <td>IMPORTANT! Use a value no greater than half the value of the smallest side</td>
     </tr>
     <tr>
         <td>setFilled()</td>
@@ -59,3 +59,30 @@ Extends [BaseLayer](./baselayer.md)
 </table>
 
 <br>
+
+## Example
+
+```js
+const { LazyCanvas, EllipseLayer } = require('@hitomihiumi/lazy-canvas')
+const fs = require('fs')
+
+let ellipse = new EllipseLayer()
+.setX(100)
+.setY(100)
+.setWidth(300)
+.setHeight(200)
+.setRadius(100)
+.setFilled(true)
+.setColor('red')
+
+const lazy = new LazyCanvas()
+.createNewCanvas(500, 500)
+.addLayers(ellipse)
+
+async function main() {
+    const pngData = await lazy.renderImage()
+    fs.writeFileSync('output.png', pngData)
+}
+
+main()
+```

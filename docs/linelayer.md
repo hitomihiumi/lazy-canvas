@@ -45,3 +45,29 @@ Extends [BaseLayer](./baselayer.md)
 </table>
 
 <br>
+
+## Example
+
+```js
+const { LazyCanvas, LineLayer } = require('@hitomihiumi/lazy-canvas')
+const fs = require('fs')
+
+let line = new LineLayer()
+.setX(10)
+.setY(10)
+.setX2(100)
+.setY2(100)
+.setColor('#fff')
+.setStroke(5)
+
+const lazy = new LazyCanvas()
+.createNewCanvas(500, 500)
+.addLayers(line)
+
+async function main() {
+    const pngData = await lazy.renderImage()
+    fs.writeFileSync('output.png', pngData)
+}
+
+main()
+```
