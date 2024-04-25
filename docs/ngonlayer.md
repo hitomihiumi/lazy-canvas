@@ -1,6 +1,6 @@
 # NgonLayer
 
-Layer class to create proper n-goons
+Layer class to create proper ngons
 
 Extends [BaseLayer](./baselayer.md)
 
