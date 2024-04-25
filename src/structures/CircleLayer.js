@@ -11,7 +11,7 @@ class CircleLayer extends BaseLayer {
             }
 
             /**
-             * @param {number} radius - The diameter of the figure
+             * @param {number} radius - The radius of the figure
              */
             setRadius(radius) {
                 if (!radius) throw new Error('Radius must be provided');

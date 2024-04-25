@@ -29,6 +29,7 @@ export class BaseLayer {
     setShadowOffsetX(offsetX: number): this;
     setShadowOffsetY(offsetY: number): this;
     setAlpha(alpha: number): this;
+    setRotation(rotation: number): this;
     toJSON(): LazyCanvasLayer;
 }
 
@@ -97,8 +98,16 @@ export class TextLayer extends BaseLayer {
 
 export class LineLayer extends BaseLayer {
     constructor(data: LazyCanvasLineLayer);
-    setX2(x2: number): this;
-    setY2(y2: number): this;
+    setPoints(points: points[]): this;
+    setColor(color: string): this;
+    setStroke(stroke: number): this;
+}
+
+export class NgonLayer extends BaseLayer {
+    constructor(data: LazyCanvasNgonLayer);
+    setRadius(radius: number): this;
+    setSides(sides: number): this;
+    setFilled(fill: boolean): this;
     setColor(color: string): this;
     setStroke(stroke: number): this;
 }

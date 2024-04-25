@@ -61,6 +61,13 @@ Layer base class.
         <td>false</td>
         <td>Values can only be from 1 to 0 (fractions are allowed)</td>
     </tr>
+    <tr>
+        <td>setRotation()</td>
+        <td>Sets the rotation value of the layer in the clockwise direction</td>
+        <td>number</td>
+        <td>false</td>
+        <td>-</td>
+    </tr>
 </table>
 
 <br>

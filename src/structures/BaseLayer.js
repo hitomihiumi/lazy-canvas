@@ -81,6 +81,16 @@ class BaseLayer {
         return this;
     }
 
+    /**
+     * @param {number} rotation - The rotation of the layer
+     */
+    setRotation(rotation) {
+        if (!rotation && rotation !== 0) throw new Error('Rotation must be provided');
+        if (isNaN(rotation)) throw new Error('Rotation must be a number');
+        this.data.angle = rotation;
+        return this;
+    }
+
     toJSON() {
         return { ...this.data };
     }

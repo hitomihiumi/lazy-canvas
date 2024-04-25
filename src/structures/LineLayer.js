@@ -11,25 +11,15 @@ class LineLayer extends BaseLayer {
             }
             
             /**
-             * @param {number} x2 - The x2 of the figure 
+             * @param {points} - The points of the line
              */
-            setX2(x2) {
-                if (!x2 && x2 !== 0) throw new Error('X2 must be provided');
-                if (isNaN(x2)) throw new Error('X2 must be a number');
-                this.data.x2 = x2;
+            setPoints(...points) {
+                if (!points) throw new Error('Points must be provided');
+                if (points.length < 2) throw new Error('At least two points must be provided');
+                this.data.points = points;
                 return this;
             }
 
-            /**
-             * @param {number} y2 - The y2 of the figure
-             */
-            setY2(y2) {
-                if (!y2 && y2 !== 0) throw new Error('X2 must be provided');
-                if (isNaN(y2)) throw new Error('X2 must be a number');
-                this.data.y2 = y2;
-                return this;
-            }
-            
             /**
              * @param {number} stroke - The stroke of the figure
              */

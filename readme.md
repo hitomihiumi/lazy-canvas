@@ -12,7 +12,7 @@ This is a simple module designed to simplify the interaction with canvas, for pe
 ## Example
 
 ```js
-const { LazyCanvas, EllipseImageLayer, EllipseLayer, TextLayer, Font, CircleLayer } = require('../src/index')
+const { LazyCanvas, EllipseImageLayer, EllipseLayer, TextLayer, Font, CircleLayer } = require('@hitomihiumi/lazy-canvas')
 const fs = require('fs')
 
 let font = new Font()
@@ -154,6 +154,7 @@ Class documentation can be found below by clicking on the appropriate class name
 - [SquareLayer](./docs/squarelayer.md)
 - [RectangleLayer](./docs/rectanglelayer.md)
 - [LineLayer](./docs/linelayer.md)
+- [NgonLayer](./docs/ngonlayer.md)
 - [ImageLayer](./docs/imagelayer.md)
 - [EllipseImageLayer](./docs/ellipseimagelayer.md)
 - [TextLayer](./docs/textlayer.md)

@@ -48,7 +48,7 @@ class LazyCanvas {
      * const circle = new CircleLayer()
      * .setx(10)
      * .setY(10)
-     * .setDiameter(100)
+     * .setRadius(50)
      * .setFilled(true)
      * .setColor("#FF8A8A")
      * 
@@ -101,7 +101,7 @@ class LazyCanvas {
      * 
      * height - The height of the layer (only for ellipse, rectangle, ellipseimage, image, text)
      * 
-     * radius - The radius of the layer (only for circle, ellipse)
+     * radius - The radius of the layer (only for circle, ellipse, ellipseimage, ngon)
      * 
      * stroke - The line thickness of the layer (only for circle, ellipse, square, rectangle, line)
      * 
@@ -123,9 +123,7 @@ class LazyCanvas {
      * 
      * filled - If the layer is filled (only for circle, ellipse, square, rectangle)
      * 
-     * x2 - The x2 position of the line (only for line)
-     * 
-     * y2 - The y2 position of the line (only for line)
+     * points - The points of the layer (only for line)
      * 
      * shadowBlur - The shadow blur of the layer
      * 
@@ -136,6 +134,8 @@ class LazyCanvas {
      * shadowOffsetY - The shadow offset y of the layer
      * 
      * alpha - The alpha of the layer
+     * 
+     * rotation - The rotation of the layer
      * 
      * @examples modifyLayer(0, "x", 100)
      */
@@ -200,13 +200,13 @@ class LazyCanvas {
                 if (typeof newData !== "boolean") throw new Error("Filled must be a boolean");
                 this.data.layers[index].filled = newData;
                 break;
-            case "x2":
-                if (isNaN(newData)) throw new Error("X2 must be a number");
-                this.data.layers[index].x2 = newData;
+            case "points":
+                if (!newData) throw new Error("No points provided");
+                this.data.layers[index].points = newData;
                 break;
-            case "y2":
-                if (isNaN(newData)) throw new Error("Y2 must be a number");
-                this.data.layers[index].y2 = newData;
+            case "sides":
+                if (isNaN(newData)) throw new Error("Sides must be a number");
+                this.data.layers[index].sides = newData;
                 break;
             case "shadowBlur":
                 if (isNaN(newData)) throw new Error("ShadowBlur must be a number");
@@ -228,6 +228,10 @@ class LazyCanvas {
                 if (isNaN(newData)) throw new Error("Alpha must be a number");
                 if (newData > 1 || newData < 0) throw new Error("Alpha must be between 0 and 1");
                 this.data.layers[index].alpha = newData;
+                break;
+            case "rotation":
+                if (isNaN(newData)) throw new Error("Rotation must be a number");
+                this.data.layers[index].angle = newData;
                 break;
         }
     }
@@ -388,6 +392,10 @@ class LazyCanvas {
 
     ellipse(ctx, data, filled = true) {
         ctx.beginPath();
+        ctx.save();
+        ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
         if (filled == true) {
             ctx.fillStyle = data.color;
             this.fillRoundedRect(ctx, data.x, data.y, data.width, data.height, data.radius);
@@ -395,11 +403,16 @@ class LazyCanvas {
             ctx.strokeStyle = data.color;
             this.outerlineRounded(ctx, data.x, data.y, data.width, data.height, data.radius, data.stroke);
         }
+        ctx.restore();
         ctx.closePath();
     }
 
     square(ctx, data, filled = true) {
         ctx.beginPath();
+        ctx.save();
+        ctx.translate(data.x + data.width / 2, data.y + data.width / 2);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-(data.x + data.width / 2), -(data.y + data.width / 2));
         if (filled == true) {
             ctx.fillStyle = data.color;
             ctx.fillRect(data.x, data.y, data.width, data.width);
@@ -407,34 +420,66 @@ class LazyCanvas {
             ctx.strokeStyle = data.color;
             ctx.strokeRect(data.x, data.y, data.width, data.width);
         }
+        ctx.restore();
         ctx.closePath();
     }
 
     rectangle(ctx, data, filled = true) {
         ctx.beginPath();
-        if (filled == true) {
-            ctx.fillStyle = data.color;
-            ctx.fillRect(data.x, data.y, data.width, data.height);
+        ctx.save();
+        ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
+        if (filled) {
+          ctx.fillStyle = data.color;
+          ctx.fillRect(data.x, data.y, data.width, data.height);
         } else {
-            ctx.strokeStyle = data.color;
-            ctx.strokeRect(data.x, data.y, data.width, data.height);
+          ctx.strokeStyle = data.color;
+          ctx.strokeRect(data.x, data.y, data.width, data.height);
+        }
+        ctx.restore();
+        ctx.closePath();
+    }
+
+    ngon(ctx, data, filled = true) {
+        ctx.beginPath();
+        ctx.moveTo(data.x + data.radius * Math.cos(0 + data.angle), data.y + data.radius * Math.sin(0 + data.angle));
+        for (let i = 1; i < data.sides; i++) {
+          ctx.lineTo(data.x + data.radius * Math.cos(i * 2 * Math.PI / data.sides + data.angle), data.y + data.radius * Math.sin(i * 2 * Math.PI / data.sides + data.angle));
         }
         ctx.closePath();
+        if (filled == true) {
+            ctx.fillStyle = data.color;
+            ctx.fill();
+        } else {
+            ctx.lineWidth = data.stroke;
+            ctx.strokeStyle = data.color;
+            ctx.stroke();
+        }
     }
 
     line(ctx, data) {
         ctx.beginPath();
+        ctx.save();
+        ctx.translate((data.points[0].x + data.points[1].x) / 2, (data.points[0].y + data.points[1].y) / 2);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-((data.points[0].x + data.points[1].x) / 2), -((data.points[0].y + data.points[1].y) / 2));
         ctx.strokeStyle = data.color;
         ctx.lineWidth = data.stroke;
-        ctx.moveTo(data.x, data.y);
-        ctx.lineTo(data.x2, data.y2);
+        ctx.moveTo(data.points[0].x, data.points[0].y);
+        ctx.lineTo(data.points[1].x, data.points[1].y);
         ctx.stroke();
+        ctx.restore();
         ctx.closePath();
     }
 
     textRender(ctx, data) {
         ctx.beginPath();
+        ctx.save();
         if (data.multiline) {
+            ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+            ctx.rotate((Math.PI/180) * data.angle);
+            ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
             ctx.textAlign = data.align;
             ctx.fillStyle = data.color;
             drawMultilineText(ctx, data.text, {
@@ -452,11 +497,25 @@ class LazyCanvas {
                 maxFontSize: data.size
             })
         } else {
+            if (data.align == "center") {
+                ctx.translate(data.x, data.y);
+                ctx.rotate((Math.PI/180) * data.angle);
+                ctx.translate(-data.x, -data.y);
+            } else if (data.align == "left" || data.align == "start") {
+                ctx.translate(data.x + (data.font * data.text.length) / 2, data.y + data.font / 2);
+                ctx.rotate((Math.PI/180) * data.angle);
+                ctx.translate(-(data.x + (data.font * data.text.length) / 2), -(data.y + data.font / 2));
+            } else if (data.align == "right" || data.align == "end") {
+                ctx.translate(data.x - (data.font * data.text.length) / 2, data.y + data.font / 2);
+                ctx.rotate((Math.PI/180) * data.angle);
+                ctx.translate(-(data.x - (data.font * data.text.length) / 2), -(data.y - data.font / 2));
+            }
             ctx.font = `${data.weight} ${data.size}px ${data.font}`;
             ctx.fillStyle = data.color;
             ctx.textAlign = data.align;
             ctx.fillText(data.text, data.x, data.y);
         }
+        ctx.restore();
         ctx.closePath();
     }
 
@@ -481,6 +540,8 @@ class LazyCanvas {
                     if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
                 }
 
+                if (!data.angle) data.angle = 0;
+
                 let image;
                 switch (data.type) {
                     case "circle":
@@ -501,7 +562,7 @@ class LazyCanvas {
                         break;
                     case "line":
                         this.line(ctx, data);
-                        // data = { x: 10, y: 10, x2: 100, y2: 100, stroke: 1, color: "red" }
+                        // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }], stroke: 1, color: "red" }
                         break;
                     case "ellipseimage":
                         ctx.beginPath();
@@ -514,10 +575,16 @@ class LazyCanvas {
                             }
                         }
 
+                        ctx.save();
+                        ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+                        ctx.rotate((Math.PI/180) * data.angle);
+                        ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
+
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
                         this.clipper(ctx, image, data.x, data.y, data.width, data.height, data.radius);
+                        ctx.restore();
                         ctx.closePath();
                         // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, image: "url" }
                         break;
@@ -532,16 +599,26 @@ class LazyCanvas {
                             }
                         }
 
+                        ctx.save();
+                        ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+                        ctx.rotate((Math.PI/180) * data.angle);
+                        ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
+
                         image = await image.getBufferAsync('image/png');
 
                         image = await loadImage(image);
                         ctx.drawImage(image, data.x, data.y, data.width, data.height);
+                        ctx.restore();
                         ctx.closePath();
                         // data = { x: 10, y: 10, w: 100, h: 50, image: "url" }
                         break;
                     case "text":
                         this.textRender(ctx, data);
                         // data = { x: 10, y: 10, text: "Hello World", size: 20, color: "red", font: "Arial", align: "center", style: "bold", multiline: false, width: 100, height: 50 }
+                        break;
+                    case "ngon":
+                        this.ngon(ctx, data, data.fill);
+                        // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }, { x: 50, y: 50 }], color: "red", filled: true }
                         break;
                 }
                 ctx.closePath();
@@ -553,22 +630,3 @@ class LazyCanvas {
 }
 
 module.exports = LazyCanvas;
-
-/*
-*
-* Circle: { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
-* 
-* Ellipse: { x: 10, y: 10, width: 100, height: 50, radius: 30, stroke: null, color: "red", filled: true }
-* 
-* Square: { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
-* 
-* Rectangle: { x: 10, y: 10, width: 100, height: 50, stroke: null, color: "red", filled: true }
-* 
-* Line: { x: 10, y: 10, x2: 100, y2: 100, stroke: 1, color: "red" }
-* 
-* ellipseImage: { x: 10, y: 10, width: 100, height: 50, radius: 30, image: "url" }
-* 
-* Image: { x: 10, y: 10, w: 100, h: 50, image: "url" }
-* 
-* Text: { x: 10, y: 10, text: "Hello World", size: 20, color: "red", font: "Arial", align: "center", style: "bold", multiline: false, width: 100, height: 50 }
-*/

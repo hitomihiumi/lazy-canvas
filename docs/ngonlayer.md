@@ -1,6 +1,6 @@
-# LineLayer
+# NgonLayer
 
-Layer class for creating a line.
+Layer class to create proper n-goons
 
 Extends [BaseLayer](./baselayer.md)
 
@@ -16,7 +16,7 @@ Extends [BaseLayer](./baselayer.md)
     </tr>
     <tr>
         <td>setPoints()</td>
-        <td>Sets 2 control points to create a line</td>
+        <td>Sets the control points that will be the corners of the shape</td>
         <td>array</td>
         <td>true</td>
         <td>-</td>
@@ -42,17 +42,18 @@ Extends [BaseLayer](./baselayer.md)
 ## Example
 
 ```js
-const { LazyCanvas, LineLayer } = require('@hitomihiumi/lazy-canvas')
+const { LazyCanvas, NgonLayer } = require('@hitomihiumi/lazy-canvas')
 const fs = require('fs')
 
-let line = new LineLayer()
-.setPoints({ x: 10, y: 10 }, { x: 100, y: 100 })
+let ngon = new NgonLayer()
+.setRadius(50)
+.setSides(6)
 .setColor('#fff')
-.setStroke(5)
+.setFilled(true)
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
-.addLayers(line)
+.addLayers(ngon)
 
 async function main() {
     const pngData = await lazy.renderImage()
