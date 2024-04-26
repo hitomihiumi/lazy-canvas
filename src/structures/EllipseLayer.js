@@ -8,6 +8,7 @@ class EllipseLayer extends BaseLayer {
             constructor(data = {}) {
                 super(data);
                 this.data.type = 'ellipse';
+                this.data.fill = true;
             }
     
             /**

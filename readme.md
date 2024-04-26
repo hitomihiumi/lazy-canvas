@@ -35,7 +35,6 @@ let blackout = new EllipseLayer()
 .setHeight(200)
 .setRadius(50)
 .setColor('#000')
-.setFilled(true)
 .setAlpha(0.4)
 
 let border = new EllipseLayer()
@@ -73,7 +72,6 @@ let bgprogress = new EllipseLayer()
 .setHeight(35)
 .setRadius(17.5)
 .setColor('#fff')
-.setFilled(true)
 
 let progress = new EllipseLayer()
 .setX(192.5)
@@ -82,14 +80,12 @@ let progress = new EllipseLayer()
 .setHeight(30)
 .setRadius(15)
 .setColor('#ff8a8a')
-.setFilled(true)
 
 let lvlbg = new CircleLayer()
 .setX(140)
 .setY(140)
 .setRadius(20)
 .setColor('#ff8a8a')
-.setFilled(true)
 
 let lvlborder = new CircleLayer()
 .setX(140)
@@ -147,6 +143,7 @@ Class documentation can be found below by clicking on the appropriate class name
 
 - [LazyCanvas](./docs/lazycanvas.md)
 - [Font](./docs/font.md)
+- [Gradient](./docs/gradient.md)
 
 - [BaseLayer](./docs/baselayer.md)
 - [CircleLayer](./docs/circlelayer.md)

@@ -8,6 +8,7 @@ class CircleLayer extends BaseLayer {
             constructor(data = {}) {
                 super(data);
                 this.data.type = 'circle';
+                this.data.fill = true;
             }
 
             /**

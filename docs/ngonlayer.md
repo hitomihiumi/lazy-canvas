@@ -1,6 +1,6 @@
 # NgonLayer
 
-Layer class to create proper n-goons
+Layer class to create proper ngons
 
 Extends [BaseLayer](./baselayer.md)
 
@@ -22,17 +22,24 @@ Extends [BaseLayer](./baselayer.md)
         <td>-</td>
     </tr>
     <tr>
+        <td>setFilled()</td>
+        <td>Indicates the presence of filling in the figure</td>
+        <td>boolean</td>
+        <td>false</td>
+        <td>-</td>
+    </tr>
+    <tr>
         <td>setStroke()</td>
         <td>Sets the line thickness</td>
         <td>number</td>
-        <td>true</td>
+        <td>false</td>
         <td></td>
     </tr>
     <tr>
         <td>setColor()</td>
         <td>Sets the figure color</td>
-        <td>string</td>
-        <td>true</td>
+        <td>string or [Gradient](./gradient.md)</td>
+        <td>false</td>
         <td>-</td>
     </tr>
 </table>
@@ -49,7 +56,6 @@ let ngon = new NgonLayer()
 .setRadius(50)
 .setSides(6)
 .setColor('#fff')
-.setFilled(true)
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)

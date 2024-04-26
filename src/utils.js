@@ -12,7 +12,11 @@ function isValidColor(color) {
         'black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia',
         'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua'
     ];
-    if (verbalColorNames.includes(color.toLowerCase())) {
+    if (typeof color === "string" && verbalColorNames.includes(color.toLowerCase())) {
+        return true;
+    }
+
+    if (typeof color === "object" && color.toJSON().type === "gradient") {
         return true;
     }
 

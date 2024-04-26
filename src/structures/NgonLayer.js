@@ -8,6 +8,7 @@ class NgonLayer extends BaseLayer {
         constructor(data = {}) {
             super(data);
             this.data.type = 'ngon';
+            this.data.fill = true;
         }
 
         /**

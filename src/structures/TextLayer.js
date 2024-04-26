@@ -8,6 +8,10 @@ class TextLayer extends BaseLayer {
             constructor(data = {}) {
                 super(data);
                 this.data.type = 'text';
+                this.data.fill = true;
+                this.data.font = 'Arial';
+                this.data.size = 12;
+                this.data.weight = 'normal';
             }
                 
             /**
@@ -100,6 +104,35 @@ class TextLayer extends BaseLayer {
                 if (!height) throw new Error('Height must be provided');
                 if (isNaN(height)) throw new Error('Height must be a number');
                 this.data.height = height;
+                return this;
+            }
+
+            /**
+             * @param {boolean} fill - Whether the figure should be text or not
+             */
+            setFilled(fill) {
+                if (typeof fill !== 'boolean') throw new Error('Fill must be a true or false value');
+                this.data.fill = fill;
+                return this;
+            }
+
+            /**
+             * @param {string} direction - The direction of the text
+             */
+            setDirection(direction) {
+                if (!direction) throw new Error('Direction must be provided');
+                if (["ltr", "rtl", "inherit"].includes(direction) == false) throw new Error('Direction must be ltr, rtl or inherit');
+                this.data.direction = direction;
+                return this;
+            }
+
+            /**
+             * @param {string} baseline - The baseline of the text
+             */
+            setBaseline(baseline) {
+                if (!baseline) throw new Error('Baseline must be provided');
+                if (["alphabetic", "top", "hanging", "middle", "ideographic", "bottom"].includes(baseline) == false) throw new Error('Baseline must be alphabetic, top, hanging, middle, ideographic or bottom');
+                this.data.baseline = baseline;
                 return this;
             }
                 

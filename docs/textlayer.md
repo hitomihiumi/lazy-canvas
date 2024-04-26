@@ -25,35 +25,35 @@ Extends [BaseLayer](./baselayer.md)
         <td>setFont()</td>
         <td>Sets the font to be used </td>
         <td>string</td>
-        <td>true</td>
+        <td>false</td>
         <td>-</td>
     </tr>
     <tr>
         <td>setFontSize()</td>
         <td>Sets the size of the font used</td>
         <td>number</td>
-        <td>true</td>
+        <td>false</td>
         <td>-</td>
     </tr>
     <tr>
         <td>setWeight()</td>
         <td>Sets the font weight</td>
         <td>string</td>
-        <td>true</td>
+        <td>false</td>
         <td>Variants: normal, bold, italic, bold italic, regular</td>
     </tr>
     <tr>
         <td>setAlign()</td>
         <td>Sets the text alignment</td>
         <td>string</td>
-        <td>true</td>
+        <td>false</td>
         <td>Variants: left, center, right, start, end</td>
     </tr>
     <tr>
         <td>setMultiline()</td>
         <td>Switches the text mode to multiline</td>
-        <td>boolen</td>
-        <td>true</td>
+        <td>boolean</td>
+        <td>false</td>
         <td>-</td>
     </tr>
     <tr>
@@ -73,8 +73,8 @@ Extends [BaseLayer](./baselayer.md)
     <tr>
         <td>setColor()</td>
         <td>Sets the figure color</td>
-        <td>string</td>
-        <td>true</td>
+        <td>string or [Gradient](./gradient.md)</td>
+        <td>false</td>
         <td>-</td>
     </tr>
 </table>

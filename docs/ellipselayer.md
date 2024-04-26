@@ -38,8 +38,8 @@ Extends [BaseLayer](./baselayer.md)
     <tr>
         <td>setFilled()</td>
         <td>Indicates the presence of filling in the figure</td>
-        <td>boolen</td>
-        <td>true</td>
+        <td>boolean</td>
+        <td>false</td>
         <td>-</td>
     </tr>
     <tr>
@@ -52,8 +52,8 @@ Extends [BaseLayer](./baselayer.md)
     <tr>
         <td>setColor()</td>
         <td>Sets the figure color</td>
-        <td>string</td>
-        <td>true</td>
+        <td>string or [Gradient](./gradient.md)</td>
+        <td>false</td>
         <td>-</td>
     </tr>
 </table>
@@ -72,7 +72,6 @@ let ellipse = new EllipseLayer()
 .setWidth(300)
 .setHeight(200)
 .setRadius(100)
-.setFilled(true)
 .setColor('red')
 
 const lazy = new LazyCanvas()

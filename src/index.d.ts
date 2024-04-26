@@ -94,6 +94,8 @@ export class TextLayer extends BaseLayer {
     setMultiline(multiline: boolean): this;
     setWidth(width: number): this;
     setHeight(height: number): this;
+    setBaseline(baseline: string): this;
+    setFilled(fill: boolean): this;
 }
 
 export class LineLayer extends BaseLayer {
@@ -118,4 +120,13 @@ export class Font {
     setWeight(weight: string): this;
     setPath(path: string): this;
     toJSON(): LazyCanvasFont;
+}
+
+export class Gradient {
+    cosntructor(data: LazyCanvasGradient);
+    setPoints(points: points[]): this;
+    addColorPoints(colorPoints: colorPoints[]): this;
+    setRadius(radius0: number, radius1: number): this;
+    setType(type: string): this;
+    toJSON(): LazyCanvasGradient;
 }

@@ -8,6 +8,7 @@ class SquareLayer extends BaseLayer {
             constructor(data = {}) {
                 super(data);
                 this.data.type = 'square';
+                this.data.fill = true;
             }
     
             /**

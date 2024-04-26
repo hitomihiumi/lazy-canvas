@@ -1,19 +1,24 @@
-const { LazyCanvas, TextLayer } = require('../src/index')
+const { LazyCanvas, Gradient, CircleLayer } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
 .addLayers(
-    new TextLayer()
-    .setText('Hello, World!')
-    .setX(200)
-    .setAlign('right')
-    .setY(100)
-    .setFont('Arial')
-    .setFontSize(30)
-    .setColor('#fff')
-    .setWeight('bold')
-    .setRotation(45)
+    new CircleLayer()
+    .setRadius(100)
+    .setColor(
+        new Gradient()
+        .setPoints({ x: 250, y: 150 }, { x: 250, y: 350 })
+        .addColorPoints(
+            { color: '#FF0000', position: 0 },
+            { color: '#00FF00', position: 0.9 },
+            { color: '#0000FF', position: 1 }
+        )
+        .setType('linear')
+        .setRadius(30, 100)
+    )
+    .setX(250)
+    .setY(250)
 )
 
 console.log(lazy.data)

@@ -338,6 +338,21 @@ class LazyCanvas {
         return this;
     }
 
+    color(ctx, color) {
+        if (typeof color === 'object') {
+            color = color.toJSON();
+            let gradient;
+            if (color.gradientType === 'linear') gradient = ctx.createLinearGradient(color.points[0].x, color.points[0].y, color.points[1].x, color.points[1].y);
+            else if (color.gradientType === 'radial') gradient = ctx.createRadialGradient(color.points[0].x, color.points[0].y, color.r0, color.points[1].x, color.points[1].y, color.r1);
+            for (const colors of color.colorPoints) {
+                gradient.addColorStop(colors.position, colors.color);
+            }
+            return gradient;
+        } else {
+            return color;
+        }
+    }
+
     clipper(ctx,img, x,y,w,h,rad){
         ctx.beginPath();
         ctx.arc(x+rad, y+rad, rad, Math.PI, Math.PI+Math.PI/2 , false);
@@ -381,10 +396,10 @@ class LazyCanvas {
     circle(ctx, data, filled = true) {
         ctx.beginPath();
         if (filled == true) {
-            ctx.fillStyle = data.color;
+            ctx.fillStyle = this.color(ctx, data.color);
             this.fillRoundedRect(ctx, data.x, data.y, data.width * 2, data.width * 2, data.width);
         } else {
-            ctx.strokeStyle = data.color;
+            ctx.strokeStyle = this.color(ctx, data.color);
             this.outerlineRounded(ctx, data.x, data.y, data.width * 2, data.width * 2, data.width, data.stroke);
         }
         ctx.closePath();
@@ -397,10 +412,10 @@ class LazyCanvas {
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
         if (filled == true) {
-            ctx.fillStyle = data.color;
+            ctx.fillStyle = this.color(ctx, data.color);
             this.fillRoundedRect(ctx, data.x, data.y, data.width, data.height, data.radius);
         } else {
-            ctx.strokeStyle = data.color;
+            ctx.strokeStyle = this.color(ctx, data.color);
             this.outerlineRounded(ctx, data.x, data.y, data.width, data.height, data.radius, data.stroke);
         }
         ctx.restore();
@@ -414,10 +429,10 @@ class LazyCanvas {
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-(data.x + data.width / 2), -(data.y + data.width / 2));
         if (filled == true) {
-            ctx.fillStyle = data.color;
+            ctx.fillStyle = this.color(ctx, data.color);
             ctx.fillRect(data.x, data.y, data.width, data.width);
         } else {
-            ctx.strokeStyle = data.color;
+            ctx.strokeStyle = this.color(ctx, data.color);
             ctx.strokeRect(data.x, data.y, data.width, data.width);
         }
         ctx.restore();
@@ -431,10 +446,10 @@ class LazyCanvas {
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
         if (filled) {
-          ctx.fillStyle = data.color;
+          ctx.fillStyle = this.color(ctx, data.color);
           ctx.fillRect(data.x, data.y, data.width, data.height);
         } else {
-          ctx.strokeStyle = data.color;
+          ctx.strokeStyle = this.color(ctx, data.color);
           ctx.strokeRect(data.x, data.y, data.width, data.height);
         }
         ctx.restore();
@@ -449,11 +464,11 @@ class LazyCanvas {
         }
         ctx.closePath();
         if (filled == true) {
-            ctx.fillStyle = data.color;
+            ctx.fillStyle = this.color(ctx, data.color);
             ctx.fill();
         } else {
             ctx.lineWidth = data.stroke;
-            ctx.strokeStyle = data.color;
+            ctx.strokeStyle = this.color(ctx, data.color);
             ctx.stroke();
         }
     }
@@ -464,7 +479,7 @@ class LazyCanvas {
         ctx.translate((data.points[0].x + data.points[1].x) / 2, (data.points[0].y + data.points[1].y) / 2);
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-((data.points[0].x + data.points[1].x) / 2), -((data.points[0].y + data.points[1].y) / 2));
-        ctx.strokeStyle = data.color;
+        ctx.strokeStyle = this.color(ctx, data.color);
         ctx.lineWidth = data.stroke;
         ctx.moveTo(data.points[0].x, data.points[0].y);
         ctx.lineTo(data.points[1].x, data.points[1].y);
@@ -481,7 +496,10 @@ class LazyCanvas {
             ctx.rotate((Math.PI/180) * data.angle);
             ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
             ctx.textAlign = data.align;
-            ctx.fillStyle = data.color;
+            if (data.baseline) ctx.textBaseline = data.baseline;
+            if (data.direction) ctx.direction = data.direction;
+            if (data.fill) ctx.fillStyle = this.color(ctx, data.color);
+            else ctx.strokeStyle = this.color(ctx, data.color);
             drawMultilineText(ctx, data.text, {
                 rect: {
                     x: data.x,
@@ -494,7 +512,8 @@ class LazyCanvas {
                 verbose: false,
                 lineHeight: 1,
                 minFontSize: 25,
-                maxFontSize: data.size
+                maxFontSize: data.size,
+                stroke: !data.fill
             })
         } else {
             if (data.align == "center") {
@@ -511,9 +530,16 @@ class LazyCanvas {
                 ctx.translate(-(data.x - (data.font * data.text.length) / 2), -(data.y - data.font / 2));
             }
             ctx.font = `${data.weight} ${data.size}px ${data.font}`;
-            ctx.fillStyle = data.color;
             ctx.textAlign = data.align;
-            ctx.fillText(data.text, data.x, data.y);
+            if (data.baseline) ctx.textBaseline = data.baseline;
+            if (data.direction) ctx.direction = data.direction;
+            if (data.fill) {
+                ctx.fillStyle = this.color(ctx, data.color);
+                ctx.fillText(data.text, data.x, data.y);
+            } else {
+                ctx.strokeStyle = this.color(ctx, data.color);
+                ctx.strokeText(data.text, data.x, data.y);
+            }
         }
         ctx.restore();
         ctx.closePath();

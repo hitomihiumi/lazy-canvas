@@ -14,3 +14,4 @@ module.exports.BaseLayer = require('./structures/BaseLayer.js');
 module.exports.LazyCanvas = require('./LazyCanvas.js');
 
 module.exports.Font = require('./structures/Font.js');
+module.exports.Gradient = require('./structures/Gradient.js');
