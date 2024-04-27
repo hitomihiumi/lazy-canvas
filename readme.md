@@ -135,7 +135,7 @@ async function main() {
 main()
 ```
 
-![Example Image](./example.png)
+![Example Image](https://i.imgur.com/pqAft2K.png)
 
 ## Documentation
 
