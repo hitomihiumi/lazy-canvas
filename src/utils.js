@@ -1,6 +1,7 @@
 'use strict';
 
 const jimp = require('jimp');
+const { loadImage } = require('canvas');
 
 function isValidColor(color) {
 
@@ -32,7 +33,39 @@ async function isImageUrlValid(url) {
     }
 }
 
+function color(ctx, color) {
+    if (typeof color === 'object') {
+        color = color.toJSON();
+        let gradient;
+        if (color.gradientType === 'linear') gradient = ctx.createLinearGradient(color.points[0].x, color.points[0].y, color.points[1].x, color.points[1].y);
+        else if (color.gradientType === 'radial') gradient = ctx.createRadialGradient(color.points[0].x, color.points[0].y, color.r0, color.points[1].x, color.points[1].y, color.r1);
+        for (const colors of color.colorPoints) {
+            gradient.addColorStop(colors.position, colors.color);
+        }
+        return gradient;
+    } else {
+        return color;
+    }
+}
+
+async function lazyLoadImage(url) {
+    return new Promise(async (resolve, reject) => {
+        if (!url) reject('URL must be provided');
+
+        if (!await isImageUrlValid(url)) reject('Invalid URL');
+
+        jimp.read(url, async (err, image) => {
+            if (err) reject(err);
+            image = await image.getBufferAsync(jimp.MIME_PNG);
+            image = await loadImage(image)
+            resolve(image);
+        });
+    });
+}
+
 module.exports = {
     isValidColor,
-    isImageUrlValid
+    isImageUrlValid,
+    color,
+    lazyLoadImage
 };

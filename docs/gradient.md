@@ -20,7 +20,7 @@ Create's gradient class. Can be used in all figure and text layers.
         <td>-</td>
     </tr>
     <tr>
-        <td>addColorPoints</td>
+        <td>addColorPoints()</td>
         <td>Add's color point to your gradient</td>
         <td>array</td>
         <td>true</td>

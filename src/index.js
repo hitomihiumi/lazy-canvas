@@ -15,3 +15,10 @@ module.exports.LazyCanvas = require('./LazyCanvas.js');
 
 module.exports.Font = require('./structures/Font.js');
 module.exports.Gradient = require('./structures/Gradient.js');
+
+module.exports.BaseMethod = require('./api/BaseMethod.js');
+
+module.exports.color = require('./utils.js').color;
+module.exports.isValidColor = require('./utils.js').isValidColor;
+module.exports.isImageUrlValid = require('./utils.js').isImageUrlValid;
+module.exports.lazyLoadImage = require('./utils.js').lazyLoadImage;

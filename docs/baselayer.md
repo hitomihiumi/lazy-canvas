@@ -71,3 +71,116 @@ Layer base class.
 </table>
 
 <br>
+
+# Example
+
+```js
+const { LazyCanvas, BaseMethod, BaseLayer, Gradient, color, isValidColor, isImageUrlValid, lazyLoadImage } = require('@hitomihiumi/lazy-canvas')
+const fs = require('fs')
+
+const lazy = new LazyCanvas()
+.createNewCanvas(500, 500)
+
+class ExampleImage extends BaseLayer {
+    constructor(data = {}) {
+        super(data)
+        this.data.type = 'exampleimage' // name of layer type
+    }
+
+    setWidth(width) {
+        if (!width) throw new Error('Width must be provided')
+        if (isNaN(width)) throw new Error('Width must be a number')
+        this.data.width = width
+        return this
+    }
+
+    setHeight(height) {
+        if (!height) throw new Error('Height must be provided')
+        if (isNaN(height)) throw new Error('Height must be a number')
+        this.data.height = height
+        return this
+    }
+
+    // Example of function for set image
+    setImage(image) {
+        if (!image) throw new Error('Image must be provided')
+        if (!isImageUrlValid(image)) throw new Error('Image must be a valid URL')
+        this.data.image = image
+        return this
+    }
+}
+
+class ExampleRect extends BaseLayer {
+    constructor(data = {}) {
+        super(data)
+        this.data.type = 'examplerect' // name of layer type
+    }
+
+    setWidth(width) {
+        if (!width) throw new Error('Width must be provided')
+        if (isNaN(width)) throw new Error('Width must be a number')
+        this.data.width = width
+        return this
+    }
+
+    setHeight(height) {
+        if (!height) throw new Error('Height must be provided')
+        if (isNaN(height)) throw new Error('Height must be a number')
+        this.data.height = height
+        return this
+    }
+
+    // Example of function for set color
+    setColor(color) {
+        if (!color) throw new Error('Color must be provided')
+        if (!isValidColor(color)) throw new Error('Color must be a string')
+        this.data.color = color
+        return this
+    }
+}
+
+async function exampleImageFunc(ctx, data) {
+    ctx.drawImage(await lazyLoadImage(data.image), data.x, data.y, data.width, data.height)
+}
+
+function exampleRectFunc(ctx, data) {
+    ctx.fillStyle = color(ctx, data.color)
+    ctx.fillRect(data.x, data.y, data.width, data.height)
+}
+
+const exampleImageMethod = new BaseMethod()
+.setName('exampleimage')
+.setMethod(exampleImageFunc)
+
+const exampleRectMethod = new BaseMethod()
+.setName('examplerect')
+.setMethod(exampleRectFunc)
+
+const exampleImage = new ExampleImage()
+.setX(100)
+.setY(100)
+.setWidth(200)
+.setHeight(200)
+.setImage('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
+
+const exampleRect = new ExampleRect()
+.setX(100)
+.setY(300)
+.setWidth(200)
+.setHeight(200)
+.setColor('#ff8a8a')
+
+
+lazy.loadMethods(
+    exampleImageMethod, exampleRectMethod
+).addLayers(
+    exampleImage, exampleRect
+)
+
+async function main() {
+    const pngData = await lazy.renderImage()
+    fs.writeFileSync('output.png', pngData)
+}
+
+main()
+```

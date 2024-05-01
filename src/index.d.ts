@@ -17,6 +17,7 @@ export class LazyCanvas {
     setEmoji(emoji: string): this;
     loadFonts(...fonts: LazyCanvasFont[]): this;
     set404Image(image: string): this;
+    loadMethods(...methods: LazyCanvasMethod[]): this;
     renderImage(): Promise<image>;
     }
 
@@ -130,3 +131,15 @@ export class Gradient {
     setType(type: string): this;
     toJSON(): LazyCanvasGradient;
 }
+
+export class BaseMethod {
+    constructor(data: LazyCanvasMethod);
+    setName(name: string): this;
+    setMethod(method: string): this;
+    toJSON(): LazyCanvasMethod;
+}
+
+export function color(color: string | LazyCanvasGradient): color | LazyCanvasGradient;
+export function isValidColor(color: string): boolean;
+export function isImageUrlValid(url: string): boolean;
+export function lazyLoadImage(url: string): Promise<image>;

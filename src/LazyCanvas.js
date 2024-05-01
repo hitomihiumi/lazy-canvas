@@ -4,12 +4,13 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 const jimp = require('jimp');
 const { resolve } = require('path');
 const drawMultilineText = require('canvas-multiline-text')
-const { isValidColor, isImageUrlValid } = require('./utils.js');
+const { isValidColor, isImageUrlValid, color } = require('./utils.js');
 
 
 class LazyCanvas {
     constructor({ data } = {}) {
         this.data ??= data;
+        this.methods = [];
         this.errorImage = null;
     }
 
@@ -167,7 +168,7 @@ class LazyCanvas {
                 this.data.layers[index].stroke = newData;
                 break;
             case "color":
-                if (!isValidColor(newData)) throw new Error("Color must be a valid color");
+                if (!this.isValidColor(newData)) throw new Error("Color must be a valid color");
                 this.data.layers[index].color = newData;
                 break;
             case "text":
@@ -193,7 +194,7 @@ class LazyCanvas {
                 this.data.layers[index].multiline = newData;
                 break;
             case "image":
-                if (!isImageUrlValid(newData)) throw new Error("Image must be a valid URL");
+                if (!this.isImageUrlValid(newData)) throw new Error("Image must be a valid URL");
                 this.data.layers[index].image = newData;
                 break;
             case "filled":
@@ -213,7 +214,7 @@ class LazyCanvas {
                 this.data.layers[index].shadow.shadowBlur = newData;
                 break;
             case "shadowColor":
-                if (!isValidColor(newData)) throw new Error("ShadowColor must be a valid color");``
+                if (!this.isValidColor(newData)) throw new Error("ShadowColor must be a valid color");``
                 this.data.layers[index].shadow.shadowColor = newData;
                 break;
             case "shadowOffsetX":
@@ -338,20 +339,22 @@ class LazyCanvas {
         return this;
     }
 
-    color(ctx, color) {
-        if (typeof color === 'object') {
-            color = color.toJSON();
-            let gradient;
-            if (color.gradientType === 'linear') gradient = ctx.createLinearGradient(color.points[0].x, color.points[0].y, color.points[1].x, color.points[1].y);
-            else if (color.gradientType === 'radial') gradient = ctx.createRadialGradient(color.points[0].x, color.points[0].y, color.r0, color.points[1].x, color.points[1].y, color.r1);
-            for (const colors of color.colorPoints) {
-                gradient.addColorStop(colors.position, colors.color);
-            }
-            return gradient;
-        } else {
-            return color;
+    loadMethods(...methods) {
+        if (!methods) throw new Error("No methods provided");
+        for (const method of methods) {
+            let load = method.toJSON();
+            if (!load.name) throw new Error("No name provided");
+            if (!load.method) throw new Error("No method provided");
+            this.methods.push({ name: load.name, method: load.method });
         }
+        return this; 
     }
+
+    isValidColor = isValidColor;
+
+    isImageUrlValid = isImageUrlValid;
+
+    color = color;
 
     clipper(ctx,img, x,y,w,h,rad){
         ctx.beginPath();
@@ -645,6 +648,18 @@ class LazyCanvas {
                     case "ngon":
                         this.ngon(ctx, data, data.fill);
                         // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }, { x: 50, y: 50 }], color: "red", filled: true }
+                        break;
+                    default:
+                        if (this.methods.find(m => m.name === data.type)) {
+                            let method = this.methods.find(m => m.name === data.type);
+                            if (method.method[Symbol.toStringTag] === 'AsyncFunction') {
+                                await method.method(ctx, data);
+                            } else {
+                                method.method(ctx, data);
+                            }
+                        } else {
+                            console.log(`[LazyCanvas] Method for ${data.type} not found`);
+                        }
                         break;
                 }
                 ctx.closePath();

@@ -141,11 +141,14 @@ main()
 
 Class documentation can be found below by clicking on the appropriate class names.
 
+### Main Classes
+
 - [LazyCanvas](./docs/lazycanvas.md)
 - [Font](./docs/font.md)
 - [Gradient](./docs/gradient.md)
 
-- [BaseLayer](./docs/baselayer.md)
+### Layers
+
 - [CircleLayer](./docs/circlelayer.md)
 - [EllipseLayer](./docs/ellipselayer.md)
 - [SquareLayer](./docs/squarelayer.md)
@@ -155,3 +158,9 @@ Class documentation can be found below by clicking on the appropriate class name
 - [ImageLayer](./docs/imagelayer.md)
 - [EllipseImageLayer](./docs/ellipseimagelayer.md)
 - [TextLayer](./docs/textlayer.md)
+
+### Extentions
+
+- [BaseLayer](./docs/baselayer.md)
+- [BaseMethod](./docs/basemethod.md)
+- [Utils](./docs/utils.md)
