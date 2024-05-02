@@ -40,8 +40,7 @@ A class designed to create a font object that can be loaded into LazyCanvas usin
 ## Example
 
 ```js
-const { LazyCanvas, Font, TextLayer } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
+const { LazyCanvas, Font } = require('@hitomihiumi/lazy-canvas')
 
 let fontOne = new Font()
 .setFamily("JoeKubert")
@@ -53,39 +52,7 @@ let fontTwo = new Font()
 .setWeight("regular")
 .setPath("./fonts/Koulen-Regular.ttf")
 
-// Multiline text
-let textOne = new TextLayer()
-.setText("This is a test of the LazyCanvas library.")
-.setFont("JoeKubert")
-.setFontSize(25)
-.setWeight("regular")
-.setColor("#fff")
-.setMultiline(true)
-.setX(50)
-.setY(50)
-.setHeight(100)
-.setWidth(500)
-
-// Single line text
-let textTwo = new TextLayer()
-.setText("Amazing text with amazing font!")
-.setFont("Koulen")
-.setFontSize(20)
-.setWeight("regular")
-.setColor("#fff")
-.setMultiline(false)
-.setX(50)
-.setY(130)
-
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
 .loadFonts(fontOne, fontTwo)
-.addLayers(textOne, textTwo)
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

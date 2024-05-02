@@ -190,7 +190,7 @@ class LazyCanvas {
                 this.data.layers[index].weight = newData;
                 break;
             case "multiline":
-                if (typeof newData !== "boolean") throw new Error("Multiline must be a boolean");
+                if (typeof newData !== "boolean") throw new Error("Multiline must be a true or false value");
                 this.data.layers[index].multiline = newData;
                 break;
             case "image":
@@ -198,7 +198,7 @@ class LazyCanvas {
                 this.data.layers[index].image = newData;
                 break;
             case "filled":
-                if (typeof newData !== "boolean") throw new Error("Filled must be a boolean");
+                if (typeof newData !== "boolean") throw new Error("Filled must be a true or false value");
                 this.data.layers[index].filled = newData;
                 break;
             case "points":

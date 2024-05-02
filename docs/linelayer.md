@@ -45,7 +45,6 @@ Extends [BaseLayer](./baselayer.md)
 
 ```js
 const { LazyCanvas, LineLayer } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
 
 let line = new LineLayer()
 .setPoints({ x: 10, y: 10 }, { x: 100, y: 100 })
@@ -53,13 +52,6 @@ let line = new LineLayer()
 .setStroke(5)
 
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
 .addLayers(line)
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

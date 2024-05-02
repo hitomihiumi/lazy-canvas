@@ -52,7 +52,6 @@ Extends [BaseLayer](./baselayer.md)
 
 ```js
 const { LazyCanvas, NgonLayer } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
 
 let ngon = new NgonLayer()
 .setRadius(50)
@@ -60,13 +59,6 @@ let ngon = new NgonLayer()
 .setColor('#fff')
 
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
 .addLayers(ngon)
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

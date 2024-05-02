@@ -67,6 +67,8 @@ const { lazyLoadImage } = require('@hitomihiumi/lazy-canvas')
 //...
 console.log(lazyLoadImage(`https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg`)) 
 // returns Promise<image>
+console.log(await lazyLoadImage(`https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg`)) 
+// returns image
 ```
 
 ```js

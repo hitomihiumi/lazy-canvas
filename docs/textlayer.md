@@ -86,18 +86,8 @@ Extends [BaseLayer](./baselayer.md)
 ## Example
 
 ```js
-const { LazyCanvas, Font, TextLayer } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
-
-let fontOne = new Font()
-.setFamily("JoeKubert")
-.setWeight("regular")
-.setPath("./fonts/v_CCJoeKubert-Doubled_v1.3.ttf")
-
-let fontTwo = new Font()
-.setFamily("Koulen")
-.setWeight("regular")
-.setPath("./fonts/Koulen-Regular.ttf")
+const { LazyCanvas, TextLayer } = require('@hitomihiumi/lazy-canvas')
+//...
 
 // Multiline text
 let textOne = new TextLayer()
@@ -125,14 +115,6 @@ let textTwo = new TextLayer()
 .setY(130)
 
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
-.loadFonts(fontOne, fontTwo)
 .addLayers(textOne, textTwo)
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

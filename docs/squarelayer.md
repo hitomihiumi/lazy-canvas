@@ -52,7 +52,6 @@ Extends [BaseLayer](./baselayer.md)
 
 ```js
 const { LazyCanvas, SquareLayer } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
 
 let square = new SquareLayer()
 .setX(10)
@@ -61,13 +60,6 @@ let square = new SquareLayer()
 .setColor('#FF0000')
 
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
 .addLayers(square)
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

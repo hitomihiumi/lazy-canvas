@@ -45,7 +45,6 @@ const exampleRectMethod = new BaseMethod()
 .setMethod(exampleRectFunc)
 
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
 .loadMethods(
     exampleRectMethod
 )

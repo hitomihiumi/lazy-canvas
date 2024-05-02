@@ -66,7 +66,6 @@ Extends [BaseLayer](./baselayer.md)
 
 ```js
 const { LazyCanvas, EllipseLayer } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
 
 let ellipse = new EllipseLayer()
 .setX(100)
@@ -77,13 +76,6 @@ let ellipse = new EllipseLayer()
 .setColor('red')
 
 const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
 .addLayers(ellipse)
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

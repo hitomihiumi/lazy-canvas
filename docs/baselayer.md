@@ -78,9 +78,6 @@ Layer base class.
 const { LazyCanvas, BaseMethod, BaseLayer, Gradient, color, isValidColor, isImageUrlValid, lazyLoadImage } = require('@hitomihiumi/lazy-canvas')
 const fs = require('fs')
 
-const lazy = new LazyCanvas()
-.createNewCanvas(500, 500)
-
 class ExampleImage extends BaseLayer {
     constructor(data = {}) {
         super(data)
@@ -139,22 +136,7 @@ class ExampleRect extends BaseLayer {
     }
 }
 
-async function exampleImageFunc(ctx, data) {
-    ctx.drawImage(await lazyLoadImage(data.image), data.x, data.y, data.width, data.height)
-}
-
-function exampleRectFunc(ctx, data) {
-    ctx.fillStyle = color(ctx, data.color)
-    ctx.fillRect(data.x, data.y, data.width, data.height)
-}
-
-const exampleImageMethod = new BaseMethod()
-.setName('exampleimage')
-.setMethod(exampleImageFunc)
-
-const exampleRectMethod = new BaseMethod()
-.setName('examplerect')
-.setMethod(exampleRectFunc)
+//...
 
 const exampleImage = new ExampleImage()
 .setX(100)
@@ -170,17 +152,9 @@ const exampleRect = new ExampleRect()
 .setHeight(200)
 .setColor('#ff8a8a')
 
-
-lazy.loadMethods(
-    exampleImageMethod, exampleRectMethod
-).addLayers(
+const lazy = new LazyCanvas()
+.addLayers(
     exampleImage, exampleRect
 )
-
-async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
-}
-
-main()
+//...
 ```

@@ -14,7 +14,7 @@ class BaseMethod {
 
     setMethod(method) {
         if (!method) throw new Error('Method must be provided');
-        if (typeof method !== 'function') throw new Error('Method must be a string');
+        if (typeof method !== 'function') throw new Error('Method must be a function');
         this.data.method = method;
         return this;
     }
