@@ -88,7 +88,7 @@ Class for creating a structure of filters applied to PICTURES.
 # Example
 
 ```js
-const { LazyCanvas, Filter, ImageLayer } = require('../src/index')
+const { LazyCanvas, Filter, ImageLayer } = require('@hitomihiumi/lazy-canvas')
 
 let filter = new Filter()
 .setType('brightness')

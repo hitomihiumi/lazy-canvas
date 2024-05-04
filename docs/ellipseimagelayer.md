@@ -58,7 +58,7 @@ Extends [BaseLayer](./baselayer.md)
 ## Example
 
 ```js
-const { LazyCanvas, EllipseImageLayer } = require('@hitomihiumi/lazy-canvas')s
+const { LazyCanvas, EllipseImageLayer } = require('@hitomihiumi/lazy-canvas')
 
 let ellipseImage = new EllipseImageLayer()
 .setX(25)

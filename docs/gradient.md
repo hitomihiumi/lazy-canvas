@@ -46,7 +46,7 @@ Create's gradient class. Can be used in all figure and text layers.
 
 ## Example
 ```js
-const { LazyCanvas, Gradient, CircleLayer } = require('../src/index')
+const { LazyCanvas, Gradient, CircleLayer } = require('@hitomihiumi/lazy-canvas')
 
 let gradient = new Gradient()
 .setPoints({ x: 250, y: 150 }, { x: 250, y: 350 })
