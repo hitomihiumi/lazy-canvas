@@ -57,6 +57,7 @@ export class ImageLayer extends BaseLayer {
     setWidth(width: number): this;
     setHeight(height: number): this;
     setImage(src: string): this;
+    setFilter(filter: LazyCanvasFilter): this;
 }
 
 export class EllipseImageLayer extends BaseLayer {
@@ -65,6 +66,7 @@ export class EllipseImageLayer extends BaseLayer {
     setHeight(height: number): this;
     setImage(src: string): this;
     setRadius(radius: number): this;
+    setFilter(filter: LazyCanvasFilter): this;
 }
 
 export class RectangleLayer extends BaseLayer {
@@ -130,6 +132,13 @@ export class Gradient {
     setRadius(radius0: number, radius1: number): this;
     setType(type: string): this;
     toJSON(): LazyCanvasGradient;
+}
+
+export class Filter {
+    constructor(data: LazyCanvasFilter);
+    setType(filter: string): this;
+    setOption(option: options): this;
+    toJSON(): LazyCanvasFilter;
 }
 
 export class BaseMethod {

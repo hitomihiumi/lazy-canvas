@@ -604,6 +604,54 @@ class LazyCanvas {
                             }
                         }
 
+                        if (data.filter) {
+                            switch (data.filter.type) {
+                                case "grayscale":
+                                    image = await image.grayscale();
+                                    break;
+                                case "blur": 
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 3;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                     }
+                                    image = await image.blur(data.filter.option);
+                                    break;
+                                case "gaussian":
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 3;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                    }
+                                    image = await image.gaussian(data.filter.option);
+                                    break;
+                                case "invert":
+                                    image = await image.invert();
+                                    break;
+                                case "sepia":
+                                    image = await image.sepia();
+                                    break;
+                                case "brightness":
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 0;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                    }
+                                    image = await image.brightness(data.filter.option);
+                                    break;
+                                case "contrast":
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 0;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                    }
+                                    image = await image.contrast(data.filter.option);
+                                    break;
+                                case "normalize":
+                                    image = await image.normalize();
+                                    break;
+                                case "dither565":
+                                    image = await image.dither565();
+                                    break;
+                            }
+                        }
+
                         ctx.save();
                         ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
                         ctx.rotate((Math.PI/180) * data.angle);
@@ -625,6 +673,54 @@ class LazyCanvas {
                             console.log(e + `\n[LazyCanvas] Try to load the error image`)
                             if (!this.errorImage) {
                                 image = await jimp.read(String(this.errorImage));
+                            }
+                        }
+
+                        if (data.filter) {
+                            switch (data.filter.type) {
+                                case "grayscale":
+                                    image = await image.grayscale();
+                                    break;
+                                case "blur": 
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 3;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                     }
+                                    image = await image.blur(data.filter.option);
+                                    break;
+                                case "gaussian":
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 3;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                    }
+                                    image = await image.gaussian(data.filter.option);
+                                    break;
+                                case "invert":
+                                    image = await image.invert();
+                                    break;
+                                case "sepia":
+                                    image = await image.sepia();
+                                    break;
+                                case "brightness":
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 0;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                    }
+                                    image = await image.brightness(data.filter.option);
+                                    break;
+                                case "contrast":
+                                    if (!data.filter.option) { 
+                                        data.filter.option = 0;
+                                        console.log(`[LazyCanvas] Value for filter ${data.filter.type} not found, used default value (${data.filter.option})`);
+                                    }
+                                    image = await image.contrast(data.filter.option);
+                                    break;
+                                case "normalize":
+                                    image = await image.normalize();
+                                    break;
+                                case "dither565":
+                                    image = await image.dither565();
+                                    break;
                             }
                         }
 
@@ -662,6 +758,7 @@ class LazyCanvas {
                         }
                         break;
                 }
+                ctx.fillter = "none";
                 ctx.closePath();
             }
 

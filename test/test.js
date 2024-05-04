@@ -1,24 +1,26 @@
-const { LazyCanvas, Gradient, CircleLayer } = require('../src/index')
+const { LazyCanvas, ImageLayer, Filter, EllipseImageLayer } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
 .addLayers(
-    new CircleLayer()
-    .setRadius(100)
-    .setColor(
-        new Gradient()
-        .setPoints({ x: 250, y: 150 }, { x: 250, y: 350 })
-        .addColorPoints(
-            { color: '#FF0000', position: 0 },
-            { color: '#00FF00', position: 0.9 },
-            { color: '#0000FF', position: 1 }
-        )
-        .setType('linear')
-        .setRadius(30, 100)
+    new ImageLayer()
+    .setImage('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
+    .setX(0)
+    .setY(0)
+    .setWidth(500)
+    .setHeight(500),
+    new EllipseImageLayer()
+    .setImage('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
+    .setX(0)
+    .setY(0)
+    .setRadius(250)
+    .setWidth(500)
+    .setHeight(500)
+    .setFilter(
+        new Filter()
+        .setType('blur')
     )
-    .setX(250)
-    .setY(250)
 )
 
 console.log(lazy.data)

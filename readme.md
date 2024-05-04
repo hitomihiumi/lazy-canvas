@@ -146,6 +146,7 @@ Class documentation can be found below by clicking on the appropriate class name
 - [LazyCanvas](./docs/lazycanvas.md)
 - [Font](./docs/font.md)
 - [Gradient](./docs/gradient.md)
+- [Filter](./docs/filter.md)
 
 ### Layers
 

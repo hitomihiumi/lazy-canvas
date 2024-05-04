@@ -49,6 +49,15 @@ class EllipseImageLayer extends BaseLayer {
                 this.data.height = height;
                 return this;
             }
+
+            setFilter(filter) {
+                if (!filter) throw new Error('Filter must be provided');
+        
+                filter = filter.toJSON();
+        
+                this.data.filter = filter;
+                return this;
+            }
             
     }
 

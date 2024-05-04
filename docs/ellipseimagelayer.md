@@ -41,8 +41,16 @@ Extends [BaseLayer](./baselayer.md)
         <td>string</td>
         <td>true</td>
         <td>Specify the path to the image starting from the root folder of the project</td>
+    <tr>
+        <td>setFilter()</td>
+        <td>Allows you to apply a filter to an image</td>
+        <td>*Filter</td>
+        <td>false</td>
+        <td>-</td>
     </tr>
 </table>
+
+*[Filter](./filter.md)
 
 <br>
 

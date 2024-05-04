@@ -15,6 +15,7 @@ module.exports.LazyCanvas = require('./LazyCanvas.js');
 
 module.exports.Font = require('./structures/Font.js');
 module.exports.Gradient = require('./structures/Gradient.js');
+module.exports.Filter = require('./structures/Filter.js');
 
 module.exports.BaseMethod = require('./api/BaseMethod.js');
 

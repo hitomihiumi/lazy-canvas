@@ -75,8 +75,7 @@ Layer base class.
 # Example
 
 ```js
-const { LazyCanvas, BaseMethod, BaseLayer, Gradient, color, isValidColor, isImageUrlValid, lazyLoadImage } = require('@hitomihiumi/lazy-canvas')
-const fs = require('fs')
+const { LazyCanvas, BaseMethod, BaseLayer } = require('@hitomihiumi/lazy-canvas')
 
 class ExampleImage extends BaseLayer {
     constructor(data = {}) {
