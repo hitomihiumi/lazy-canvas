@@ -33,7 +33,7 @@ Extends [BaseLayer](./baselayer.md)
         <td>Sets the line thickness</td>
         <td>number</td>
         <td>false</td>
-        <td>Specify only if the fill value is false</td>
+        <td>-</td>
     </tr>
     <tr>
         <td>setColor()</td>
