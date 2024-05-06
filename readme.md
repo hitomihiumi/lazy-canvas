@@ -159,6 +159,9 @@ Class documentation can be found below by clicking on the appropriate class name
 - [ImageLayer](./docs/imagelayer.md)
 - [EllipseImageLayer](./docs/ellipseimagelayer.md)
 - [TextLayer](./docs/textlayer.md)
+- [ArcLayer](./docs/arclayer.md)
+- [BezierLayer](./docs/bezierlayer.md)
+- [QuadraticLayer](./docs/quadraticlayer.md)
 
 ### Extentions
 
