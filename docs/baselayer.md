@@ -6,11 +6,11 @@ Layer base class.
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Data type</th>
-        <th>Required</th>
-        <th>Notes<th>
+        <td>Method</td>
+        <td>Description</td>
+        <td>Data type</td>
+        <td>Required</td>
+        <td>Notes<td>
     </tr>
     <tr>
         <td>setX()</td>
@@ -67,6 +67,126 @@ Layer base class.
         <td>number</td>
         <td>false</td>
         <td>-</td>
+    </tr>
+    <tr>
+        <td>setGlobalCompositeOperation()</td>
+        <td>Sets the type of compositing operation to apply when drawing new shapes</td>
+        <td>string</td>
+        <td>false</td>
+        <td>-</td>
+    </tr>
+</table>
+
+<br>
+
+<table>
+    <tr>
+        <td>Value</td>
+        <td>Description</td>
+    </tr>
+    <tr>
+        <td>source-over</td>
+        <td>This is the default setting and draws new shapes on top of the existing canvas content</td>
+    </tr>
+    <tr>
+        <td>source-in</td>
+        <td>The new shape is drawn only where both the new shape and the destination canvas overlap. Everything else is made transparent</td>
+    </tr>
+    <tr>
+        <td>source-out</td>
+        <td>The new shape is drawn where it doesn't overlap the existing canvas content</td>
+    </tr>
+    <tr>
+        <td>source-atop</td>
+        <td>The new shape is only drawn where it overlaps the existing canvas content</td>
+    </tr>
+    <tr>
+        <td>destination-over</td>
+        <td>New shapes are drawn behind the existing canvas content</td>
+    </tr>
+    <tr>
+        <td>destination-in</td>
+        <td>The existing canvas content is kept where both the new shape and existing canvas content overlap. Everything else is made transparent</td>
+    </tr>
+    <tr>
+        <td>destination-out</td>
+        <td>The existing content is kept where it doesn't overlap the new shape</td>
+    </tr>
+    <tr>
+        <td>destination-atop</td>
+        <td>The existing canvas is only kept where it overlaps the new shape. The new shape is drawn behind the canvas content</td>
+    </tr>
+    <tr>
+        <td>lighter</td>
+        <td>Where both shapes overlap, the color is determined by adding color values</td>
+    </tr>
+    <tr>
+        <td>copy</td>
+        <td>Only the new shape is shown</td>
+    </tr>
+    <tr>
+        <td>xor</td>
+        <td>Shapes are made transparent where both overlap and drawn normal everywhere else</td>
+    </tr>
+    <tr>
+        <td>multiply</td>
+        <td>The pixels of the top layer are multiplied with the corresponding pixels of the bottom layer. A darker picture is the result</td>
+    </tr>
+    <tr>
+        <td>screen</td>
+        <td>The pixels are inverted, multiplied, and inverted again. A lighter picture is the result (opposite of multiply)</td>
+    </tr>
+    <tr>
+        <td>overlay</td>
+        <td>A combination of multiply and screen. Dark parts on the base layer become darker, and light parts become lighter</td>
+    </tr>
+    <tr>
+        <td>darken</td>
+        <td>Retains the darkest pixels of both layers</td>
+    </tr>
+    <tr>
+        <td>lighten</td>
+        <td>Retains the lightest pixels of both layers</td>
+    </tr>
+    <tr>
+        <td>color-dodge</td>
+        <td>Divides the bottom layer by the inverted top layer</td>
+    </tr>
+    <tr>
+        <td>color-burn</td>
+        <td>Divides the inverted bottom layer by the top layer, and then inverts the result</td>
+    </tr>
+    <tr>
+        <td>hard-light</td>
+        <td>Like overlay, a combination of multiply and screen — but instead with the top layer and bottom layer swapped</td>
+    </tr>
+    <tr>
+        <td>soft-light</td>
+        <td>A softer version of hard-light. Pure black or white does not result in pure black or white</td>
+    </tr>
+    <tr>
+        <td>difference</td>
+        <td>Subtracts the bottom layer from the top layer — or the other way round — to always get a positive value</td>
+    </tr>
+    <tr>
+        <td>exclusion</td>
+        <td>Like difference, but with lower contrast</td>
+    </tr>
+    <tr>
+        <td>hue</td>
+        <td>Preserves the luma and chroma of the bottom layer, while adopting the hue of the top layer</td>
+    </tr>
+    <tr>
+        <td>saturation</td>
+        <td>Preserves the luma and hue of the bottom layer, while adopting the chroma of the top layer</td>
+    </tr>
+    <tr>
+        <td>color</td>
+        <td>Preserves the luma of the bottom layer, while adopting the hue and chroma of the top layer</td>
+    </tr>
+    <tr>
+        <td>luminosity</td>
+        <td>Preserves the hue and chroma of the bottom layer, while adopting the luma of the top layer</td>
     </tr>
 </table>
 

@@ -1,29 +1,33 @@
-const { LazyCanvas, ImageLayer, Filter, EllipseImageLayer } = require('../src/index')
+const { LazyCanvas, RectangleLayer, CircleLayer } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
 .addLayers(
-    new ImageLayer()
-    .setImage('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
-    .setX(0)
-    .setY(0)
-    .setWidth(500)
-    .setHeight(500),
-    new EllipseImageLayer()
-    .setImage('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
-    .setX(0)
-    .setY(0)
-    .setRadius(250)
-    .setWidth(500)
-    .setHeight(500)
-    .setFilter(
-        new Filter()
-        .setType('blur')
-    )
+    new RectangleLayer()
+    .setX(100)
+    .setY(100)
+    .setWidth(300)
+    .setHeight(300)
+    .setColor('#FF0000'),
+    new RectangleLayer()
+    .setX(150)
+    .setY(150)
+    .setWidth(300)
+    .setHeight(300)
+    .setColor('#00FF00')
+    .setGlobalCompositeOperation('source-out'),
+    new CircleLayer()
+    .setX(250)
+    .setY(150)
+    .setRadius(100)
+    .setColor('#0000FF')
+    .setShadowColor('#000000')
+    .setShadowBlur(20)
+    .setShadowOffsetX(10)
 )
 
-console.log(lazy.data)
+console.log(lazy.getData())
 
 async function main() {
     const pngData = await lazy.renderImage()

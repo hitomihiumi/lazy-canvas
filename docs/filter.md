@@ -6,11 +6,11 @@ Class for creating a structure of filters applied to PICTURES.
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Data type</th>
-        <th>Required</th>
-        <th>Notes<th>
+        <td>Method</td>
+        <td>Description</td>
+        <td>Data type</td>
+        <td>Required</td>
+        <td>Notes<td>
     </tr>
     <tr>
         <td>setType()</td>
@@ -33,8 +33,8 @@ Class for creating a structure of filters applied to PICTURES.
 <table>
     <tr>
         <th>Filter</th>
-        <th>Description</th>
-        <th>Data type</th>
+        <td>Description</td>
+        <td>Data type</td>
     </tr>
     <tr>
         <td>blur</td>

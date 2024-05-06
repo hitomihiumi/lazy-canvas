@@ -31,6 +31,7 @@ export class BaseLayer {
     setShadowOffsetY(offsetY: number): this;
     setAlpha(alpha: number): this;
     setRotation(rotation: number): this;
+    setGlobalCompositeOperation(operation: string): this;
     toJSON(): LazyCanvasLayer;
 }
 

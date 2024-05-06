@@ -8,11 +8,11 @@ Extends [BaseLayer](./baselayer.md)
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Data type</th>
-        <th>Required</th>
-        <th>Notes<th>
+        <td>Method</td>
+        <td>Description</td>
+        <td>Data type</td>
+        <td>Required</td>
+        <td>Notes<td>
     </tr>
     <tr>
         <td>setWidth()</td>

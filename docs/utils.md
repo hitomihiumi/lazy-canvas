@@ -6,11 +6,11 @@ Utilities that you can use for your methods.
 
 <table>
     <tr>
-        <th>Method</th>
-        <th>Description</th>
-        <th>Data type</th>
-        <th>Required</th>
-        <th>Notes<th>
+        <td>Method</td>
+        <td>Description</td>
+        <td>Data type</td>
+        <td>Required</td>
+        <td>Notes<td>
     </tr>
     <tr>
         <td>color()</td>

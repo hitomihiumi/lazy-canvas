@@ -8,6 +8,7 @@ class BaseLayer {
 
     constructor(data = {}) {
         this.data = { ...data };
+        this.data.shadow = { ...data.shadow };
     }
 
     /**
@@ -88,6 +89,17 @@ class BaseLayer {
         if (!rotation && rotation !== 0) throw new Error('Rotation must be provided');
         if (isNaN(rotation)) throw new Error('Rotation must be a number');
         this.data.angle = rotation;
+        return this;
+    }
+
+    /**
+     * @param {string} operation - The global composite operation of the layer
+     */
+    setGlobalCompositeOperation(operation) {
+        if (!operation) throw new Error('Operation must be provided');
+        if (typeof operation !== 'string') throw new Error('Operation must be a string');
+        if ([ "source-over", "source-in", "source-out", "source-atop", "destination-over", "destination-in", "destination-out", "destination-atop", "lighter", "copy", "xor", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity" ].includes(operation) == false) throw new Error('Operation must be a valid operation type');
+        this.data.globalcomposite = operation;
         return this;
     }
 
