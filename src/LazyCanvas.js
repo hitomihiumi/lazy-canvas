@@ -240,6 +240,24 @@ class LazyCanvas {
             case "filter":
                 this.data.layers[index].filter = newData.toJSON();
                 break;
+            case "angles":
+                if (!newData) throw new Error("No angles provided");
+                this.data.layers[index].angles = newData;
+                break;
+            case "clockwise":
+                if (typeof newData !== "boolean") throw new Error("Clockwise must be a true or false value");
+                this.data.layers[index].clockwise = newData;
+                break;
+            case "controlPoints":
+                if (!newData) throw new Error("No control points provided");
+                this.data.layers[index].controlPoints = newData;
+                break;
+            case "controlPoint":
+                if (!newData) throw new Error("No control point provided");
+                this.data.layers[index].controlPoint = newData;
+                break;
+            default:
+                throw new Error("Invalid param provided");
         }
 
         return this;
@@ -492,6 +510,7 @@ class LazyCanvas {
         ctx.translate(-((data.points[0].x + data.points[1].x) / 2), -((data.points[0].y + data.points[1].y) / 2));
         ctx.strokeStyle = this.color(ctx, data.color);
         ctx.lineWidth = data.stroke;
+        if (data.lineDash) ctx.setLineDash(data.lineDash);
         ctx.moveTo(data.points[0].x, data.points[0].y);
         ctx.lineTo(data.points[1].x, data.points[1].y);
         ctx.stroke();
@@ -606,6 +625,70 @@ class LazyCanvas {
         }
     }
 
+    arc(ctx, data, filled = true) {
+        ctx.beginPath();
+        ctx.save();
+        ctx.translate(data.x, data.y);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-data.x, -data.y);
+        ctx.arc(data.x, data.y, data.radius, data.angles[0], data.angles[1], data.clockwise);
+        if (filled) {
+            ctx.fillStyle = this.color(ctx, data.color);
+            ctx.fill();
+        } else {
+            if (data.stroke) ctx.lineWidth = data.stroke;
+            ctx.strokeStyle = this.color(ctx, data.color);
+            ctx.stroke();
+        }
+        ctx.restore();
+        ctx.closePath();
+    }
+
+    //arct(ctx, data) {
+    //    ctx.beginPath();
+    //    ctx.save();
+    //    ctx.translate(data.points[0].x, data.points[0].y);
+    //    ctx.rotate((Math.PI/180) * data.angle);
+    //    ctx.translate(-data.points[0].x, -data.points[0].y);
+    //    ctx.moveTo(data.points[0].x, data.points[0].y);
+    //    ctx.arcTo(data.points[0].x, data.points[0].y, data.points[1].x, data.points[1].y, data.radius);
+    //    if (data.stroke) ctx.lineWidth = data.stroke;
+    //    ctx.strokeStyle = this.color(ctx, data.color);
+    //    ctx.stroke();
+    //    ctx.restore();
+    //    ctx.closePath();
+    //}
+
+    bezierCurve(ctx, data) {
+        ctx.beginPath();
+        ctx.save();
+        ctx.translate(data.points[0].x, data.points[0].y);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-data.points[0].x, -data.points[0].y);
+        ctx.moveTo(data.points[0].x, data.points[0].y);
+        ctx.bezierCurveTo(data.controlPoints[0].x, data.controlPoints[0].y, data.controlPoints[1].x, data.controlPoints[1].y, data.points[1].x, data.points[1].y);
+        if (data.stroke) ctx.lineWidth = data.stroke;
+        ctx.strokeStyle = this.color(ctx, data.color);
+        ctx.stroke();
+        ctx.restore();
+        ctx.closePath();
+    }
+
+    quadraticCurve(ctx, data) {
+        ctx.beginPath();
+        ctx.save();
+        ctx.translate(data.points[0].x, data.points[0].y);
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-data.points[0].x, -data.points[0].y);
+        ctx.moveTo(data.points[0].x, data.points[0].y);
+        ctx.quadraticCurveTo(data.controlPoint.x, data.controlPoint.y, data.points[1].x, data.points[1].y);
+        if (data.stroke) ctx.lineWidth = data.stroke;
+        ctx.strokeStyle = this.color(ctx, data.color);
+        ctx.stroke();
+        ctx.restore();
+        ctx.closePath();
+    }
+
     async renderImage() {
         return new Promise(async function(resolve, reject) {
             let canvas = createCanvas(this.data.width, this.data.height);
@@ -713,6 +796,19 @@ class LazyCanvas {
                     case "ngon":
                         this.ngon(ctx, data, data.fill);
                         // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }, { x: 50, y: 50 }], color: "red", filled: true }
+                        break;
+                    case "arc":
+                        this.arc(ctx, data, data.fill);
+                        // data = { x: 10, y: 10, radius: 100, angles: [ 0 , 180 ], color: "red" }
+                        break;
+                    //case "arcto":
+                    //    this.arct(ctx, data); 
+                    //    break;
+                    case "bezier":
+                        this.bezierCurve(ctx, data);
+                        break;
+                    case "quadratic":
+                        this.quadraticCurve(ctx, data);
                         break;
                     default:
                         if (this.data.methods.find(m => m.name === data.type)) {

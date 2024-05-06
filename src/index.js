@@ -10,6 +10,10 @@ module.exports.SquareLayer = require('./structures/SquareLayer.js');
 module.exports.TextLayer = require('./structures/TextLayer.js');
 module.exports.NgonLayer = require('./structures/NgonLayer.js');
 module.exports.BaseLayer = require('./structures/BaseLayer.js');
+module.exports.ArcLayer = require('./structures/ArcLayer.js');
+//module.exports.ArcToLayer = require('./structures/ArcToLayer.js');
+module.exports.BezierLayer = require('./structures/BezierLayer.js');
+module.exports.QuadraticLayer = require('./structures/QuadraticLayer.js');
 
 module.exports.LazyCanvas = require('./LazyCanvas.js');
 

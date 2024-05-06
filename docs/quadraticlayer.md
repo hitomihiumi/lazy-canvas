@@ -1,6 +1,6 @@
-# LineLayer
+# Layer
 
-Layer class for creating a line.
+Class of the quadratic curve layer.
 
 Extends [BaseLayer](./baselayer.md)
 
@@ -16,7 +16,14 @@ Extends [BaseLayer](./baselayer.md)
     </tr>
     <tr>
         <td>setPoints()</td>
-        <td>Sets 2 control points to create a line</td>
+        <td>Sets the start and end points</td>
+        <td>array</td>
+        <td>true</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>setControlPoint()</td>
+        <td>Sets the deviation point of the line</td>
         <td>array</td>
         <td>true</td>
         <td>-</td>
@@ -25,20 +32,13 @@ Extends [BaseLayer](./baselayer.md)
         <td>setStroke()</td>
         <td>Sets the line thickness</td>
         <td>number</td>
-        <td>true</td>
-        <td>-</td>
+        <td>false</td>
+        <td>Specify only if the fill value is false</td>
     </tr>
     <tr>
         <td>setColor()</td>
         <td>Sets the figure color</td>
         <td>string or Gradient*</td>
-        <td>false</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>setLineDash()</td>
-        <td>Sets the line dash pattern used when stroking lines</td>
-        <td>array</td>
         <td>false</td>
         <td>-</td>
     </tr>
@@ -51,15 +51,15 @@ Extends [BaseLayer](./baselayer.md)
 ## Example
 
 ```js
-const { LazyCanvas, LineLayer } = require('@hitomihiumi/lazy-canvas')
+const { LazyCanvas, QuadraticLayer } = require('@hitomihiumi/lazy-canvas')
 
-let line = new LineLayer()
-.setPoints({ x: 10, y: 10 }, { x: 100, y: 100 })
+let quadratic = new QuadraticLayer()
 .setColor('#fff')
 .setStroke(5)
-.setLineDash([10, 5])
+.setPoints({ x: 10, y: 10 }, { x: 300, y: 200 })
+.setControlPoint({ x: 200, y: 100 })
 
 const lazy = new LazyCanvas()
-.addLayers(line)
+.addLayers(quadratic)
 //...
 ```

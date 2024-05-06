@@ -107,6 +107,7 @@ export class LineLayer extends BaseLayer {
     setPoints(points: points[]): this;
     setColor(color: string): this;
     setStroke(stroke: number): this;
+    setLineDash(dash: number[]): this;
 }
 
 export class NgonLayer extends BaseLayer {
@@ -114,6 +115,40 @@ export class NgonLayer extends BaseLayer {
     setRadius(radius: number): this;
     setSides(sides: number): this;
     setFilled(fill: boolean): this;
+    setColor(color: string): this;
+    setStroke(stroke: number): this;
+}
+
+export class ArcLayer extends BaseLayer {
+    constructor(data: LazyCanvasArcLayer);
+    setRadius(radius: number): this;
+    setAngles(angle: number): this;
+    setFilled(fill: boolean): this;
+    setColor(color: string): this;
+    setStroke(stroke: number): this;
+    setClockwise(clockwise: boolean): this;
+}
+
+//export class ArcToLayer extends BaseLayer {
+//    constructor(data: LazyCanvasArcToLayer);
+//    setPoints(points: points[]): this;
+//    setRadius(radius: number): this;
+//    setStroke(stroke: number): this;
+//    setColor(color: string): this;
+//}
+
+export class BezierLayer extends BaseLayer {
+    constructor(data: LazyCanvasBezierLayer);
+    setPoints(points: points[]): this;
+    setControlPoints(controlPoints: controlPoints[]): this;
+    setColor(color: string): this;
+    setStroke(stroke: number): this;
+}
+
+export class QuadraticLayer extends BaseLayer {
+    constructor(data: LazyCanvasQuadraticLayer);
+    setPoints(points: points[]): this;
+    setControlPoint(controlPoint: controlPoint): this;
     setColor(color: string): this;
     setStroke(stroke: number): this;
 }
