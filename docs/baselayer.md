@@ -79,6 +79,8 @@ Layer base class.
 
 <br>
 
+## Global Composite Operation table
+
 <table>
     <tr>
         <td>Value</td>
