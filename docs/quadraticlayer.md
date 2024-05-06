@@ -1,4 +1,4 @@
-# Layer
+# QuadraticLayer
 
 Class of the quadratic curve layer.
 
@@ -32,7 +32,7 @@ Extends [BaseLayer](./baselayer.md)
         <td>setStroke()</td>
         <td>Sets the line thickness</td>
         <td>number</td>
-        <td>false</td>
+        <td>true</td>
         <td>-</td>
     </tr>
     <tr>

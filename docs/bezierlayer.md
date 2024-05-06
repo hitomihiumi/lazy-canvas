@@ -1,4 +1,4 @@
-# Layer
+# BezierLayer
 
 Layer class of the bezier curve.
 
@@ -32,7 +32,7 @@ Extends [BaseLayer](./baselayer.md)
         <td>setStroke()</td>
         <td>Sets the line thickness</td>
         <td>number</td>
-        <td>false</td>
+        <td>true</td>
         <td>-</td>
     </tr>
     <tr>
