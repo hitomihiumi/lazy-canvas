@@ -1,6 +1,6 @@
-# ArcLayer
+# ArcToLayer
 
-Arc layer class.
+ArcTo layer class.
 
 Extends [BaseLayer](./baselayer.md)
 
@@ -22,17 +22,10 @@ Extends [BaseLayer](./baselayer.md)
         <td>-</td>
     </tr>
     <tr>
-        <td>setAngles()</td>
-        <td>Sets the start and end angles of the arc</td>
+        <td>setPoints()</td>
+        <td>Sets the start and control points of the arc</td>
         <td>array</td>
         <td>true</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>setFilled()</td>
-        <td>Indicates the presence of filling in the figure</td>
-        <td>boolean</td>
-        <td>false</td>
         <td>-</td>
     </tr>
     <tr>
@@ -49,13 +42,6 @@ Extends [BaseLayer](./baselayer.md)
         <td>false</td>
         <td>-</td>
     </tr>
-    <tr>
-        <td>setClockwise()</td>
-        <td>Sets whether the arc is drawn clockwise or counterclockwise</td>
-        <td>boolean</td>
-        <td>false</td>
-        <td>-</td>
-    </tr>
 </table>
 
 *[Gradient](./gradient.md)
@@ -65,18 +51,15 @@ Extends [BaseLayer](./baselayer.md)
 ## Example
 
 ```js
-const { LazyCanvas, ArcLayer } = require('@hitomihiumi/lazy-canvas')
+const { LazyCanvas, ArcToLayer } = require('@hitomihiumi/lazy-canvas')
 
-let arc = new ArcLayer()
-.setX(400)
-.setY(300)
-.setRadius(100)
+let arcTo = new ArcToLayer()
+.setPoints({ x: 400, y: 50 }, { x: 300, y: 230 }, { x: 150, y: 20 })
+.setRadius(120)
 .setColor('#fff')
 .setStroke(5)
-.setFilled(false)
-.setAngles(0, Math.PI / 2)
 
 const lazy = new LazyCanvas()
-.addLayers(arc)
+.addLayers(arcTo)
 //...
 ```

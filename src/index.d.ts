@@ -129,13 +129,13 @@ export class ArcLayer extends BaseLayer {
     setClockwise(clockwise: boolean): this;
 }
 
-//export class ArcToLayer extends BaseLayer {
-//    constructor(data: LazyCanvasArcToLayer);
-//    setPoints(points: points[]): this;
-//    setRadius(radius: number): this;
-//    setStroke(stroke: number): this;
-//    setColor(color: string): this;
-//}
+export class ArcToLayer extends BaseLayer {
+    constructor(data: LazyCanvasArcToLayer);
+    setPoints(points: points[]): this;
+    setRadius(radius: number): this;
+    setStroke(stroke: number): this;
+    setColor(color: string): this;
+}
 
 export class BezierLayer extends BaseLayer {
     constructor(data: LazyCanvasBezierLayer);
@@ -162,10 +162,10 @@ export class Font {
 }
 
 export class Gradient {
-    cosntructor(data: LazyCanvasGradient);
+    constructor(data: LazyCanvasGradient);
     setPoints(points: points[]): this;
     addColorPoints(colorPoints: colorPoints[]): this;
-    setRadius(radius0: number, radius1: number): this;
+    setRadius(radius: number): this;
     setType(type: string): this;
     toJSON(): LazyCanvasGradient;
 }

@@ -58,7 +58,7 @@ Extends [BaseLayer](./baselayer.md)
     </tr>
     <tr>
         <td>setWidth()</td>
-        <td>Sets the width of the zone in which the multiline text will be located</td>
+        <td>Sets the width of the zone in which the multiline and singleline text will be located</td>
         <td>number</td>
         <td>false</td>
         <td>-</td>

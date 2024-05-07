@@ -2,6 +2,7 @@
 
 const jimp = require('jimp');
 const { loadImage } = require('canvas');
+const { createConicalGradient } = require('./utils/createConicGradient.js');
 
 function isValidColor(color) {
 
@@ -38,9 +39,13 @@ function color(ctx, color) {
         color = color.toJSON();
         let gradient;
         if (color.gradientType === 'linear') gradient = ctx.createLinearGradient(color.points[0].x, color.points[0].y, color.points[1].x, color.points[1].y);
-        else if (color.gradientType === 'radial') gradient = ctx.createRadialGradient(color.points[0].x, color.points[0].y, color.r0, color.points[1].x, color.points[1].y, color.r1);
-        for (const colors of color.colorPoints) {
-            gradient.addColorStop(colors.position, colors.color);
+        else if (color.gradientType === 'radial') gradient = ctx.createRadialGradient(color.points[0].x, color.points[0].y, 0, color.points[0].x, color.points[0].y, color.radius);
+        else if (color.gradientType === 'conic') gradient = createConicalGradient(ctx, color.colorPoints, color.points[0].x, color.points[0].y, -Math.PI, Math.PI, false);
+        console.log(gradient);
+        if (color.gradientType !== 'conic') {
+            for (const colors of color.colorPoints) {
+                gradient.addColorStop(colors.position, colors.color);
+            }
         }
         return gradient;
     } else {

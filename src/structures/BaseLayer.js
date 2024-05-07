@@ -9,6 +9,7 @@ class BaseLayer {
     constructor(data = {}) {
         this.data = { ...data };
         this.data.shadow = { ...data.shadow };
+        this.data.angle = 0;
     }
 
     /**

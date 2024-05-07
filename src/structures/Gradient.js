@@ -35,7 +35,7 @@ class Gradient {
      */
     setPoints(...points) {
         if (!points) throw new Error('Points must be provided');
-        if (points.length < 2) throw new Error('At least two points must be provided');
+        if (points.length < 1) throw new Error('At least one points must be provided');
         for (const point of points) {
             if (!point.x && colorPoint.position !== 0) throw new Error('X must be provided');
             if (!point.y && colorPoint.position !== 0) throw new Error('Y must be provided');
@@ -47,19 +47,16 @@ class Gradient {
         return this;
     }
 
-    setRadius(r0, r1) {
-        if (!r0) throw new Error('R0 must be provided');
-        if (!r1) throw new Error('R1 must be provided');
-        if (isNaN(r0)) throw new Error('R0 must be a number');
-        if (isNaN(r1)) throw new Error('R1 must be a number');
-        this.data.r0 = r0;
-        this.data.r1 = r1;
+    setRadius(radius) {
+        if (!radius) throw new Error('Radius must be provided');
+        if (isNaN(radius)) throw new Error('Radius must be a number');
+        this.data.radius = radius;
         return this;
     }
 
     setType(type) {
         if (!type) throw new Error('Type must be provided');
-        if (type !== 'linear' && type !== 'radial') throw new Error('Type must be linear or radial');
+        if ([ 'linear', 'radial', 'conic' ].includes(type) == false) throw new Error('Type must be linear, radial or conic');
         this.data.gradientType = type;
         return this;
     }

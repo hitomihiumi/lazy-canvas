@@ -135,7 +135,6 @@ class TextLayer extends BaseLayer {
                 this.data.baseline = baseline;
                 return this;
             }
-                
     }
 
 module.exports = TextLayer;

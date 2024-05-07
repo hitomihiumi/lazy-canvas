@@ -1,33 +1,27 @@
-const { LazyCanvas, LineLayer, ArcLayer, BezierLayer, QuadraticLayer } = require('../src/index')
+const { LazyCanvas, Gradient, CircleLayer } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
 .addLayers(
-    new ArcLayer()
-    .setRadius(100)
-    .setColor('#fff')
-    .setStroke(5)
-    .setFilled(false)
-    .setAngles(0, Math.PI / 2),
-    new LineLayer()
-    .setPoints({ x: 10, y: 10 }, { x: 200, y: 100 })
-    .setStroke(5)
-    .setColor('#fff')
-    .setLineDash([10, 5]),
-    new BezierLayer()
-    .setColor('#fff')
-    .setStroke(5)
-    .setPoints({ x: 10, y: 10 }, { x: 300, y: 200 })
-    .setControlPoints({ x: 200, y: 100 }, { x: 100, y: 300 }),
-    new QuadraticLayer()
-    .setColor('#fff')
-    .setStroke(5)
-    .setPoints({ x: 10, y: 10 }, { x: 300, y: 200 })
-    .setControlPoint({ x: 200, y: 100 })
+    new CircleLayer()
+    .setX(50)
+    .setY(50)
+    .setRadius(200)
+    .setColor(
+        new Gradient()
+        .addColorPoints(
+            { color: '#ff0000', position: 0 },
+            { color: '#00ff00', position: 0.5 },
+            { color: '#0000ff', position: 1 }
+        ).setPoints(
+            { x: 250, y: 250 }
+        ).setType('radial')
+        .setRadius(200)
+    )
 )
 
-console.log(lazy.getData().layers[0])
+console.log(lazy.getData().layers[0].color)
 
 async function main() {
     const pngData = await lazy.renderImage()

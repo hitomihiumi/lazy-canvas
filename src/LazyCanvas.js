@@ -490,8 +490,7 @@ class LazyCanvas {
         ctx.moveTo(data.x + data.radius * Math.cos(0 + data.angle), data.y + data.radius * Math.sin(0 + data.angle));
         for (let i = 1; i < data.sides; i++) {
           ctx.lineTo(data.x + data.radius * Math.cos(i * 2 * Math.PI / data.sides + data.angle), data.y + data.radius * Math.sin(i * 2 * Math.PI / data.sides + data.angle));
-        }
-        ctx.closePath();
+        }   
         if (filled == true) {
             ctx.fillStyle = this.color(ctx, data.color);
             ctx.fill();
@@ -500,6 +499,7 @@ class LazyCanvas {
             ctx.strokeStyle = this.color(ctx, data.color);
             ctx.stroke();
         }
+        ctx.closePath();
     }
 
     line(ctx, data) {
@@ -565,10 +565,10 @@ class LazyCanvas {
             if (data.direction) ctx.direction = data.direction;
             if (data.fill) {
                 ctx.fillStyle = this.color(ctx, data.color);
-                ctx.fillText(data.text, data.x, data.y);
+                ctx.fillText(data.text, data.x, data.y, data.width);
             } else {
                 ctx.strokeStyle = this.color(ctx, data.color);
-                ctx.strokeText(data.text, data.x, data.y);
+                ctx.strokeText(data.text, data.x, data.y, data.width);
             }
         }
         ctx.restore();
@@ -644,20 +644,21 @@ class LazyCanvas {
         ctx.closePath();
     }
 
-    //arct(ctx, data) {
-    //    ctx.beginPath();
-    //    ctx.save();
-    //    ctx.translate(data.points[0].x, data.points[0].y);
-    //    ctx.rotate((Math.PI/180) * data.angle);
-    //    ctx.translate(-data.points[0].x, -data.points[0].y);
-    //    ctx.moveTo(data.points[0].x, data.points[0].y);
-    //    ctx.arcTo(data.points[0].x, data.points[0].y, data.points[1].x, data.points[1].y, data.radius);
-    //    if (data.stroke) ctx.lineWidth = data.stroke;
-    //    ctx.strokeStyle = this.color(ctx, data.color);
-    //    ctx.stroke();
-    //    ctx.restore();
-    //    ctx.closePath();
-    //}
+    arcTo(ctx, data) {
+        console.log(data)
+        ctx.beginPath();
+        ctx.save();
+        ctx.translate((data.points[0].x + data.points[2].x), (data.points[0].y + data.points[2].y));
+        ctx.rotate((Math.PI/180) * data.angle);
+        ctx.translate(-(data.points[0].x + data.points[2].x), -(data.points[0].y + data.points[2].y));
+        ctx.moveTo(data.points[0].x, data.points[0].y);
+        ctx.lineWidth = data.stroke;
+        ctx.strokeStyle = this.color(ctx, data.color);
+        ctx.arcTo(data.points[1].x, data.points[1].y, data.points[2].x, data.points[2].y, data.radius);
+        ctx.stroke();
+        ctx.restore();
+        ctx.closePath();
+    }
 
     bezierCurve(ctx, data) {
         ctx.beginPath();
@@ -801,9 +802,9 @@ class LazyCanvas {
                         this.arc(ctx, data, data.fill);
                         // data = { x: 10, y: 10, radius: 100, angles: [ 0 , 180 ], color: "red" }
                         break;
-                    //case "arcto":
-                    //    this.arct(ctx, data); 
-                    //    break;
+                    case "arcto":
+                        this.arcTo(ctx, data); 
+                        break;
                     case "bezier":
                         this.bezierCurve(ctx, data);
                         break;
