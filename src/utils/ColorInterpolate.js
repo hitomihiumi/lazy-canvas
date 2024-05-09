@@ -23,7 +23,7 @@ class ColorInterpolate {
       const rgba = this.rgbaSet.slice(4 * offset, 4 * offset + 4);
       return `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3] / 255})`;
     }
-  };
+  }
 
 module.exports = ColorInterpolate;
 

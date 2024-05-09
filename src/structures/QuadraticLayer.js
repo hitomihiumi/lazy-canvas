@@ -10,10 +10,11 @@ class QuadraticLayer extends BaseLayer {
                         this.data.type = 'quadratic';
                         this.data.points = [];
                         this.data.stroke = 1;
+                        this.data.fill = false;
                     }
 
                     /**
-                     * @param {points} - The points of the quadratic curve
+                     * @param {Array} points - The points of the quadratic curve
                      */
                     setPoints(...points) {
                         if (!points) throw new Error('Points must be provided');
@@ -30,7 +31,7 @@ class QuadraticLayer extends BaseLayer {
                     }
 
                     /**
-                     * @param {controlPoint} - The control point of the quadratic curve
+                     * @param {Array} controlPoint - The control point of the quadratic curve
                      */
                     setControlPoint(controlPoint) {
                         if (!controlPoint) throw new Error('Control point must be provided');
@@ -53,11 +54,11 @@ class QuadraticLayer extends BaseLayer {
                     }
 
                     /**
-                     * @param {hex} color - The color of the figure 
+                     * @param {string} color - The color of the figure
                     */
                     setColor(color) {
                         if (!color) throw new Error('Color must be provided');
-                        if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                        if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                         this.data.color = color;
                         return this;
                     }

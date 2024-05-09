@@ -43,7 +43,7 @@ Class for creating a structure of filters applied to PICTURES.
     </tr>
     <tr>
         <td>brightness</td>
-        <td>Adjust the brighness by a value -1 to +1</td>
+        <td>Adjust the brightness by a value -1 to +1</td>
         <td>number</td>
     </tr>
     <tr>
@@ -52,7 +52,7 @@ Class for creating a structure of filters applied to PICTURES.
         <td>number</td>
     </tr>
     <tr>
-        <td>daither565</td>
+        <td>dither565</td>
         <td>Ordered dithering of the image and reduce color space to 16-bits (RGB565)</td>
         <td>-</td>
     </tr>

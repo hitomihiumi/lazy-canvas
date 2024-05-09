@@ -70,7 +70,7 @@ function createConicalGradient (
     clipCtx.fill();
   
     return userContext.createPattern(cvsForClip, 'no-repeat');
-  };
+  }
 
 module.exports.createConicalGradient = createConicalGradient;
 

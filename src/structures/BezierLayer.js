@@ -11,10 +11,11 @@ class BezierLayer extends BaseLayer {
                     this.data.points = [];
                     this.data.controlPoints = [];
                     this.data.stroke = 1;
+                    this.data.fill = false;
                 }
 
                 /**
-                 * @param {points} - The points of the bezier curve
+                 * @param {Array} points - The points of the Bézier curve
                  */
                 setPoints(...points) {
                     if (!points) throw new Error('Points must be provided');
@@ -31,7 +32,7 @@ class BezierLayer extends BaseLayer {
                 }
 
                 /**
-                 * @param {controlPoints} - The control points of the bezier curve
+                 * @param {Array} controlPoints - The control points of the bezier curve
                  */
                 setControlPoints(...controlPoints) {
                     if (!controlPoints) throw new Error('Control points must be provided');
@@ -58,11 +59,11 @@ class BezierLayer extends BaseLayer {
                 }
 
                 /**
-                 * @param {hex} color - The color of the figure 
+                 * @param {string} color - The color of the figure
                  */
                 setColor(color) {
                     if (!color) throw new Error('Color must be provided');
-                    if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                    if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                     this.data.color = color;
                     return this;
                 }

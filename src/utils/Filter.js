@@ -5,12 +5,13 @@ class Filter {
 
     constructor(data = {}) {
         this.data = { ...data };
+        this.data.structureType = 'filter';
     }
 
     setType(type) {
         if (!type) throw new Error('Type must be provided');
         if (typeof type !== 'string') throw new Error('Type must be a string');
-        if ([ "daither565", "normalize", "contrast", "brightness", "sepia", "invert", "gaussian", "blur", "grayscale" ].includes(type) == false) throw new Error('Type must be a valid filter type');
+        if ([ "dither565", "normalize", "contrast", "brightness", "sepia", "invert", "gaussian", "blur", "grayscale" ].includes(type) === false) throw new Error('Type must be a valid filter type');
         this.data.type = type;
         return this;
     }

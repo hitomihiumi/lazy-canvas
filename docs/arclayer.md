@@ -45,7 +45,7 @@ Extends [BaseLayer](./baselayer.md)
     <tr>
         <td>setColor()</td>
         <td>Sets the figure color</td>
-        <td>string or Gradient*</td>
+        <td>string, Gradient* or Pattern*</td>
         <td>false</td>
         <td>-</td>
     </tr>
@@ -59,6 +59,7 @@ Extends [BaseLayer](./baselayer.md)
 </table>
 
 *[Gradient](./gradient.md)
+*[Pattern](./pattern.md)
 
 <br>
 

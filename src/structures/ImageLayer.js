@@ -11,11 +11,11 @@ class ImageLayer extends BaseLayer {
             }
     
             /**
-             * @param {iamge} image - The image url or path
+             * @param {string} image - The image url or path
              */
             setImage(image) {
                 if (!image) throw new Error('Image must be provided');
-                if (isImageUrlValid(image) == false) throw new Error('Image must be a valid URL');
+                if (isImageUrlValid(image) === false) throw new Error('Image must be a valid URL');
                 this.data.image = image;
                 return this;
             }

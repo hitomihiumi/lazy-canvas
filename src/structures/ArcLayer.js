@@ -15,7 +15,7 @@ class ArcLayer extends BaseLayer {
                 }
 
                 /**
-                 * @param {number} radius - The radius of the arc
+                 * @param {boolean} fill - Whether the figure should be filled or not
                  */
                 setFilled(fill) {
                     if (!fill && fill !== false) throw new Error('Fill must be provided');
@@ -35,11 +35,11 @@ class ArcLayer extends BaseLayer {
                 }
 
                 /**
-                 * @param {hex} color - The color of the figure 
+                 * @param {string} color - The color of the figure
                  */
                 setColor(color) {
                     if (!color) throw new Error('Color must be provided');
-                    if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                    if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                     this.data.color = color;
                     return this;
                 }
@@ -55,7 +55,7 @@ class ArcLayer extends BaseLayer {
                 }
     
                 /**
-                 * @param {angles} - The angles of the arc
+                 * @param {number} angles - The angles of the arc
                  */
                 setAngles(...angles) {
                     if (!angles) throw new Error('Angles must be provided');

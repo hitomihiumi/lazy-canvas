@@ -10,10 +10,11 @@ class Gradient {
         this.data.gradientType = 'linear';
         this.data.colorPoints = [];
         this.data.points = [];
+        this.data.structureType = 'color';
     }
 
     /**
-     * @param {array} colorPoints - The color points of the gradient
+     * @param {Array} colorPoints - The color points of the gradient
      */
     addColorPoints(...colorPoints) {
         if (!colorPoints) throw new Error('Color points must be provided');
@@ -23,7 +24,7 @@ class Gradient {
             if (!colorPoint.position && colorPoint.position !== 0) throw new Error('Position must be provided');
             if (isNaN(colorPoint.position)) throw new Error('Position must be a number');
             if (colorPoint.position < 0 || colorPoint.position > 1) throw new Error('Position must be between 0 and 1');
-            if (isValidColor(colorPoint.color) == false) throw new Error('Color must be a valid color');
+            if (isValidColor(colorPoint.color) === false) throw new Error('Color must be a valid color');
 
             this.data.colorPoints.push(colorPoint);
         }
@@ -31,14 +32,14 @@ class Gradient {
     }
 
     /**
-     * @param {array} points - The points of the gradient
+     * @param {Array} points - The points of the gradient
      */
     setPoints(...points) {
         if (!points) throw new Error('Points must be provided');
         if (points.length < 1) throw new Error('At least one points must be provided');
         for (const point of points) {
-            if (!point.x && colorPoint.position !== 0) throw new Error('X must be provided');
-            if (!point.y && colorPoint.position !== 0) throw new Error('Y must be provided');
+            if (!point.x && point.x !== 0) throw new Error('X must be provided');
+            if (!point.y && point.y !== 0) throw new Error('Y must be provided');
             if (isNaN(point.x)) throw new Error('X must be a number');
             if (isNaN(point.y)) throw new Error('Y must be a number');
 
@@ -56,7 +57,7 @@ class Gradient {
 
     setType(type) {
         if (!type) throw new Error('Type must be provided');
-        if ([ 'linear', 'radial', 'conic' ].includes(type) == false) throw new Error('Type must be linear, radial or conic');
+        if ([ 'linear', 'radial', 'conic' ].includes(type) === false) throw new Error('Type must be linear, radial or conic');
         this.data.gradientType = type;
         return this;
     }

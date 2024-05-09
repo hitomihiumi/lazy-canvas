@@ -10,6 +10,8 @@ class BaseLayer {
         this.data = { ...data };
         this.data.shadow = { ...data.shadow };
         this.data.angle = 0;
+        this.data.structureType = 'layer';
+        this.data.fill = false;
     }
 
     /**
@@ -33,7 +35,7 @@ class BaseLayer {
     }
 
     /**
-     * @param {hex} color - The shadow color for the layer
+     * @param {string} color - The shadow color for the layer
      */
     setShadowColor(color) {
         if (!color) throw new Error('Color must be provided');
@@ -99,7 +101,7 @@ class BaseLayer {
     setGlobalCompositeOperation(operation) {
         if (!operation) throw new Error('Operation must be provided');
         if (typeof operation !== 'string') throw new Error('Operation must be a string');
-        if ([ "source-over", "source-in", "source-out", "source-atop", "destination-over", "destination-in", "destination-out", "destination-atop", "lighter", "copy", "xor", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity" ].includes(operation) == false) throw new Error('Operation must be a valid operation type');
+        if ([ "source-over", "source-in", "source-out", "source-atop", "destination-over", "destination-in", "destination-out", "destination-atop", "lighter", "copy", "xor", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity" ].includes(operation) === false) throw new Error('Operation must be a valid operation type');
         this.data.globalcomposite = operation;
         return this;
     }

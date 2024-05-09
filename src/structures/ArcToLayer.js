@@ -13,7 +13,7 @@ class ArcToLayer extends BaseLayer {
                     }
 
                     /**
-                     * @param {points} - The points of the arc
+                     * @param {Array} points - The points of the arc
                      */
                     setPoints(...points) {
                         if (!points) throw new Error('Points must be provided');
@@ -40,11 +40,11 @@ class ArcToLayer extends BaseLayer {
                     }
 
                     /**
-                     * @param {hex} color - The color of the figure 
+                     * @param {string} color - The color of the figure
                      */
                     setColor(color) {
                         if (!color) throw new Error('Color must be provided');
-                        if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                        if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                         this.data.color = color;
                         return this;
                     }

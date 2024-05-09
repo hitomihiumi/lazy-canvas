@@ -10,10 +10,11 @@ class LineLayer extends BaseLayer {
                 this.data.type = 'line';
                 this.data.points = [];
                 this.data.stroke = 1;
+                this.data.fill = false;
             }
             
             /**
-             * @param {points} - The points of the line
+             * @param {Array} points - The points of the line
              */
             setPoints(...points) {
                 if (!points) throw new Error('Points must be provided');
@@ -40,17 +41,17 @@ class LineLayer extends BaseLayer {
             }
             
             /**
-             * @param {hex} color - The color of the figure 
+             * @param {string} color - The color of the figure
              */
             setColor(color) {
                 if (!color) throw new Error('Color must be provided');
-                if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                 this.data.color = color;
                 return this;
             }
 
             /**
-             * @param {number} lineWidth - The width of the line
+             * @param {number} lineDash - The lineDash of the figure
              */
             setLineDash(lineDash) {
                 if (!lineDash) throw new Error('LineDash must be provided');

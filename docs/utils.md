@@ -22,7 +22,7 @@ Utilities that you can use for your methods.
     <tr>
         <td>isValidColor()</td>
         <td>Checks the string or gradient object provided to it for validity</td>
-        <td>string or Gradient*</td>
+        <td>string, Gradient* or Pattern*</td>
         <td>-</td>
         <td>-</td>
     </tr>
@@ -43,6 +43,7 @@ Utilities that you can use for your methods.
 </table>
 
 *[Gradient](./gradient.md)
+*[Pattern](./pattern.md)
 
 <br>
 
@@ -66,7 +67,7 @@ console.log(isValidColor(`#ff8a8a`))
 const { lazyLoadImage } = require('@hitomihiumi/lazy-canvas')
 //...
 console.log(lazyLoadImage(`https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg`)) 
-// returns Promise<image>
+// returns Promise<HTMLimageElement>
 console.log(await lazyLoadImage(`https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg`)) 
 // returns image
 ```

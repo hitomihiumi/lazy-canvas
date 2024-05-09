@@ -41,11 +41,11 @@ class SquareLayer extends BaseLayer {
             }
     
             /**
-             * @param {hex} color - The color of the figure 
+             * @param {string} color - The color of the figure
              */
             setColor(color) {
                 if (!color) throw new Error('Color must be provided');
-                if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                 this.data.color = color;
                 return this;
             }

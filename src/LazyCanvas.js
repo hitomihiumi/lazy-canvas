@@ -4,8 +4,7 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 const jimp = require('jimp');
 const { resolve } = require('path');
 const drawMultilineText = require('canvas-multiline-text')
-const { isValidColor, isImageUrlValid, color } = require('./utils.js');
-
+const { isImageUrlValid, isValidColor, color, lazyLoadImage } = require('./utils.js');
 
 class LazyCanvas {
 
@@ -13,8 +12,6 @@ class LazyCanvas {
 
     constructor({ data } = {}) {
         this.data ??= { ...data };
-        this.data.methods = [];
-        this.data.errorImage = null;
     }
 
     /**
@@ -30,22 +27,25 @@ class LazyCanvas {
     /**
      * @param width - The width of the canvas
      * @param height - The height of the canvas
-     * Create's a new canvas with the provided width and height
+     * Creates a new canvas with the provided width and height
      */
     createNewCanvas(width, height) {
         if (!width || !height) throw new Error("No width or height provided");
         this.data = {
             width: width,
             height: height,
+            errorImage: null,
+            structureType: 'canvas',
+            methods: [],
             layers: []
         }
         return this;
     }
 
     /**
-     * @param data - The data of the layer
-     * Add's a new layer to the canvas from provided data.
-     * @examples data exemples for different types of layers
+     * @param layers - The data of the layer
+     * Adds a new layer to the canvas from provided data.
+     * @examples data examples for different types of layers
      * ```js
      * const { CircleLayer, LazyCanvas } = require('lazy-canvas');
      * 
@@ -91,10 +91,10 @@ class LazyCanvas {
     }
 
     /**
-     * @param data - The data of the layer
+     * @param index - The index of the layer
      * @param param - The parameter to modify
      * @param newData - The new data to set
-     * Modify's a layer's data
+     * Modify a layer's data
      * @list of params:
      * 
      * x - The x position of the layer
@@ -171,7 +171,7 @@ class LazyCanvas {
                 this.data.layers[index].stroke = newData;
                 break;
             case "color":
-                if (!this.isValidColor(newData)) throw new Error("Color must be a valid color");
+                if (!isValidColor(newData)) throw new Error("Color must be a valid color");
                 this.data.layers[index].color = newData;
                 break;
             case "text":
@@ -185,11 +185,11 @@ class LazyCanvas {
                 this.data.layers[index].font = newData;
                 break;
             case "align":
-                if (['start', 'end', 'left', 'right', 'center'].includes(newData) == false) throw new Error("Align must be start, end, left, right or center");
+                if (['start', 'end', 'left', 'right', 'center'].includes(newData) === false) throw new Error("Align must be start, end, left, right or center");
                 this.data.layers[index].align = newData;
                 break;
             case "weight":
-                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(newData) == false) throw new Error("Weight must be bold, italic or regular");
+                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(newData) === false) throw new Error("Weight must be bold, italic or regular");
                 this.data.layers[index].weight = newData;
                 break;
             case "multiline":
@@ -197,7 +197,7 @@ class LazyCanvas {
                 this.data.layers[index].multiline = newData;
                 break;
             case "image":
-                if (!this.isImageUrlValid(newData)) throw new Error("Image must be a valid URL");
+                if (!isImageUrlValid(newData)) throw new Error("Image must be a valid URL");
                 this.data.layers[index].image = newData;
                 break;
             case "filled":
@@ -217,7 +217,7 @@ class LazyCanvas {
                 this.data.layers[index].shadow.shadowBlur = newData;
                 break;
             case "shadowColor":
-                if (!this.isValidColor(newData)) throw new Error("ShadowColor must be a valid color");``
+                if (!isValidColor(newData)) throw new Error("ShadowColor must be a valid color");``
                 this.data.layers[index].shadow.shadowColor = newData;
                 break;
             case "shadowOffsetX":
@@ -265,7 +265,7 @@ class LazyCanvas {
 
     /**
      * @param index - The index of the layer
-     * Get's a layer from the canvas
+     * Gets a layer from the canvas
      * @returns {object} - The layer
      */
     getLayer(index) {
@@ -275,7 +275,7 @@ class LazyCanvas {
 
     /**
      * @param data - The data of the layer
-     * Get's the index of a layer
+     * Gets the index of a layer
      * @returns {number} - The index of the layer
      */
     getIndexOfLayer(data) {
@@ -327,7 +327,7 @@ class LazyCanvas {
     }
 
     /**
-     * Get's the data of the canvas
+     * Gets the data of the canvas
      * @returns {object} - The data of the canvas
      */
     getData() {
@@ -335,8 +335,7 @@ class LazyCanvas {
     }
 
     /**
-     * @param fonts - The fonts to load
-     * Load's the provided fonts
+     * @param fonts - The fonts to load     * 's the provided fonts
      * @examples fonts: { path: "./some/path/font.ttf", family: "Arial", weight: "regular" }
      * The base folder in the path is the root folder of the project
      */
@@ -375,12 +374,6 @@ class LazyCanvas {
         }
         return this; 
     }
-
-    isValidColor = isValidColor;
-
-    isImageUrlValid = isImageUrlValid;
-
-    color = color;
 
     clipper(ctx,img, x,y,w,h,rad){
         ctx.beginPath();
@@ -424,11 +417,9 @@ class LazyCanvas {
 
     circle(ctx, data, filled = true) {
         ctx.beginPath();
-        if (filled == true) {
-            ctx.fillStyle = this.color(ctx, data.color);
+        if (filled === true) {
             this.fillRoundedRect(ctx, data.x, data.y, data.width * 2, data.width * 2, data.width);
         } else {
-            ctx.strokeStyle = this.color(ctx, data.color);
             this.outerlineRounded(ctx, data.x, data.y, data.width * 2, data.width * 2, data.width, data.stroke);
         }
         ctx.closePath();
@@ -440,11 +431,9 @@ class LazyCanvas {
         ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
-        if (filled == true) {
-            ctx.fillStyle = this.color(ctx, data.color);
+        if (filled === true) {
             this.fillRoundedRect(ctx, data.x, data.y, data.width, data.height, data.radius);
         } else {
-            ctx.strokeStyle = this.color(ctx, data.color);
             this.outerlineRounded(ctx, data.x, data.y, data.width, data.height, data.radius, data.stroke);
         }
         ctx.restore();
@@ -457,11 +446,9 @@ class LazyCanvas {
         ctx.translate(data.x + data.width / 2, data.y + data.width / 2);
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-(data.x + data.width / 2), -(data.y + data.width / 2));
-        if (filled == true) {
-            ctx.fillStyle = this.color(ctx, data.color);
+        if (filled === true) {
             ctx.fillRect(data.x, data.y, data.width, data.width);
         } else {
-            ctx.strokeStyle = this.color(ctx, data.color);
             ctx.strokeRect(data.x, data.y, data.width, data.width);
         }
         ctx.restore();
@@ -475,10 +462,8 @@ class LazyCanvas {
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
         if (filled) {
-          ctx.fillStyle = this.color(ctx, data.color);
           ctx.fillRect(data.x, data.y, data.width, data.height);
         } else {
-          ctx.strokeStyle = this.color(ctx, data.color);
           ctx.strokeRect(data.x, data.y, data.width, data.height);
         }
         ctx.restore();
@@ -491,12 +476,10 @@ class LazyCanvas {
         for (let i = 1; i < data.sides; i++) {
           ctx.lineTo(data.x + data.radius * Math.cos(i * 2 * Math.PI / data.sides + data.angle), data.y + data.radius * Math.sin(i * 2 * Math.PI / data.sides + data.angle));
         }   
-        if (filled == true) {
-            ctx.fillStyle = this.color(ctx, data.color);
+        if (filled === true) {
             ctx.fill();
         } else {
             ctx.lineWidth = data.stroke;
-            ctx.strokeStyle = this.color(ctx, data.color);
             ctx.stroke();
         }
         ctx.closePath();
@@ -508,7 +491,6 @@ class LazyCanvas {
         ctx.translate((data.points[0].x + data.points[1].x) / 2, (data.points[0].y + data.points[1].y) / 2);
         ctx.rotate((Math.PI/180) * data.angle);
         ctx.translate(-((data.points[0].x + data.points[1].x) / 2), -((data.points[0].y + data.points[1].y) / 2));
-        ctx.strokeStyle = this.color(ctx, data.color);
         ctx.lineWidth = data.stroke;
         if (data.lineDash) ctx.setLineDash(data.lineDash);
         ctx.moveTo(data.points[0].x, data.points[0].y);
@@ -528,8 +510,6 @@ class LazyCanvas {
             ctx.textAlign = data.align;
             if (data.baseline) ctx.textBaseline = data.baseline;
             if (data.direction) ctx.direction = data.direction;
-            if (data.fill) ctx.fillStyle = this.color(ctx, data.color);
-            else ctx.strokeStyle = this.color(ctx, data.color);
             drawMultilineText(ctx, data.text, {
                 rect: {
                     x: data.x,
@@ -546,15 +526,15 @@ class LazyCanvas {
                 stroke: !data.fill
             })
         } else {
-            if (data.align == "center") {
+            if (data.align === "center") {
                 ctx.translate(data.x, data.y);
                 ctx.rotate((Math.PI/180) * data.angle);
                 ctx.translate(-data.x, -data.y);
-            } else if (data.align == "left" || data.align == "start") {
+            } else if (data.align === "left" || data.align === "start") {
                 ctx.translate(data.x + (data.font * data.text.length) / 2, data.y + data.font / 2);
                 ctx.rotate((Math.PI/180) * data.angle);
                 ctx.translate(-(data.x + (data.font * data.text.length) / 2), -(data.y + data.font / 2));
-            } else if (data.align == "right" || data.align == "end") {
+            } else if (data.align === "right" || data.align === "end") {
                 ctx.translate(data.x - (data.font * data.text.length) / 2, data.y + data.font / 2);
                 ctx.rotate((Math.PI/180) * data.angle);
                 ctx.translate(-(data.x - (data.font * data.text.length) / 2), -(data.y - data.font / 2));
@@ -564,10 +544,8 @@ class LazyCanvas {
             if (data.baseline) ctx.textBaseline = data.baseline;
             if (data.direction) ctx.direction = data.direction;
             if (data.fill) {
-                ctx.fillStyle = this.color(ctx, data.color);
                 ctx.fillText(data.text, data.x, data.y, data.width);
             } else {
-                ctx.strokeStyle = this.color(ctx, data.color);
                 ctx.strokeText(data.text, data.x, data.y, data.width);
             }
         }
@@ -633,11 +611,9 @@ class LazyCanvas {
         ctx.translate(-data.x, -data.y);
         ctx.arc(data.x, data.y, data.radius, data.angles[0], data.angles[1], data.clockwise);
         if (filled) {
-            ctx.fillStyle = this.color(ctx, data.color);
             ctx.fill();
         } else {
             if (data.stroke) ctx.lineWidth = data.stroke;
-            ctx.strokeStyle = this.color(ctx, data.color);
             ctx.stroke();
         }
         ctx.restore();
@@ -653,7 +629,6 @@ class LazyCanvas {
         ctx.translate(-(data.points[0].x + data.points[2].x), -(data.points[0].y + data.points[2].y));
         ctx.moveTo(data.points[0].x, data.points[0].y);
         ctx.lineWidth = data.stroke;
-        ctx.strokeStyle = this.color(ctx, data.color);
         ctx.arcTo(data.points[1].x, data.points[1].y, data.points[2].x, data.points[2].y, data.radius);
         ctx.stroke();
         ctx.restore();
@@ -669,7 +644,6 @@ class LazyCanvas {
         ctx.moveTo(data.points[0].x, data.points[0].y);
         ctx.bezierCurveTo(data.controlPoints[0].x, data.controlPoints[0].y, data.controlPoints[1].x, data.controlPoints[1].y, data.points[1].x, data.points[1].y);
         if (data.stroke) ctx.lineWidth = data.stroke;
-        ctx.strokeStyle = this.color(ctx, data.color);
         ctx.stroke();
         ctx.restore();
         ctx.closePath();
@@ -684,150 +658,180 @@ class LazyCanvas {
         ctx.moveTo(data.points[0].x, data.points[0].y);
         ctx.quadraticCurveTo(data.controlPoint.x, data.controlPoint.y, data.points[1].x, data.points[1].y);
         if (data.stroke) ctx.lineWidth = data.stroke;
-        ctx.strokeStyle = this.color(ctx, data.color);
         ctx.stroke();
         ctx.restore();
         ctx.closePath();
     }
 
-    async renderImage() {
+    async patternRender(ctx, data) {
+        switch (data.pattern.type) {
+            case "image":
+                let image = await lazyLoadImage(data.pattern.data);
+                return ctx.createPattern(image, data.patternType);
+            //case "canvas":
+            //    let lazy = new LazyCanvas({ data: data.pattern.data.getData() });
+            //    console.log(data.pattern.data.getData())
+            //    lazy.renderImage('ctx').then((pattern) => {
+            //        console.log(ctx.createPattern(pattern, data.patternType));
+            //        return ctx.createPattern(pattern, data.patternType);
+            //    });
+            // not working. node-canvas doesn't support createPattern with canvas (?)
+        }
+    }
+
+    async renderImage(WhatINeed = "buffer") {
         return new Promise(async function(resolve, reject) {
-            let canvas = createCanvas(this.data.width, this.data.height);
-            let ctx = canvas.getContext("2d");
+            try {
+                let canvas = createCanvas(this.data.width, this.data.height);
+                let ctx = canvas.getContext("2d");
 
-            for (const data of this.data.layers) {
-                if (data.globalcomposite) ctx.globalCompositeOperation = data.globalcomposite;
-                else ctx.globalCompositeOperation = "source-over";
+                for (const data of this.data.layers) {
+                    if (data.globalcomposite) ctx.globalCompositeOperation = data.globalcomposite;
+                    else ctx.globalCompositeOperation = "source-over";
 
-                ctx.beginPath();
+                    ctx.beginPath();
 
-                if (data.alpha) { 
-                    ctx.globalAlpha = data.alpha;
-                } else { 
-                    ctx.globalAlpha = 1; 
-                }
+                    if (data.alpha) {
+                        ctx.globalAlpha = data.alpha;
+                    } else {
+                        ctx.globalAlpha = 1;
+                    }
 
-                if (data.shadow && data.shadow.shadowColor) {
-                    ctx.shadowColor = data.shadow.shadowColor;
-                    if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
-                    if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
-                    if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
-                }
+                    if (data.shadow && data.shadow.shadowColor) {
+                        ctx.shadowColor = data.shadow.shadowColor;
+                        if (data.shadow.shadowBlur) ctx.shadowBlur = data.shadow.shadowBlur;
+                        if (data.shadow.shadowOffsetX) ctx.shadowOffsetX = data.shadow.shadowOffsetX;
+                        if (data.shadow.shadowOffsetY) ctx.shadowOffsetY = data.shadow.shadowOffsetY;
+                    }
 
-                if (!data.angle) data.angle = 0;
+                    if (data.fill !== undefined) {
+                        let fill;
 
-                let image;
-                switch (data.type) {
-                    case "circle":
-                        this.circle(ctx, data, data.fill);
-                        // data = { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
-                        break;
-                    case "ellipse":
-                        this.ellipse(ctx, data, data.fill);
-                        // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, stroke: null, color: "red", filled: true }
-                        break;
-                    case "square":
-                        this.square(ctx, data, data.fill);
-                        // data = { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
-                        break;
-                    case "rectangle":
-                        this.rectangle(ctx, data, data.fill);
-                        // data = { x: 10, y: 10, width: 100, height: 50, stroke: null, color: "red", filled: true }
-                        break;
-                    case "line":
-                        this.line(ctx, data);
-                        // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }], stroke: 1, color: "red" }
-                        break;
-                    case "ellipseimage":
-                        ctx.beginPath();
-                        try {
-                            image = await jimp.read(String(data.image));
-                        } catch (e) {
-                            console.log(e + `\n[LazyCanvas] Try to load the error image`)
-                            if (!this.data.errorImage) {
-                                image = await jimp.read(String(this.data.errorImage));
+                        if (typeof data.color === 'object' && data.color.toJSON().type === 'pattern') fill = await this.patternRender(ctx, data.color.toJSON());
+                        else fill = color(ctx, data.color);
+
+                        if (data.fill) ctx.fillStyle = fill;
+                        else ctx.strokeStyle = fill;
+                    }
+
+                    if (!data.angle) data.angle = 0;
+
+                    let image;
+                    switch (data.type) {
+                        case "circle":
+                            this.circle(ctx, data, data.fill);
+                            // data = { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
+                            break;
+                        case "ellipse":
+                            this.ellipse(ctx, data, data.fill);
+                            // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, stroke: null, color: "red", filled: true }
+                            break;
+                        case "square":
+                            this.square(ctx, data, data.fill);
+                            // data = { x: 10, y: 10, width: 100, stroke: null, color: "red", filled: true }
+                            break;
+                        case "rectangle":
+                            this.rectangle(ctx, data, data.fill);
+                            // data = { x: 10, y: 10, width: 100, height: 50, stroke: null, color: "red", filled: true }
+                            break;
+                        case "line":
+                            this.line(ctx, data);
+                            // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }], stroke: 1, color: "red" }
+                            break;
+                        case "ellipseimage":
+                            ctx.beginPath();
+                            try {
+                                image = await jimp.read(String(data.image));
+                            } catch (e) {
+                                console.log(e + `\n[LazyCanvas] Try to load the error image`)
+                                if (!this.data.errorImage) {
+                                    image = await jimp.read(String(this.data.errorImage));
+                                }
                             }
-                        }
 
-                        await this.filterApply(image, data.filter);
+                            await this.filterApply(image, data.filter);
 
-                        ctx.save();
-                        ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
-                        ctx.rotate((Math.PI/180) * data.angle);
-                        ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
+                            ctx.save();
+                            ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+                            ctx.rotate((Math.PI/180) * data.angle);
+                            ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
 
-                        image = await image.getBufferAsync('image/png');
+                            image = await image.getBufferAsync('image/png');
 
-                        image = await loadImage(image);
-                        this.clipper(ctx, image, data.x, data.y, data.width, data.height, data.radius);
-                        ctx.restore();
-                        ctx.closePath();
-                        // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, image: "url" }
-                        break;
-                    case "image":
-                        ctx.beginPath();
-                        try {
-                            image = await jimp.read(String(data.image));
-                        } catch (e) {
-                            console.log(e + `\n[LazyCanvas] Try to load the error image`)
-                            if (!this.data.errorImage) {
-                                image = await jimp.read(String(this.data.errorImage));
+                            image = await loadImage(image);
+                            this.clipper(ctx, image, data.x, data.y, data.width, data.height, data.radius);
+                            ctx.restore();
+                            ctx.closePath();
+                            // data = { x: 10, y: 10, width: 100, height: 50, radius: 30, image: "url" }
+                            break;
+                        case "image":
+                            ctx.beginPath();
+                            try {
+                                image = await jimp.read(String(data.image));
+                            } catch (e) {
+                                console.log(e + `\n[LazyCanvas] Try to load the error image`)
+                                if (!this.data.errorImage) {
+                                    image = await jimp.read(String(this.data.errorImage));
+                                }
                             }
-                        }
 
-                        await this.filterApply(image, data.filter);
+                            await this.filterApply(image, data.filter);
 
-                        ctx.save();
-                        ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
-                        ctx.rotate((Math.PI/180) * data.angle);
-                        ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
+                            ctx.save();
+                            ctx.translate(data.x + data.width / 2, data.y + data.height / 2);
+                            ctx.rotate((Math.PI/180) * data.angle);
+                            ctx.translate(-(data.x + data.width / 2), -(data.y + data.height / 2));
 
-                        image = await image.getBufferAsync('image/png');
+                            image = await image.getBufferAsync('image/png');
 
-                        image = await loadImage(image);
-                        ctx.drawImage(image, data.x, data.y, data.width, data.height);
-                        ctx.restore();
-                        ctx.closePath();
-                        // data = { x: 10, y: 10, w: 100, h: 50, image: "url" }
-                        break;
-                    case "text":
-                        this.textRender(ctx, data);
-                        // data = { x: 10, y: 10, text: "Hello World", size: 20, color: "red", font: "Arial", align: "center", style: "bold", multiline: false, width: 100, height: 50 }
-                        break;
-                    case "ngon":
-                        this.ngon(ctx, data, data.fill);
-                        // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }, { x: 50, y: 50 }], color: "red", filled: true }
-                        break;
-                    case "arc":
-                        this.arc(ctx, data, data.fill);
-                        // data = { x: 10, y: 10, radius: 100, angles: [ 0 , 180 ], color: "red" }
-                        break;
-                    case "arcto":
-                        this.arcTo(ctx, data); 
-                        break;
-                    case "bezier":
-                        this.bezierCurve(ctx, data);
-                        break;
-                    case "quadratic":
-                        this.quadraticCurve(ctx, data);
-                        break;
-                    default:
-                        if (this.data.methods.find(m => m.name === data.type)) {
-                            let method = this.data.methods.find(m => m.name === data.type);
-                            if (method.method[Symbol.toStringTag] === 'AsyncFunction') {
-                                await method.method(ctx, data);
+                            image = await loadImage(image);
+                            ctx.drawImage(image, data.x, data.y, data.width, data.height);
+                            ctx.restore();
+                            ctx.closePath();
+                            // data = { x: 10, y: 10, w: 100, h: 50, image: "url" }
+                            break;
+                        case "text":
+                            this.textRender(ctx, data);
+                            // data = { x: 10, y: 10, text: "Hello World", size: 20, color: "red", font: "Arial", align: "center", style: "bold", multiline: false, width: 100, height: 50 }
+                            break;
+                        case "ngon":
+                            this.ngon(ctx, data, data.fill);
+                            // data = { points: [{ x: 10, y: 10 }, { x: 100, y: 100 }, { x: 50, y: 50 }], color: "red", filled: true }
+                            break;
+                        case "arc":
+                            this.arc(ctx, data, data.fill);
+                            // data = { x: 10, y: 10, radius: 100, angles: [ 0 , 180 ], color: "red" }
+                            break;
+                        case "arcto":
+                            this.arcTo(ctx, data);
+                            break;
+                        case "bezier":
+                            this.bezierCurve(ctx, data);
+                            break;
+                        case "quadratic":
+                            this.quadraticCurve(ctx, data);
+                            break;
+                        default:
+                            if (this.data.methods.find(m => m.name === data.type)) {
+                                let method = this.data.methods.find(m => m.name === data.type);
+                                if (method.method[Symbol.toStringTag] === 'AsyncFunction') {
+                                    await method.method(ctx, data);
+                                } else {
+                                    method.method(ctx, data);
+                                }
                             } else {
-                                method.method(ctx, data);
+                                console.log(`[LazyCanvas] Method for ${data.type} not found`);
                             }
-                        } else {
-                            console.log(`[LazyCanvas] Method for ${data.type} not found`);
-                        }
-                        break;
+                            break;
+                    }
+                    ctx.closePath();
                 }
-                ctx.closePath();
-            }
 
-            return resolve(canvas.toBuffer());
+                if (WhatINeed === 'buffer') return resolve(canvas.toBuffer());
+                else if (WhatINeed === 'ctx') return resolve(ctx);
+            } catch (e) {
+                return reject(e);
+            }
         }.bind(this))
     } 
 }

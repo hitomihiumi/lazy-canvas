@@ -1,23 +1,17 @@
-const { LazyCanvas, Gradient, CircleLayer } = require('../src/index')
+const { LazyCanvas, Gradient, SquareLayer, Pattern, ImageLayer, CircleLayer } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
 .addLayers(
-    new CircleLayer()
-    .setX(50)
-    .setY(50)
-    .setRadius(200)
+    new SquareLayer()
+    .setX(20)
+    .setY(20)
+    .setWidth(460)
     .setColor(
-        new Gradient()
-        .addColorPoints(
-            { color: '#ff0000', position: 0 },
-            { color: '#00ff00', position: 0.5 },
-            { color: '#0000ff', position: 1 }
-        ).setPoints(
-            { x: 250, y: 250 }
-        ).setType('radial')
-        .setRadius(200)
+        new Pattern()
+        .setPattern('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
+        .setType('repeat')
     )
 )
 

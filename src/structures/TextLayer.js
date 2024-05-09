@@ -51,17 +51,17 @@ class TextLayer extends BaseLayer {
             setWeight(weight) {
                 if (!weight) throw new Error('Weight must be provided');
                 if (typeof weight !== 'string') throw new Error('Weight must be a string');
-                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(weight) == false) throw new Error('Weight must be normal, bold, italic, or bold italic');
+                if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(weight) === false) throw new Error('Weight must be normal, bold, italic, or bold italic');
                 this.data.weight = weight;
                 return this;
             }
 
             /**
-             * @param {hex} color - The color of the text 
+             * @param {string} color - The color of the text
              */
             setColor(color) {
                 if (!color) throw new Error('Color must be provided');
-                if (isValidColor(color) == false) throw new Error('Color must be a valid color');
+                if (isValidColor(color) === false) throw new Error('Color must be a valid color');
                 this.data.color = color;
                 return this;
             }
@@ -73,7 +73,7 @@ class TextLayer extends BaseLayer {
             setAlign(align) {
                 if (!align) throw new Error('Alignment must be provided');
                 if (typeof align !== 'string') throw new Error('Alignment must be a string');
-                if (['left', 'center', 'right', 'start', 'end'].includes(align) == false) throw new Error('Alignment must be left, center, or right');
+                if (['left', 'center', 'right', 'start', 'end'].includes(align) === false) throw new Error('Alignment must be left, center, or right');
                 this.data.align = align;
                 return this;
             }
@@ -121,7 +121,7 @@ class TextLayer extends BaseLayer {
              */
             setDirection(direction) {
                 if (!direction) throw new Error('Direction must be provided');
-                if (["ltr", "rtl", "inherit"].includes(direction) == false) throw new Error('Direction must be ltr, rtl or inherit');
+                if (["ltr", "rtl", "inherit"].includes(direction) === false) throw new Error('Direction must be ltr, rtl or inherit');
                 this.data.direction = direction;
                 return this;
             }
@@ -131,7 +131,7 @@ class TextLayer extends BaseLayer {
              */
             setBaseline(baseline) {
                 if (!baseline) throw new Error('Baseline must be provided');
-                if (["alphabetic", "top", "hanging", "middle", "ideographic", "bottom"].includes(baseline) == false) throw new Error('Baseline must be alphabetic, top, hanging, middle, ideographic or bottom');
+                if (["alphabetic", "top", "hanging", "middle", "ideographic", "bottom"].includes(baseline) === false) throw new Error('Baseline must be alphabetic, top, hanging, middle, ideographic or bottom');
                 this.data.baseline = baseline;
                 return this;
             }
