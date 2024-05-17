@@ -8,7 +8,7 @@
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>createNewCanvas()</td>

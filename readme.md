@@ -147,6 +147,7 @@ Class documentation can be found below by clicking on the appropriate class name
 - [Font](./docs/font.md)
 - [Gradient](./docs/gradient.md)
 - [Filter](./docs/filter.md)
+- [Pattern](./docs/pattern.md)
 
 ### Layers
 

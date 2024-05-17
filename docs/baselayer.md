@@ -10,7 +10,7 @@ Layer base class.
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>setX()</td>
@@ -197,7 +197,7 @@ Layer base class.
 # Example
 
 ```js
-const { LazyCanvas, BaseMethod, BaseLayer } = require('@hitomihiumi/lazy-canvas')
+const { LazyCanvas, BaseMethod, BaseLayer, isImageUrlValid, isValidColor } = require('@hitomihiumi/lazy-canvas')
 
 class ExampleImage extends BaseLayer {
     constructor(data = {}) {

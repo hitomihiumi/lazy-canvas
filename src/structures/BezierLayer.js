@@ -32,7 +32,7 @@ class BezierLayer extends BaseLayer {
                 }
 
                 /**
-                 * @param {Array} controlPoints - The control points of the bezier curve
+                 * @param {Array} controlPoints - The control points of the Bézier curve
                  */
                 setControlPoints(...controlPoints) {
                     if (!controlPoints) throw new Error('Control points must be provided');

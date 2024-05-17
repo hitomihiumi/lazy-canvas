@@ -10,7 +10,7 @@ Create's gradient class. Can be used in all figure and text layers.
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>setPoints()</td>

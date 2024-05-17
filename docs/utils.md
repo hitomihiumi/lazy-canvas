@@ -10,14 +10,7 @@ Utilities that you can use for your methods.
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
-    </tr>
-    <tr>
-        <td>color()</td>
-        <td>A method for checking the color of a user-set color. If a gradient is assigned to the color, returns a gradient ready to use</td>
-        <td>canvas context, string or Gradient*</td>
-        <td>-</td>
-        <td>-</td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>isValidColor()</td>
@@ -48,13 +41,6 @@ Utilities that you can use for your methods.
 <br>
 
 # Example
-
-```js
-const { color } = require('@hitomihiumi/lazy-canvas')
-//...
-console.log(color(`#ff8a8a`)) 
-// returns color
-```
 
 ```js
 const { isValidColor } = require('@hitomihiumi/lazy-canvas')

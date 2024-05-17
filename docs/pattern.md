@@ -10,7 +10,7 @@ Pattern for LazyCanvas layers, used like color.
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>setPattern()</td>

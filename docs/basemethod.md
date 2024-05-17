@@ -10,7 +10,7 @@ A class to create a new method structure to be loaded into LazyCanvas.
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>setName()</td>
@@ -36,7 +36,6 @@ A class to create a new method structure to be loaded into LazyCanvas.
 const { LazyCanvas, BaseMethod } = require('@hitomihiumi/lazy-canvas')
 //...
 function exampleRectFunc(ctx, data) {
-    ctx.fillStyle = color(ctx, data.color)
     ctx.fillRect(data.x, data.y, data.width, data.height)
 }
 

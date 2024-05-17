@@ -12,7 +12,7 @@ Extends [BaseLayer](./baselayer.md)
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>setText()</td>
@@ -58,7 +58,7 @@ Extends [BaseLayer](./baselayer.md)
     </tr>
     <tr>
         <td>setWidth()</td>
-        <td>Sets the width of the zone in which the multiline and singleline text will be located</td>
+        <td>Sets the width of the zone in which the multiline and single line text will be located</td>
         <td>number</td>
         <td>false</td>
         <td>-</td>
@@ -77,10 +77,28 @@ Extends [BaseLayer](./baselayer.md)
         <td>false</td>
         <td>-</td>
     </tr>
+    <tr>
+        <td>setDirection()</td>
+        <td>Sets text direction</td>
+        <td>string</td>
+        <td>false</td>
+        <td>values: ltr, rtl, inherit</td>
+    </tr>
+    <tr>
+        <td>setBaseline()</td>
+        <td>Sets the baseline of text</td>
+        <td>string</td>
+        <td>false</td>
+        <td>values: top, hanging, middle, alphabetic, ideographic, bottom</td>
+    </tr>
 </table>
 
 *[Gradient](./gradient.md)
 *[Pattern](./pattern.md)
+
+<br>
+
+![](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_text/baselines.png)
 
 <br>
 

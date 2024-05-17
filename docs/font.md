@@ -10,7 +10,7 @@ A class designed to create a font object that can be loaded into LazyCanvas usin
         <td>Description</td>
         <td>Data type</td>
         <td>Required</td>
-        <td>Notes<td>
+        <td>Notes</td>
     </tr>
     <tr>
         <td>setFamily()</td>

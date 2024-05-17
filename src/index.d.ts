@@ -116,6 +116,7 @@ export class TextLayer extends BaseLayer {
     setMultiline(multiline: boolean): this;
     setWidth(width: number): this;
     setHeight(height: number): this;
+    setDirection(direction: string): this;
     setBaseline(baseline: string): this;
     setFilled(fill: boolean): this;
 }
