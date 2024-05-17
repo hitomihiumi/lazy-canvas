@@ -8,13 +8,13 @@ import { LazyCanvasFilter } from "./types/LazyCanvasFilter";
 import { LazyCanvasGradient } from "./types/LazyCanvasGradient";
 import { LazyCanvasPattern } from "./types/LazyCanvasPattern";
 
-export class LazyCanvas {
+export class LazyCanvas implements LazyCanvasData {
     constructor();
     setData(data: LazyCanvasData): this;
     getData(): this;
     createNewCanvas(width: number, height: number): this;
     clearCanvas(): this;
-    public addLayers(layer: LazyCanvasLayer): this;
+    public addLayers(...layers: LazyCanvasLayer[]): this;
     public removeLayer(data: LazyCanvasLayer): this;
     public moveLayer(data: LazyCanvasLayer, index: number): this;
     modifyLayer(index: number, param: string, newData: any): this;
@@ -27,6 +27,16 @@ export class LazyCanvas {
     set404Image(image: string): this;
     loadMethods(...methods: LazyCanvasMethod[]): this;
     renderImage(): Promise<NodeJS.ArrayBufferView>;
+
+    name: string;
+    description: string;
+    emoji: string;
+    width: number;
+    height: number;
+    layers: LazyCanvasLayer[];
+    fonts: LazyCanvasFont[];
+    methods: LazyCanvasMethod[];
+    errorImage: string;
     }
 
 export class BaseLayer implements LazyCanvasLayer {
@@ -172,42 +182,60 @@ export class QuadraticLayer extends BaseLayer {
     setStroke(stroke: number): this;
 }
 
-export class Font {
+export class Font implements LazyCanvasFont {
     constructor();
     setFamily(family: string): this;
     setWeight(weight: string): this;
     setPath(path: string): this;
-    toJSON(): Font;
+    toJSON(): LazyCanvasFont;
+
+    family: string;
+    weight: string;
+    path: string;
 }
 
-export class Gradient {
+export class Gradient implements LazyCanvasGradient {
     constructor();
     setPoints(points: Array<object>): this;
     addColorPoints(colorPoints: number[][]): this;
     setRadius(radius: number): this;
     setType(type: string): this;
     toJSON(): LazyCanvasGradient;
+
+    points: Array<object>;
+    colorPoints: number[][];
+    radius: number;
+    type: string;
 }
 
-export class Filter {
+export class Filter implements LazyCanvasFilter {
     constructor();
     setType(filter: string): this;
     setOption(option: number): this;
     toJSON(): LazyCanvasFilter;
+
+    type: string;
+    option: number;
 }
 
-export class Pattern {
+export class Pattern implements LazyCanvasPattern {
     constructor();
     setPattern(pattern: string | LazyCanvas): this;
     setType(type: string): this;
     toJSON(): LazyCanvasPattern;
+
+    pattern: string | LazyCanvas;
+    type: string;
 }
 
-export class BaseMethod {
+export class BaseMethod implements LazyCanvasMethod {
     constructor();
     setName(name: string): this;
-    setMethod(method: string): this;
+    setMethod(method: Function): this;
     toJSON(): LazyCanvasMethod;
+
+    name: string;
+    method: Function;
 }
 
 export function color(color: string | LazyCanvasGradient): string | LazyCanvasGradient;
