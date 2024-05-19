@@ -86,7 +86,7 @@ export class ImageLayer extends BaseLayer {
     constructor();
     setWidth(width: number): this;
     setHeight(height: number): this;
-    setImage(src: string): this;
+    setImage(src: string | Uint8Array): this;
     setFilter(filter: LazyCanvasFilter): this;
 }
 
@@ -94,7 +94,7 @@ export class EllipseImageLayer extends BaseLayer {
     constructor();
     setWidth(width: number): this;
     setHeight(height: number): this;
-    setImage(src: string): this;
+    setImage(src: string | Uint8Array): this;
     setRadius(radius: number): this;
     setFilter(filter: LazyCanvasFilter): this;
 }

@@ -17,7 +17,7 @@ class LazyCanvas {
         if (this.plugins) {
             for (const plugin of Object.values(this.plugins)) {
                 if (plugin.constructor.name !== "LazyCanvasPlugin") throw new Error("Invalid plugin provided");
-                if (plugin.onLoad) plugin.onLoad(this);
+                if (plugin.onload) plugin.onload(this);
             }
         }
     }
@@ -752,7 +752,8 @@ class LazyCanvas {
                         case "ellipseimage":
                             ctx.beginPath();
                             try {
-                                image = await jimp.read(String(data.image));
+                                if (typeof data.image === "object") image = await jimp.read(data.image)
+                                else image = await jimp.read(String(data.image));
                             } catch (e) {
                                 console.log(e + `\n[LazyCanvas] Try to load the error image`)
                                 if (!this.data.errorImage) {
@@ -778,7 +779,8 @@ class LazyCanvas {
                         case "image":
                             ctx.beginPath();
                             try {
-                                image = await jimp.read(String(data.image));
+                                if (typeof data.image === "object") image = await jimp.read(data.image)
+                                else image = await jimp.read(String(data.image));
                             } catch (e) {
                                 console.log(e + `\n[LazyCanvas] Try to load the error image`)
                                 if (!this.data.errorImage) {
