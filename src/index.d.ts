@@ -7,9 +7,10 @@ import { LazyCanvasMethod } from "./types/LazyCanvasMethod";
 import { LazyCanvasFilter } from "./types/LazyCanvasFilter";
 import { LazyCanvasGradient } from "./types/LazyCanvasGradient";
 import { LazyCanvasPattern } from "./types/LazyCanvasPattern";
+import { LazyCanvasPlugin } from "./types/LazyCanvasPlugin";
 
 export class LazyCanvas implements LazyCanvasData {
-    constructor();
+    constructor(options?: { plugins?: LazyCanvasPlugin[], data?: LazyCanvasData });
     setData(data: LazyCanvasData): this;
     getData(): this;
     createNewCanvas(width: number, height: number): this;
@@ -26,7 +27,7 @@ export class LazyCanvas implements LazyCanvasData {
     loadFonts(...fonts: LazyCanvasFont[]): this;
     set404Image(image: string): this;
     loadMethods(...methods: LazyCanvasMethod[]): this;
-    renderImage(): Promise<NodeJS.ArrayBufferView>;
+    renderImage(whatineed?: string): Promise<NodeJS.ArrayBufferView>;
 
     name: string;
     description: string;
@@ -197,7 +198,7 @@ export class Font implements LazyCanvasFont {
 export class Gradient implements LazyCanvasGradient {
     constructor();
     setPoints(points: Array<object>): this;
-    addColorPoints(colorPoints: number[][]): this;
+    addColorPoints(...colorPoints: object[]): this;
     setRadius(radius: number): this;
     setType(type: string): this;
     toJSON(): LazyCanvasGradient;
