@@ -384,6 +384,7 @@ class LazyCanvas {
     }
 
     clipper(ctx,img, x,y,w,h,rad){
+        if (rad > w / 2 || rad > h / 2) rad = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.arc(x+rad, y+rad, rad, Math.PI, Math.PI+Math.PI/2 , false);
         ctx.lineTo(x+w - rad, y);
@@ -401,6 +402,7 @@ class LazyCanvas {
       }
     
     fillRoundedRect(ctx, x, y, w, h, r){
+        if (r > w / 2 || r > h / 2) r = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.moveTo(x + (w /2), y);
         ctx.arcTo(x + w, y, x + w, y + (h / 2), r);
@@ -412,6 +414,7 @@ class LazyCanvas {
       }
       
       outerlineRounded(ctx, x, y, w, h, r, s = 1){
+        if (r > w / 2 || r > h / 2) r = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.lineWidth = s;
         ctx.moveTo(x + (w /2), y);
