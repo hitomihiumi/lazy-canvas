@@ -10,8 +10,16 @@ class LazyCanvas {
 
     data;
 
-    constructor({ data } = {}) {
+    constructor({ data, plugins } = {}) {
         this.data ??= { ...data };
+        this.plugins ??= plugins;
+
+        if (this.plugins) {
+            for (const plugin of Object.values(this.plugins)) {
+                if (plugin.constructor.name !== "LazyCanvasPlugin") throw new Error("Invalid plugin provided");
+                if (plugin.onLoad) plugin.onLoad(this);
+            }
+        }
     }
 
     /**
