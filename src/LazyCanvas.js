@@ -418,7 +418,7 @@ class LazyCanvas {
       }
       
       outerlineRounded(ctx, x, y, w, h, r, s = 1){
-        if (r > w / 2 || r > h / 2) r = Math.min(w / 2, h / 2);
+          if (r > w / 2 || r > h / 2) r = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.lineWidth = s;
         ctx.moveTo(x + (w /2), y);
