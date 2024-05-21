@@ -17,7 +17,7 @@ class LazyCanvas {
         if (this.plugins) {
             for (const plugin of Object.values(this.plugins)) {
                 if (plugin.constructor.name !== "LazyCanvasPlugin") throw new Error("Invalid plugin provided");
-                if (plugin.onLoad) plugin.onLoad(this);
+                if (plugin.onload) plugin.onload(this);
             }
         }
     }
@@ -388,6 +388,7 @@ class LazyCanvas {
     }
 
     clipper(ctx,img, x,y,w,h,rad){
+        if (rad > w / 2 || rad > h / 2) rad = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.arc(x+rad, y+rad, rad, Math.PI, Math.PI+Math.PI/2 , false);
         ctx.lineTo(x+w - rad, y);
@@ -405,6 +406,7 @@ class LazyCanvas {
       }
     
     fillRoundedRect(ctx, x, y, w, h, r){
+        if (r > w / 2 || r > h / 2) r = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.moveTo(x + (w /2), y);
         ctx.arcTo(x + w, y, x + w, y + (h / 2), r);
@@ -416,6 +418,7 @@ class LazyCanvas {
       }
       
       outerlineRounded(ctx, x, y, w, h, r, s = 1){
+          if (r > w / 2 || r > h / 2) r = Math.min(w / 2, h / 2);
         ctx.beginPath();
         ctx.lineWidth = s;
         ctx.moveTo(x + (w /2), y);
@@ -753,7 +756,8 @@ class LazyCanvas {
                         case "ellipseimage":
                             ctx.beginPath();
                             try {
-                                image = await jimp.read(String(data.image));
+                                if (typeof data.image === "object") image = await jimp.read(data.image)
+                                else image = await jimp.read(String(data.image));
                             } catch (e) {
                                 console.log(e + `\n[LazyCanvas] Try to load the error image`)
                                 if (!this.data.errorImage) {
@@ -779,7 +783,8 @@ class LazyCanvas {
                         case "image":
                             ctx.beginPath();
                             try {
-                                image = await jimp.read(String(data.image));
+                                if (typeof data.image === "object") image = await jimp.read(data.image)
+                                else image = await jimp.read(String(data.image));
                             } catch (e) {
                                 console.log(e + `\n[LazyCanvas] Try to load the error image`)
                                 if (!this.data.errorImage) {
