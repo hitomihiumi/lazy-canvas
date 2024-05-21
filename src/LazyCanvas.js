@@ -383,6 +383,10 @@ class LazyCanvas {
         return this; 
     }
 
+    toJSON() {
+        return { ...this.data };
+    }
+
     clipper(ctx,img, x,y,w,h,rad){
         if (rad > w / 2 || rad > h / 2) rad = Math.min(w / 2, h / 2);
         ctx.beginPath();

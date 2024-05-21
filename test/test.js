@@ -1,4 +1,4 @@
-const { LazyCanvas, Gradient, SquareLayer, Pattern, ImageLayer, CircleLayer } = require('../src/index')
+const { LazyCanvas, Gradient, SquareLayer, Pattern, ImageLayer, CircleLayer, textMetrics } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
