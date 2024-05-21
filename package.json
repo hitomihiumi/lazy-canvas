@@ -21,8 +21,8 @@
   "author": "hitomihiumi",
   "license": "ISC",
   "dependencies": {
-    "canvas": "^2.9.3",
-    "canvas-multiline-text": "^1.0.3",
+    "canvas": "2.9.3",
+    "canvas-multiline-text": "1.0.3",
     "jimp": "^0.22.12",
     "path": "^0.12.7"
   },
