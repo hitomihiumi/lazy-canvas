@@ -28,3 +28,4 @@ module.exports.color = require('./utils.js').color;
 module.exports.isValidColor = require('./utils.js').isValidColor;
 module.exports.isImageUrlValid = require('./utils.js').isImageUrlValid;
 module.exports.lazyLoadImage = require('./utils.js').lazyLoadImage;
+module.exports.textMetrics = require('./utils.js').textMetrics;

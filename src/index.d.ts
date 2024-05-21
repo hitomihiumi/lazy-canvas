@@ -243,3 +243,4 @@ export function color(color: string | LazyCanvasGradient): string | LazyCanvasGr
 export function isValidColor(color: string): boolean;
 export function isImageUrlValid(url: string): boolean;
 export function lazyLoadImage(url: string): Promise<NodeJS.ArrayBufferView>;
+export function textMetrics(value: TextLayer | LazyCanvas, width?: number, height?: number): object;

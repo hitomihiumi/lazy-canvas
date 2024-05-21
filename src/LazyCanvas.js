@@ -383,6 +383,10 @@ class LazyCanvas {
         return this; 
     }
 
+    toJSON() {
+        return { ...this.data };
+    }
+
     clipper(ctx,img, x,y,w,h,rad){
         ctx.beginPath();
         ctx.arc(x+rad, y+rad, rad, Math.PI, Math.PI+Math.PI/2 , false);

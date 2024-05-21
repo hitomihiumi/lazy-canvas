@@ -1,13 +1,14 @@
 'use strict';
 
 const jimp = require('jimp');
-const { loadImage } = require('canvas');
+const { loadImage, createCanvas } = require('canvas');
 const { createConicalGradient } = require('./utils/createConicGradient.js');
 
 module.exports.isValidColor = isValidColor;
 module.exports.isImageUrlValid = isImageUrlValid;
 module.exports.lazyLoadImage = lazyLoadImage;
 module.exports.color = color;
+module.exports.textMetrics = textMetrics;
 
 function isValidColor(color) {
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color)) {
@@ -64,5 +65,35 @@ async function lazyLoadImage(url) {
             resolve(image);
         });
     });
+}
+
+function textMetrics(value, width= 500, height= 500) {
+    if (!value) throw new Error('Value must be provided');
+    if (typeof value !== 'object') throw new Error('Value must be a object');
+
+    if (value.toJSON().structureType === 'layer' && value.toJSON().type === 'text') {
+
+        const canvas = createCanvas(width, height);
+        const ctx = canvas.getContext('2d');
+
+        ctx.font = `${value.toJSON().weight} ${value.toJSON().size}px ${value.toJSON().font}`;
+        return ctx.measureText(value.toJSON().text);
+
+    } else if (value.toJSON().structureType === 'canvas') {
+
+        const canvas = createCanvas(value.toJSON().width, value.toJSON().height);
+        const ctx = canvas.getContext('2d');
+
+        let layers = value.toJSON().layers.filter(layer => layer.type === 'text');
+
+        let metrics = [];
+
+        for (const layer of layers) {
+            ctx.font = `${layer.weight} ${layer.size}px ${layer.font}`;
+            metrics.push(ctx.measureText(layer.text));
+        }
+
+        return metrics;
+    }
 }
 
