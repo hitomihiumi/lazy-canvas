@@ -30,6 +30,16 @@ Utilities that you can use for your methods.
         <td>returns a object that contains information about the measured text (such as its width, for example)</td>    
         <td>TextLayer* or LazyCanvas*</td>     
     </tr>
+    <tr>
+        <td>saveFile()</td>    
+        <td>Saves LazyCanvas* as a file</td>    
+        <td>LazyCanvas*, string</td>     
+    </tr>
+    <tr>
+        <td>generateRandomName()</td>    
+        <td>Generate random string</td>    
+        <td>-</td>     
+    </tr>
 </table>
 
 *[Gradient](./gradient.md)
@@ -81,4 +91,20 @@ console.log(textMetrics(text))
 //      emHeightDescent: 3,
 //      alphabeticBaseline: -1
 //  }
+```
+
+```js
+const { saveFile, LazyCanvas } = require('@hitomihiumi/lazy-canvas')
+//...
+let lazy = new LazyCanvas()
+//...
+let data = lazy.renderImage()
+await saveFile(data, `png`)
+```
+
+```js
+const { generateRandomName } = require('@hitomihiumi/lazy-canvas')
+
+console.log(generateRandomName())
+// returns random string, example: 'w68i9u4xbo8sp3fwdqxsz' 
 ```

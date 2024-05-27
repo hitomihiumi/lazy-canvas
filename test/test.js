@@ -1,4 +1,4 @@
-const { LazyCanvas, Gradient, SquareLayer, Pattern, ImageLayer, CircleLayer, textMetrics } = require('../src/index')
+const { LazyCanvas, Gradient, SquareLayer, Pattern, ImageLayer, CircleLayer, textMetrics, saveFile, generateRandomName } = require('../src/index')
 const fs = require('fs')
 
 const lazy = new LazyCanvas()
@@ -17,9 +17,11 @@ const lazy = new LazyCanvas()
 
 console.log(lazy.getData().layers[0].color)
 
+console.log(generateRandomName())
+
 async function main() {
-    const pngData = await lazy.renderImage()
-    fs.writeFileSync('output.png', pngData)
+    let data = await lazy.renderImage()
+    await saveFile(data, 'png', 'output')
 }
 
 main()

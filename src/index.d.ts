@@ -244,3 +244,5 @@ export function isValidColor(color: string): boolean;
 export function isImageUrlValid(url: string): boolean;
 export function lazyLoadImage(url: string): Promise<NodeJS.ArrayBufferView>;
 export function textMetrics(value: TextLayer | LazyCanvas, width?: number, height?: number): object;
+export function saveFile(buffer: NodeJS.ArrayBufferView, extension: string, name?: string): Promise<void>;
+export function generateRandomName(): string;

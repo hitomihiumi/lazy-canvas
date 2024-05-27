@@ -3,12 +3,15 @@
 const jimp = require('jimp');
 const { loadImage, createCanvas } = require('canvas');
 const { createConicalGradient } = require('./utils/createConicGradient.js');
+const fs = require('fs');
 
 module.exports.isValidColor = isValidColor;
 module.exports.isImageUrlValid = isImageUrlValid;
 module.exports.lazyLoadImage = lazyLoadImage;
 module.exports.color = color;
 module.exports.textMetrics = textMetrics;
+module.exports.saveFile = saveFile;
+module.exports.generateRandomName = generateRandomName;
 
 function isValidColor(color) {
     if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color)) {
@@ -97,3 +100,15 @@ function textMetrics(value, width= 500, height= 500) {
     }
 }
 
+async function saveFile(buffer, extension, name) {
+    if (!buffer) throw new Error('Buffer must be provided');
+    if (!extension) throw new Error('Extension must be provided');
+    if (typeof extension !== 'string') throw new Error('Extension must be a string');
+    if (!['png', 'jpeg', 'webp'].includes(extension)) throw new Error('Invalid extension');
+
+    fs.writeFileSync(`${name === undefined ? generateRandomName() : name }.${extension}`, buffer);
+}
+
+function generateRandomName() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
