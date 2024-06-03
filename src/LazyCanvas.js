@@ -4,7 +4,7 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 const jimp = require('jimp');
 const { resolve } = require('path');
 const drawMultilineText = require('canvas-multiline-text')
-const { isImageUrlValid, isValidColor, color, lazyLoadImage } = require('./utils.js');
+const { isImageUrlValid, isValidColor, color, lazyLoadImage, saveFile } = require('./utils.js');
 
 class LazyCanvas {
 
@@ -679,19 +679,23 @@ class LazyCanvas {
     }
 
     async patternRender(ctx, data) {
-        switch (data.pattern.type) {
-            case "image":
-                let image = await lazyLoadImage(data.pattern.data);
-                return ctx.createPattern(image, data.patternType);
-            //case "canvas":
-            //    let lazy = new LazyCanvas({ data: data.pattern.data.getData() });
-            //    console.log(data.pattern.data.getData())
-            //    lazy.renderImage('ctx').then((pattern) => {
-            //        console.log(ctx.createPattern(pattern, data.patternType));
-            //        return ctx.createPattern(pattern, data.patternType);
-            //    });
-            // not working. node-canvas doesn't support createPattern with canvas (?)
-        }
+        return new Promise(async function(resolve, reject) {
+            switch (data.pattern.type) {
+                case "image":
+                    let image = await lazyLoadImage(data.pattern.data);
+                    return resolve(ctx.createPattern(image, data.patternType));
+                case "canvas":
+                    let lazy = data.pattern.data;
+                    lazy.renderImage().then(async (pattern) => {
+                        //await saveFile(pattern, 'png', 'pattern')
+                        let image = await lazyLoadImage(pattern);
+                        //console.log(image)
+                        //console.log(ctx.createPattern(image, data.patternType));
+                        return resolve(ctx.createPattern(image, data.patternType));
+                    });
+                // not working. node-canvas doesn't support createPattern with canvas (?)
+            }
+        }.bind(this));
     }
 
     async renderImage(WhatINeed = "buffer") {
@@ -724,6 +728,8 @@ class LazyCanvas {
 
                         if (typeof data.color === 'object' && data.color.toJSON().type === 'pattern') fill = await this.patternRender(ctx, data.color.toJSON());
                         else fill = color(ctx, data.color);
+
+                        //console.log(fill)
 
                         if (data.fill) ctx.fillStyle = fill;
                         else ctx.strokeStyle = fill;

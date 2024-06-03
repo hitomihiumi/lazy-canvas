@@ -5,13 +5,32 @@ const lazy = new LazyCanvas()
 .createNewCanvas(500, 500)
 .addLayers(
     new SquareLayer()
-    .setX(20)
-    .setY(20)
-    .setWidth(460)
+    .setX(50)
+    .setY(50)
+    .setWidth(400)
     .setColor(
         new Pattern()
-        .setPattern('https://i.pinimg.com/1200x/f3/32/19/f332192b2090f437ca9f49c1002287b6.jpg')
-        .setType('repeat')
+            .setPattern(
+                new LazyCanvas()
+                    .createNewCanvas(15, 15)
+                    .addLayers(
+                        new CircleLayer()
+                        .setX(1)
+                        .setY(1)
+                        .setRadius(7)
+                        .setColor(
+                            new Gradient()
+                                .addColorPoints(
+                                    { position: 0, color: 'red' },
+                                    { position: 1, color: '#ff8a8a' }
+                                ).setType('linear')
+                                .setPoints(
+                                    { x: 0, y: 0 },
+                                    { x: 12, y: 12 }
+                                )
+                        )
+                    ))
+            .setType('repeat')
     )
 )
 

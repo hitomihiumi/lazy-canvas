@@ -15,7 +15,7 @@ export class LazyCanvas implements LazyCanvasData {
     getData(): this;
     createNewCanvas(width: number, height: number): this;
     clearCanvas(): this;
-    public addLayers(...layers: LazyCanvasLayer[]): this;
+    public addLayers(...layers: Array<LazyCanvasLayer>): this;
     public removeLayer(data: LazyCanvasLayer): this;
     public moveLayer(data: LazyCanvasLayer, index: number): this;
     modifyLayer(index: number, param: string, newData: any): this;
@@ -24,9 +24,9 @@ export class LazyCanvas implements LazyCanvasData {
     setName(name: string): this;
     setDescription(description: string): this;
     setEmoji(emoji: string): this;
-    loadFonts(...fonts: LazyCanvasFont[]): this;
+    loadFonts(...fonts: Array<LazyCanvasFont>): this;
     set404Image(image: string): this;
-    loadMethods(...methods: LazyCanvasMethod[]): this;
+    loadMethods(...methods: Array<LazyCanvasMethod>): this;
     renderImage(whatineed?: string): Promise<NodeJS.ArrayBufferView>;
 
     name: string;
@@ -134,7 +134,7 @@ export class TextLayer extends BaseLayer {
 
 export class LineLayer extends BaseLayer {
     constructor();
-    setPoints(points: Array<object>): this;
+    setPoints(...points: Array<object>): this;
     public setColor(color: string | Gradient | Pattern): this
     setStroke(stroke: number): this;
     setLineDash(dash: number[]): this;
@@ -161,7 +161,7 @@ export class ArcLayer extends BaseLayer {
 
 export class ArcToLayer extends BaseLayer {
     constructor();
-    setPoints(points: Array<object>): this;
+    setPoints(...points: Array<object>): this;
     setRadius(radius: number): this;
     setStroke(stroke: number): this;
     public setColor(color: string | Gradient | Pattern): this
@@ -169,7 +169,7 @@ export class ArcToLayer extends BaseLayer {
 
 export class BezierLayer extends BaseLayer {
     constructor();
-    setPoints(points: Array<object>): this;
+    setPoints(...points: Array<object>): this;
     setControlPoints(controlPoints: number[][]): this;
     public setColor(color: string | Gradient | Pattern): this
     setStroke(stroke: number): this;
@@ -177,7 +177,7 @@ export class BezierLayer extends BaseLayer {
 
 export class QuadraticLayer extends BaseLayer {
     constructor();
-    setPoints(points: Array<object>): this;
+    setPoints(...points: Array<object>): this;
     setControlPoint(controlPoint: number[][]): this;
     public setColor(color: string | Gradient | Pattern): this
     setStroke(stroke: number): this;
@@ -197,8 +197,8 @@ export class Font implements LazyCanvasFont {
 
 export class Gradient implements LazyCanvasGradient {
     constructor();
-    setPoints(points: Array<object>): this;
-    addColorPoints(...colorPoints: object[]): this;
+    setPoints(...points: Array<object>): this;
+    addColorPoints(...colorPoints: Array<object>): this;
     setRadius(radius: number): this;
     setType(type: string): this;
     toJSON(): LazyCanvasGradient;
