@@ -15,7 +15,7 @@ Pattern for LazyCanvas layers, used like color.
     <tr>
         <td>setPattern()</td>
         <td>Sets the pattern of the figure</td>
-        <td>string</td>
+        <td>string or LazyCanvas*</td>
         <td>true</td>
         <td>-</td>
     </tr>
@@ -27,6 +27,8 @@ Pattern for LazyCanvas layers, used like color.
         <td>types: repeat, no-repeat, repeat-x, repeat-y</td>
     </tr>
 </table>
+
+*[LazyCanvas](./lazycanvas.md)
 
 <br>
 

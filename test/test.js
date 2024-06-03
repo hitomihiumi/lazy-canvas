@@ -28,7 +28,12 @@ const lazy = new LazyCanvas()
                                     { x: 0, y: 0 },
                                     { x: 12, y: 12 }
                                 )
-                        )
+                        ),
+                        new SquareLayer()
+                        .setX(9)
+                        .setY(4.5)
+                        .setWidth(6)
+                        .setColor('white')
                     ))
             .setType('repeat')
     )
