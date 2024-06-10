@@ -537,7 +537,7 @@ class LazyCanvas {
                 verbose: false,
                 lineHeight: 1,
                 minFontSize: 25,
-                maxFontSize: data.size,
+                maxFontSize: Number(data.size),
                 stroke: !data.fill
             })
         } else {
@@ -554,7 +554,7 @@ class LazyCanvas {
                 ctx.rotate((Math.PI/180) * data.angle);
                 ctx.translate(-(data.x - (data.font * data.text.length) / 2), -(data.y - data.font / 2));
             }
-            ctx.font = `${data.weight} ${data.size}px ${data.font}`;
+            ctx.font = `${data.weight} ${Number(data.size)}px ${data.font}`;
             ctx.textAlign = data.align;
             if (data.baseline) ctx.textBaseline = data.baseline;
             if (data.direction) ctx.direction = data.direction;

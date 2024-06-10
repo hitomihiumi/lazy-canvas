@@ -20,7 +20,7 @@ class Font {
     setWeight(weight) {
         if (!weight) throw new Error('Weight must be provided');
         if (typeof weight !== 'string') throw new Error('Weight must be a string');
-        if (['normal', 'bold', 'italic', 'bold italic', 'regular'].includes(weight) === false) throw new Error('Weight must be normal, bold, italic, bold italic or regular');
+        if (['normal', 'bold', 'italic', 'bold italic', 'regular', 'semi-bold', 'extra-bold'].includes(weight) === false) throw new Error('Weight must be normal, bold, semi-bold, extra-bold, italic, bold italic or regular');
         this.data.weight = weight;
         return this;
     }
