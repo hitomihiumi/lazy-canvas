@@ -488,7 +488,7 @@ class LazyCanvas {
     ngon(ctx, data, filled = true) {
         ctx.beginPath();
         ctx.moveTo(data.x + data.radius * Math.cos(0 + data.angle), data.y + data.radius * Math.sin(0 + data.angle));
-        for (let i = 1; i < data.sides; i++) {
+        for (let i = 1; i < data.sides + 1; i++) {
           ctx.lineTo(data.x + data.radius * Math.cos(i * 2 * Math.PI / data.sides + data.angle), data.y + data.radius * Math.sin(i * 2 * Math.PI / data.sides + data.angle));
         }   
         if (filled === true) {
@@ -846,6 +846,11 @@ class LazyCanvas {
                                 console.log(`[LazyCanvas] Method for ${data.type} not found`);
                             }
                             break;
+                    }
+                    if (data.shadow && data.shadow.shadowColor) {
+                        ctx.shadowColor = "transparent";
+                        ctx.shadowOffsetX = 0;
+                        ctx.shadowOffsetY = 0;
                     }
                     ctx.closePath();
                 }

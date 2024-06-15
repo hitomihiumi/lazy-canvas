@@ -6,3 +6,4 @@ gitignore
 .idea
 dist
 pattern.png
+/test.txt
