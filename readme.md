@@ -170,3 +170,7 @@ Class documentation can be found below by clicking on the appropriate class name
 - [BaseLayer](./docs/baselayer.md)
 - [BaseMethod](./docs/basemethod.md)
 - [Utils](./docs/utils.md)
+
+## That's all folks!
+
+At this point, I don't know what else I should add. Yes I know I can move the module from `node-canvas` to `@napi-rs/canvas`, I don't do it just because it doesn't work properly on my devices. Maybe I will do it if I fix this problem somehow.

@@ -27,7 +27,7 @@ export class LazyCanvas implements LazyCanvasData {
     loadFonts(...fonts: Array<LazyCanvasFont>): this;
     set404Image(image: string): this;
     loadMethods(...methods: Array<LazyCanvasMethod>): this;
-    renderImage(whatineed?: string): Promise<NodeJS.ArrayBufferView>;
+    renderImage(whatineed?: 'buffer' | 'ctx'): Promise<NodeJS.ArrayBufferView>;
 
     name: string;
     description: string;
@@ -44,7 +44,7 @@ export class BaseLayer implements LazyCanvasLayer {
     constructor();
     setX(x: number): this;
     setY(y: number): this;
-    setShadowColor(color: string): this;
+    setShadowColor(color: string | Gradient | Pattern): this;
     setShadowBlur(blur: number): this;
     setShadowOffsetX(offsetX: number): this;
     setShadowOffsetY(offsetY: number): this;
@@ -87,7 +87,7 @@ export class ImageLayer extends BaseLayer {
     setWidth(width: number): this;
     setHeight(height: number): this;
     setImage(src: string | Uint8Array): this;
-    setFilter(filter: LazyCanvasFilter): this;
+    setFilter(filter: Filter): this;
 }
 
 export class EllipseImageLayer extends BaseLayer {
@@ -96,7 +96,7 @@ export class EllipseImageLayer extends BaseLayer {
     setHeight(height: number): this;
     setImage(src: string | Uint8Array): this;
     setRadius(radius: number): this;
-    setFilter(filter: LazyCanvasFilter): this;
+    setFilter(filter: Filter): this;
 }
 
 export class RectangleLayer extends BaseLayer {
@@ -239,7 +239,7 @@ export class BaseMethod implements LazyCanvasMethod {
     method: Function;
 }
 
-export function color(color: string | LazyCanvasGradient): string | LazyCanvasGradient;
+export function color(color: string | Gradient): string | Gradient;
 export function isValidColor(color: string): boolean;
 export function isImageUrlValid(url: string): boolean;
 export function lazyLoadImage(url: string): Promise<NodeJS.ArrayBufferView>;

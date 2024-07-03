@@ -693,7 +693,7 @@ class LazyCanvas {
                         //console.log(ctx.createPattern(image, data.patternType));
                         return resolve(ctx.createPattern(image, data.patternType));
                     });
-                // not working. node-canvas doesn't support createPattern with canvas (?)
+                // not working. node-canvas doesn't support createPattern with canvas (?). It's work's but through crutches
             }
         }.bind(this));
     }
