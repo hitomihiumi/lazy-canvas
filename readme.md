@@ -1,6 +1,10 @@
 <a href="https://www.npmjs.com/package/@hitomihiumi/lazy-canvas"><img src="https://img.shields.io/npm/v/@hitomihiumi/lazy-canvas.svg?maxAge=3600" alt="npm version" /></a>
 <a href="https://www.npmjs.com/package/@hitomihiumi/lazy-canvas"><img src="https://img.shields.io/npm/dt/@hitomihiumi/lazy-canvas.svg?maxAge=3600" alt="npm downloads" /></a>
 
+# ATTENTION
+
+This repository is the past version of `@hitomihiumi/lazy-canvas`, the new version is [here](https://github.com/hitomihiumi/lazy-canvas-ts).
+
 # Introduction
 This is a simple module designed to simplify the interaction with canvas, for people who do not know how to work with it.
 
@@ -170,7 +174,3 @@ Class documentation can be found below by clicking on the appropriate class name
 - [BaseLayer](./docs/baselayer.md)
 - [BaseMethod](./docs/basemethod.md)
 - [Utils](./docs/utils.md)
-
-## That's all folks!
-
-At this point, I don't know what else I should add. Yes I know I can move the module from `node-canvas` to `@napi-rs/canvas`, I don't do it just because it doesn't work properly on my devices. Maybe I will do it if I fix this problem somehow.
